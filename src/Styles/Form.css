@@ -1,0 +1,204 @@
+.input {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+}
+
+.input label {
+  font-size: 0.75rem;
+  color: rgb(126, 136, 195);
+  /* font-weight: 300; */
+}
+
+#SalesDate,
+#MortalityDate,
+#ExpenseDate,
+#ConsumptionDate,
+#PurchaseDate,
+#ItemDate,
+#LotNo,
+#InvoiceNo,
+#Reference,
+#ExpenseType,
+#ExpenseHead,
+#FeedType,
+#BirdType,
+#DrugName,
+#Batch,
+#BagWeight,
+#Qty,
+#BagQtyUsed,
+#SizeQtyUsed,
+#SatchetQtyUsed,
+#Item,
+#Amount,
+#UnitPrice,
+#PmtMethod,
+#Debtor,
+#Creditor,
+#BankName,
+#UpdType,
+#RecId,
+#TxnType,
+#TxnDate,
+#AssetType,
+#FADesc,
+#FACode,
+#Lifespan,
+#FirstName,
+#LastName,
+#Email,
+#SignOnName,
+#ConfirmPassword,
+#UserPassword {
+  width: 100%;
+  border: 0.1px solid rgb(126, 136, 195);
+  border-radius: 4px;
+  height: 45px;
+  padding-left: 10px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 500;
+  background-color: rgba(85, 85, 85, 0.03);
+}
+
+.bird-sale,
+.other-sales,
+.doc-purchase,
+.mortality,
+.drug-purchase,
+.drug-consumed,
+.feed-purchase,
+.feed-consumption,
+.capexs,
+.expense {
+  background-color: white;
+  border-radius: 10px;
+  position: fixed;
+  top: 0;
+  width: 40%;
+  /* height: 100vh; */
+  z-index: 10;
+  padding: 20px;
+  /* transition: all ease-in-out 0.4s; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 650px;
+  min-width: 450px;
+}
+
+/* .expense {
+  left: 0 !important;
+} */
+
+.hide-bird-sale,
+.hide-other-sales,
+.hide-doc-purchase,
+.hide-mortality,
+.hide-drug-purchase,
+.hide-drug-consumed,
+.hide-feed-purchase,
+.hide-feed-consumption,
+.hide-expense,
+.hide-capexs {
+  top: -100%;
+  display: none;
+}
+
+.form-bird-sale,
+.form-other-sales,
+.form-doc-purchase,
+.form-mortality,
+.form-drug-purchase,
+.form-drug-consumed,
+.form-feed-purchase,
+.form-feed-consumption,
+.form-expense,
+.form-capex {
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  /* height: 100vh; */
+  max-width: 600px;
+  overflow-x: hidden;
+  /* padding-top: 100px; */
+}
+
+.bird-type-container,
+.expense-type-container,
+.sale-qty-container,
+.qty-container,
+.double-input {
+  width: 90%;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.upd-type,
+.rec-id {
+  display: none;
+}
+
+.new-order-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.btn-order {
+  background-color: white;
+  border: 1px solid #90b6f0;
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-family: "Nunito", sans-serif;
+  color: #2070e7;
+  font-weight: 600;
+  transition: all ease-in-out 0.4s;
+}
+.btn-discard {
+  background-color: white;
+  border: 1px solid #fd4343;
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-family: "Nunito", sans-serif;
+  color: #fd4343;
+  transition: all ease-in-out 0.4s;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.btn-order:hover {
+  background-color: #90b6f0 !important;
+  color: white;
+}
+
+.btn-discard:hover {
+  color: white;
+  background-color: #fd4343;
+}
+
+.form-head {
+  color: #1e2022;
+  /* font-size: 0.9rem; */
+}

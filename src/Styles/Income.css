@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.income {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+}
+
+.expense {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.income-container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: #f1f7f7; */
+  width: 100%;
+  height: 80%;
+  margin-top: 40px;
+  /* padding: 1rem 3rem 1rem 3rem; */
+}
+
+.income-head {
+  /* background-color: yellow; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 0.0625rem solid #e7eaf3;
+  border-top: 0.0625rem solid #e7eaf3;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  padding-right: 40px;
+}
+
+.income-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.income-heading h1 {
+  color: #1e2022;
+  font-size: 1.7rem;
+}
+
+.income-heading p {
+  color: #888eb0;
+  font-size: 0.9rem;
+}
+
+.all-income {
+  /* background-color: blue; */
+  height: 100%;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* justify-content: center; */
+  flex-direction: column;
+}
+
+.income-table-head {
+  /* background-color: yellow; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 10px 0 10px 0;
+}
+
+.income-table-head h3 {
+  color: rgba(0, 0, 0, 0.62);
+  font-size: 0.9rem;
+}
+.bird-sale-info {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: unset;
+  border: none;
+}
+
+.total-bird {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  /* height: 100%; */
+  border-radius: 5px;
+  /* box-shadow: 9.1px 5.4px 2.2px -7px rgba(0, 0, 0, 0.002),
+    17.3px 10.3px 5.3px -7px rgba(0, 0, 0, 0.005),
+    25.4px 15px 10px -7px rgba(0, 0, 0, 0.009),
+    35.1px 20.8px 17.9px -7px rgba(0, 0, 0, 0.014),
+    50.8px 30.1px 33.4px -7px rgba(0, 0, 0, 0.019),
+    98px 58px 80px -7px rgba(0, 0, 0, 0.03); */
+  border: 1px solid #e7eaf3;
+  /* font-weight: 600; */
+}
+@media screen and (max-width: 985px) {
+  .income-head h1 {
+    font-size: 1.2rem;
+  }
+  .income {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* background-color: tomato; */
+  }
+  .income-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    /* background-color: #f1f7f7; */
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    /* padding: 1rem 3rem 1rem 3rem; */
+  }
+  .ham {
+    display: unset;
+    z-index: 6;
+  }
+}
+@media screen and (max-width: 620px) {
+  .bird-sale-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-height: unset;
+  }
+  .total-bird {
+    width: 80%;
+    padding: 20px 0;
+  }
+}
+@media screen and (max-width: 500px) {
+  .income-head h1 {
+    font-size: 1rem;
+  }
+}
