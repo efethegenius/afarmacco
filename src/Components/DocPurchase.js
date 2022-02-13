@@ -150,7 +150,7 @@ export const DocPurchase = ({
       }`}
     >
       <section className="form-doc-purchase">
-        <h2 className="form-head">Day Old Chicks Purchase</h2>
+        <h2 className="form-head">Day Old Chicks Purchases</h2>
         <div className="input">
           <label htmlFor="PurchaseDate">Date</label>
           <input
