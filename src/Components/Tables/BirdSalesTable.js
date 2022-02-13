@@ -10,17 +10,14 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allBirdSales = await fetch("/api/all-bird-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);

@@ -36,20 +36,17 @@ export const BirdSales = ({
   });
 
   const newSales = async () => {
-    const newData = await fetch(
-      "https://afarmacco-api.herokuapp.com/create/bird_sales",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify({
-          ...sales,
-        }),
-      }
-    ).then((res) => res.json());
+    const newData = await fetch("/create/bird_sales", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        accessToken: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        ...sales,
+      }),
+    }).then((res) => res.json());
     console.log(newData);
     setReturnedData(newData[0]);
   };

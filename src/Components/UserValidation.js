@@ -33,19 +33,16 @@ export const UserValidation = () => {
   };
 
   const newUser = async () => {
-    const newData = await fetch(
-      "https://afarmacco-api.herokuapp.com/create/validation",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          ...userValidation,
-        }),
-      }
-    ).then((res) => res.json());
+    const newData = await fetch("/create/validation", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        ...userValidation,
+      }),
+    }).then((res) => res.json());
     console.log(newData);
     setReturnedData(newData[0]);
     history.push("/login");

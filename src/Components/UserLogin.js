@@ -24,19 +24,16 @@ export const UserLogin = () => {
 
   const newLogin = async () => {
     try {
-      const newData = await fetch(
-        "https://afarmacco-api.herokuapp.com/get_login",
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            ...userLogin,
-          }),
-        }
-      ).then((res) => res.json());
+      const newData = await fetch("/get_login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...userLogin,
+        }),
+      }).then((res) => res.json());
 
       //storing our accessToken to the local storage if there is no error
       if (newData.error) {

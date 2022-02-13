@@ -57,6 +57,17 @@ const getLogin = async (user) => {
 //Get User Login
 // ---------------------------------------------------------------------
 
+const payDebt = async (id) => {
+  try {
+    let pool = await sql.connect(config);
+    let payment = await pool
+      .request()
+      .query(`update tbl_debtor set Status = 'PAID' Where CustomerId ='${id}'`);
+    return payment;
+  } catch (error) {
+    console.log(error);
+  }
+};
 // DOC PURCHASES START
 const getDocPurchases = async (invoiceNo) => {
   try {
@@ -656,4 +667,5 @@ module.exports = {
   getUser,
   getAssetType,
   getTxnType,
+  payDebt,
 };

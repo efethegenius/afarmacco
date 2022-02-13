@@ -10,17 +10,14 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-other-sales",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allOtherSales = await fetch("/api/all-other-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedOtherSales(allOtherSales);
     } catch (error) {
       console.log(error);
