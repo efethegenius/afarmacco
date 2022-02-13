@@ -17,7 +17,7 @@ const {
   createOtherSales,
   createUserValidation,
   createDepr,
-  payDebt,
+  // payDebt,
 } = require("../Controllers/create");
 
 router.post(
@@ -79,6 +79,6 @@ router.post(
   "https://afarmacco-api.herokuapp.com/validation",
   createUserValidation
 );
-router.post("https://afarmacco-api.herokuapp.com/pay-debt", payDebt);
+// router.post("https://afarmacco-api.herokuapp.com/pay-debt", payDebt);
 
 module.exports = router;

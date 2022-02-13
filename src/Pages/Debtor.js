@@ -38,22 +38,22 @@ export const Debtor = () => {
   };
   // getting active debtors end-----------------------------------------------------
 
-  const payDebt = async () => {
-    try {
-      await fetch("https://afarmacco-api.herokuapp.com/pay-debt", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: parseInt(id),
-        }),
-      }).then((res) => res.json());
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const payDebt = async () => {
+  //   try {
+  //     await fetch("https://afarmacco-api.herokuapp.com/pay-debt", {
+  //       method: "POST",
+  //       headers: {
+  //         "content-type": "application/json",
+  //         Accept: "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name: parseInt(id),
+  //       }),
+  //     }).then((res) => res.json());
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //   let newDebtor;
   useEffect(() => {
@@ -124,7 +124,7 @@ export const Debtor = () => {
           <button
             onClick={() => {
               history.goBack();
-              payDebt();
+              // payDebt();
             }}
           >
             Mark as paid
