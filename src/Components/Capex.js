@@ -63,17 +63,20 @@ export const Capex = ({
 
   //Send data to the backend when submitted
   const newCapexTxn = async () => {
-    const newData = await fetch("/create/capex", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...capex,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/capex",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...capex,
+        }),
+      }
+    ).then((res) => res.json());
     console.log(newData);
     setReturnedData(newData[0]);
   };

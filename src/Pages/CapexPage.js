@@ -9,6 +9,7 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
 import { CapexPurchaseTable } from "../Components/Tables/CapexPurchaseTable";
+import { AiOutlineMenu } from "react-icons/ai";
 import { CapexDisposalTable } from "../Components/Tables/CapexDisposalTable";
 import { Link } from "react-router-dom";
 
@@ -20,6 +21,7 @@ export const CapexPage = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [isCapexToggle, setIsCapexToggle] = useState(true);
   const [isFullReport, setIsFullReport] = useState(false);
+  const [isNav, setIsNav] = useState(false);
   const [animState, setAnimState] = useState(true);
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
 
@@ -31,14 +33,17 @@ export const CapexPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -48,14 +53,17 @@ export const CapexPage = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeDebtors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-debtors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
@@ -66,14 +74,17 @@ export const CapexPage = () => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const capexs = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/capexs",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCapexs(capexs);
     } catch (error) {
       console.log(error);
@@ -157,10 +168,10 @@ export const CapexPage = () => {
   }
   return (
     <div className="drug">
-      <Navbar />
+      <Navbar isNav={isNav} setIsNav={setIsNav} />
       {/* {(isCapexForm || isFullReport) && ( */}
       <div
-        className={`${isCapexForm && "form-background"}`}
+        className={`${isCapexForm ? "form-background" : "hide-background"}`}
         onClick={() => {
           setIsCapexForm(false);
           setIsFullReport(false);
@@ -171,7 +182,7 @@ export const CapexPage = () => {
         }}
       ></div>
       <div
-        className={`${isFullReport && "form-background"}`}
+        className={`${isFullReport ? "form-background" : "hide-background"}`}
         onClick={() => {
           setIsFullReport(false);
         }}
@@ -180,6 +191,7 @@ export const CapexPage = () => {
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
+            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
             <div className="drug-heading">
               <h1>Capex</h1>
               {/* <p>Manage all your drugs transactions here</p> */}
@@ -233,9 +245,9 @@ export const CapexPage = () => {
               ) : miniPurchaseList || miniDisposalList ? (
                 <div className="mini-list">
                   <div className="mini-list-container animate__animated animate__fadeIn">
-                    <div className="all-mini-wrapper">
-                      <div className="all-mini-list">
-                        <div className="bird-mini-list">
+                    <div className="all-mini-wrapper all-capex-mini-wrapper">
+                      <div className="all-mini-list all-capex-mini-list">
+                        <div className="bird-mini-list capex-mini">
                           <div className="mini-table">
                             <p className="title mini-title">
                               {miniPurchaseList && miniPurchaseList.length === 0
@@ -267,7 +279,7 @@ export const CapexPage = () => {
                             View full report <BsFileEarmarkText />
                           </button>
                         </div>
-                        <div className="other-mini-list">
+                        <div className="other-mini-list capex-mini">
                           <div className="mini-table">
                             <p className="title mini-title">
                               {miniDisposalList && miniDisposalList.length === 0
@@ -311,10 +323,10 @@ export const CapexPage = () => {
                                 <Link
                                   to={`/creditor/${SupplierId}`}
                                   key={SupplierId}
-                                  className="debtor-list"
+                                  className="debtor-list capex-list"
                                 >
                                   <p className="d-name">{SupplierName}</p>
-                                  <p className="debt-amount">
+                                  <p className="debt-amount capex-debt">
                                     ₦ {formatMoney(Amount)}.00
                                   </p>
                                 </Link>
@@ -328,7 +340,7 @@ export const CapexPage = () => {
                           )}
                         </div>
                         <div className="capex-debtors">
-                          <p className="title">Active debtors and Amount</p>
+                          <p className="title">Active debtors</p>
                           {activeDebtors && activeDebtors.length !== 0 ? (
                             activeDebtors.map((activeDebtor) => {
                               const { CustomerId, CustomerName, Amount } =
@@ -336,12 +348,12 @@ export const CapexPage = () => {
                               return (
                                 <Link
                                   to={`/debtor/${CustomerId}`}
-                                  className="debtor-list"
+                                  className="debtor-list capex-list"
                                   key={CustomerId}
                                 >
                                   {/* <div key={CustomerId}> */}
                                   <p className="d-name">{CustomerName}</p>
-                                  <p className="debt-amount">
+                                  <p className="debt-amount capex-debt">
                                     ₦ {formatMoney(Amount)}.00
                                   </p>
                                   {/* </div> */}
@@ -366,21 +378,7 @@ export const CapexPage = () => {
             {isFullReport && (
               <div className="full-report">
                 <div className="drug-table-head">
-                  <h3>
-                    {isCapexToggle
-                      ? "Your Capex purchase transactions:"
-                      : "Your Capex disposal transactions:"}
-                  </h3>
-                  <div className="sort-container">
-                    <div className="sort">
-                      <p>Sort by</p>
-                      <IoIosArrowDown className="arrow-down" />
-                    </div>
-                    <div className="generate">
-                      <p>Generate Report</p>
-                      <BsFileEarmarkText className="report" />
-                    </div>
-                  </div>
+                  <h3>{isCapexToggle ? "Capex purchase" : "Capex disposal"}</h3>
                 </div>
                 {isCapexToggle && <CapexPurchaseTable ref={componentRef} />}
                 {!isCapexToggle && <CapexDisposalTable ref={componentRef} />}

@@ -19,10 +19,15 @@ body {
   align-content: center;
   text-align: center;
 }
-
+input {
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 .not-logged-in {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +36,8 @@ body {
 
 .not-logged-in h1 {
   color: rgb(26, 24, 24);
-  font-size: 2.4rem;
+  font-size: 2rem;
+  text-align: center;
 }
 .not-logged-in p {
   color: #888eb0;
@@ -41,12 +47,15 @@ body {
   text-decoration: none;
   color: #2070e7;
 }
+.not-logged-in img {
+  width: 200px;
+}
 
 .capex-supplier {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  border: none !important;
 }
-
 .mini-list {
   /* background-color: tomato; */
   display: flex;
@@ -136,6 +145,8 @@ body {
 .title {
   font-weight: 600;
   color: #677788;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .mini-title {
@@ -280,24 +291,6 @@ body {
   /* background-color: blue; */
   overflow-x: hidden;
 }
-
-/* .all-customers,
-.active-debtors {
-  display: flex;
-  align-items: center;
-  justify-content: top;
-  flex-direction: column;
-  background-color: white;
-  height: 100%;
-  width: 100%;
-  box-shadow: 9.1px 5.4px 2.2px -7px rgba(0, 0, 0, 0.002),
-    17.3px 10.3px 5.3px -7px rgba(0, 0, 0, 0.005),
-    25.4px 15px 10px -7px rgba(0, 0, 0, 0.009),
-    35.1px 20.8px 17.9px -7px rgba(0, 0, 0, 0.014),
-    50.8px 30.1px 33.4px -7px rgba(0, 0, 0, 0.019),
-    98px 58px 80px -7px rgba(0, 0, 0, 0.03);
-} */
-
 .income-total {
   background-color: #2070e7;
   color: red;
@@ -310,10 +303,11 @@ body {
   /* justify-content: center; */
   flex-direction: column;
   height: 100%;
+  max-height: 1000px;
   width: 90%;
   z-index: 9;
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 9.1px 5.4px 2.2px -7px rgba(0, 0, 0, 0.002),
     17.3px 10.3px 5.3px -7px rgba(0, 0, 0, 0.005),
@@ -322,6 +316,7 @@ body {
     50.8px 30.1px 33.4px -7px rgba(0, 0, 0, 0.019),
     98px 58px 80px -7px rgba(0, 0, 0, 0.03);
   border: 1px solid rgb(0, 0, 0);
+  position: absolute;
 }
 
 .outputs {
@@ -532,15 +527,17 @@ body {
 
 .sort-report {
   display: flex;
-  /* align-items: center; */
-  justify-content: center;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
   /* background-color: red; */
   font-size: 0.85rem;
+  margin: 15px 0;
 }
 .sort-date {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   flex-direction: row;
 }
@@ -553,7 +550,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .arrow-down,
@@ -662,6 +659,7 @@ td {
 .head {
   font-weight: 700;
   color: #1e2139;
+  font-size: 0.7rem;
 }
 .red {
   color: red;
@@ -760,6 +758,9 @@ td {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+  .not-logged-in h1 {
+    font-size: 1.5rem;
   }
 }
 @media screen and (max-width: 500px) {

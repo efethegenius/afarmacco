@@ -4,18 +4,21 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
   const [returnedCapexPurchase, setReturnedCapexPurchase] = useState([]);
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
-  const [filter, setFilter] = useState("");
+  const [itemStatus, setItemStatus] = useState("");
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const capexs = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/capexs",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCapexPurchase(capexs);
     } catch (error) {
       console.log(error);
@@ -35,9 +38,9 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
             sortedCapexPurchase.PurchaseDate <= toDate &&
             sortedCapexPurchase.PurchaseDate >= fromDate
         )
-      : returnedCapexPurchase.name && filter
+      : returnedCapexPurchase.name && itemStatus
       ? returnedCapexPurchase.name.filter(
-          (sortedCapexPurchase) => sortedCapexPurchase.PmtType === filter
+          (sortedCapexPurchase) => sortedCapexPurchase.StatusDesc === itemStatus
         )
       : // : returnedDrugPurchase.name && drugFilter
         // ? returnedDrugPurchase.name.filter(
@@ -69,7 +72,7 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
 
   return (
     <>
-      {/* <div className="sort-report">
+      <div className="sort-report">
         <div className="sort-date">
           <label htmlFor="fromDate">From:</label>
           <input
@@ -88,21 +91,21 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
             onChange={(e) => setToDate(e.target.value)}
           />
         </div>
-        <div className="pmt-filter">
-          <label htmlFor="filter">Payment Method:</label>
+        <div className="status-filter">
+          <label htmlFor="filter">Status</label>
           <select
-            name="filter"
-            id="filter"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            name="itemStatus"
+            id="itemStatus"
+            value={itemStatus}
+            onChange={(e) => setItemStatus(e.target.value)}
           >
             <option></option>
-            <option>Bank</option>
-            <option>Credit</option>
-            <option>Cash</option>
+            <option>Depreciated</option>
+            <option>Disposed</option>
+            <option>Active</option>
           </select>
         </div>
-        <div className="drug-filter">
+        {/* <div className="drug-filter">
           <label htmlFor="drugfilter">Drug:</label>
           <select
             name="drugfilter"
@@ -119,8 +122,8 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
             <option>Multivitamin</option>
             <option>Vaccine</option>
           </select>
-        </div>
-      </div> */}
+        </div> */}
+      </div>
       {sortCapexPurchase && sortCapexPurchase.length === 0 ? (
         <div className="empty-main-report">
           <h1>Oops! There are no Capex report available yet</h1>

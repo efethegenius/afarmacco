@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  padding-left: 4rem;
+  padding-left: 2rem;
   justify-content: space-between;
   flex-direction: row;
   text-decoration: none;
@@ -173,6 +173,7 @@
     /* display: none; */
     position: fixed;
     left: -100%;
+    top: 0;
     transition: all ease-in-out 0.8s;
     box-shadow: 9.1px 5.4px 2.2px -7px rgba(0, 0, 0, 0.002),
       17.3px 10.3px 5.3px -7px rgba(0, 0, 0, 0.005),

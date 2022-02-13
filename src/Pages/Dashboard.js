@@ -3,6 +3,7 @@ import "../Styles/Dashboard.css";
 import { Navbar } from "../Components/Navbar";
 import { HiOutlinePlus } from "react-icons/hi";
 import { AuthContext } from "../helpers/AuthContext";
+import { AiOutlineMenu } from "react-icons/ai";
 import { LoggedOut } from "../Components/LoggedOut";
 
 export const Dashboard = () => {
@@ -14,19 +15,23 @@ export const Dashboard = () => {
   const [returnedDrugConsumed, setReturnedDrugConsumed] = useState([]);
   const [returnedFeedPurchase, setReturnedFeedPurchase] = useState([]);
   const [returnedFeedConsumed, setReturnedFeedConsumed] = useState([]);
+  const [isNav, setIsNav] = useState(false);
 
   const [returnedUser, setReturnedUser] = useState([]);
 
   const getCurrentUser = async () => {
     try {
-      const currentUser = await fetch("/api/user", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const currentUser = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/user",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedUser(currentUser);
     } catch (error) {
       console.log(error);
@@ -44,22 +49,25 @@ export const Dashboard = () => {
     console.log(userFirstName);
   }, []);
 
-  // const current = new Date();
-  // const date = `${current.getDate()}/${
-  //   current.getMonth() + 1
-  // }/${current.getFullYear()}`;
+  const current = new Date();
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
 
   // getting Infos start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);
@@ -68,14 +76,17 @@ export const Dashboard = () => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allBirdSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -84,14 +95,17 @@ export const Dashboard = () => {
 
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocMortality = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);
@@ -100,14 +114,17 @@ export const Dashboard = () => {
 
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDrugPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-drug-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDrugPurchase(allDrugPurchase);
     } catch (error) {
       console.log(error);
@@ -115,14 +132,17 @@ export const Dashboard = () => {
   };
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDrugConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-drug-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDrugConsumed(allDrugConsumed);
     } catch (error) {
       console.log(error);
@@ -130,14 +150,17 @@ export const Dashboard = () => {
   };
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedPurchase(allFeedPurchase);
     } catch (error) {
       console.log(error);
@@ -145,14 +168,17 @@ export const Dashboard = () => {
   };
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -660,13 +686,14 @@ export const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <Navbar />
+      <Navbar isNav={isNav} setIsNav={setIsNav} />
       {authState ? (
         <div className="dashboard-container">
           <div className="dash-header">
+            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
             <div className="welcome">
               <h1>Welcome, {userFirstName}</h1>
-              <p>Today, 6th Of February, 2022</p>
+              <p>Today, {current.toDateString()}</p>
             </div>
             <div className="new-btn">
               <div className="plus-circle">
@@ -676,245 +703,257 @@ export const Dashboard = () => {
             </div>
           </div>
           {/* <h1>summary</h1> */}
-          <div className="dash-wrap">
-            <div className="dashboard-wrapper  animate__animated animate__fadeIn">
-              <div className="dash-bird-container dash">
-                {returnedDocMortality.name &&
-                returnedDocPurchase.name &&
-                returnedBirdSales.name &&
-                returnedDocPurchase.name.length === 0 &&
-                returnedDocMortality.name.length === 0 &&
-                returnedBirdSales.name.length === 0 ? (
-                  <p>
-                    You do not have any bird yet. when you do, they would appear
-                    here...
-                  </p>
-                ) : (
-                  <>
-                    <h3 className="gray">Birds Inventory</h3>
-                    <table>
-                      <tr>
-                        <th>Bird</th>
-                        <th>Purchased</th>
-                        <th>Sold</th>
-                        <th>Died</th>
-                        <th>Balance</th>
-                      </tr>
-                      <tr>
-                        <td>Broiler</td>
-                        <td className="green">{broilerPurchaseQty}</td>
-                        <td className="red">{broilerSaleQty}</td>
-                        <td className="red">{broilerMortalityQty}</td>
-                        <td>
-                          {broilerPurchaseQty -
-                            (broilerMortalityQty + broilerSaleQty)}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Noiler</td>
-                        <td className="green">{noilerPurchaseQty}</td>
-                        <td className="red">{noilerSaleQty}</td>
-                        <td className="red">{noilerMortalityQty}</td>
-                        <td>
-                          {noilerPurchaseQty -
-                            (noilerMortalityQty + noilerSaleQty)}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Cockerel</td>
-                        <td className="green">{cockerelPurchaseQty}</td>
-                        <td className="red">{cockerelSaleQty}</td>
-                        <td className="red">{cockerelMortalityQty}</td>
-                        <td>
-                          {cockerelPurchaseQty -
-                            (cockerelMortalityQty + cockerelSaleQty)}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Turkey</td>
-                        <td className="green">{turkeyPurchaseQty}</td>
-                        <td className="red">{turkeySaleQty}</td>
-                        <td className="red">{turkeyMortalityQty}</td>
-                        <td>
-                          {turkeyPurchaseQty -
-                            (turkeyMortalityQty + turkeySaleQty)}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Layer</td>
-                        <td className="green">{layerPurchaseQty}</td>
-                        <td className="red">{layerSaleQty}</td>
-                        <td className="red">{layerMortalityQty}</td>
-                        <td>
-                          {layerPurchaseQty -
-                            (layerMortalityQty + layerSaleQty)}
-                        </td>
-                      </tr>
-                    </table>
-                  </>
-                )}
-              </div>
-              <div className="dash-drug-container dash">
-                {returnedDrugConsumed.name &&
-                returnedDrugPurchase.name &&
-                returnedDrugConsumed.name.length === 0 &&
-                returnedDrugPurchase.name.length === 0 ? (
-                  <p>
-                    You do not have any drugs yet. when you do, they would
-                    appear here...
-                  </p>
-                ) : (
-                  <>
-                    <h3 className="gray">Drugs Inventory</h3>
-                    <table className="drug-summary">
-                      <tr>
-                        <th>Drug</th>
-                        <th>Purchased</th>
-                        <th>Cosumed</th>
-                        <th>Balance</th>
-                      </tr>
-                      <tr>
-                        <td>Antibiotics</td>
-                        <td className="green">{antibioticsPurchaseQty}</td>
-                        <td className="red">{antibioticsUsedQty}</td>
-                        <td>{antibioticsPurchaseQty - antibioticsUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Anticoccidiosis</td>
-                        <td className="green">{anticoccidiosisPurchaseQty}</td>
-                        <td className="red">{anticoccidiosisUsedQty}</td>
-                        <td>
-                          {anticoccidiosisPurchaseQty - anticoccidiosisUsedQty}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Antiviral</td>
-                        <td className="green">{antiviralPurchaseQty}</td>
-                        <td className="red">{antiviralUsedQty}</td>
-                        <td>{antiviralPurchaseQty - antiviralUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Coryza</td>
-                        <td className="green">{coryzaPurchaseQty}</td>
-                        <td className="red">{coryzaUsedQty}</td>
-                        <td>{coryzaPurchaseQty - coryzaUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Deworm</td>
-                        <td className="green">{dewormPurchaseQty}</td>
-                        <td className="red">{dewormUsedQty}</td>
-                        <td>{dewormPurchaseQty - dewormUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Multivitamin</td>
-                        <td className="green">{multivitaminPurchaseQty}</td>
-                        <td className="red">{multivitaminUsedQty}</td>
-                        <td>{multivitaminPurchaseQty - multivitaminUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Vaccine</td>
-                        <td className="green">{vaccinePurchaseQty}</td>
-                        <td className="red">{vaccineUsedQty}</td>
-                        <td>{vaccinePurchaseQty - vaccineUsedQty}</td>
-                      </tr>
-                    </table>
-                  </>
-                )}
-              </div>
+          <div className="dashboard-wrapper  animate__animated animate__fadeIn">
+            {returnedDocMortality.name &&
+            returnedDocPurchase.name &&
+            returnedBirdSales.name &&
+            returnedDocPurchase.name.length === 0 &&
+            returnedDocMortality.name.length === 0 &&
+            returnedBirdSales.name.length === 0 &&
+            returnedDrugConsumed.name &&
+            returnedDrugPurchase.name &&
+            returnedDrugConsumed.name.length === 0 &&
+            returnedDrugPurchase.name.length === 0 &&
+            returnedFeedConsumed.name &&
+            returnedFeedPurchase.name &&
+            returnedFeedConsumed.name.length === 0 &&
+            returnedFeedPurchase.name.length === 0 ? (
+              <p>
+                You do not have any stock in your inventory yet. When you do,
+                they would appear here
+              </p>
+            ) : (
+              <>
+                <div className="dash-bird-container dash">
+                  {returnedDocMortality.name &&
+                  returnedDocPurchase.name &&
+                  returnedBirdSales.name &&
+                  returnedDocPurchase.name.length === 0 &&
+                  returnedDocMortality.name.length === 0 &&
+                  returnedBirdSales.name.length === 0 ? (
+                    <p>
+                      You do not have any bird yet. when you do, they would
+                      appear here...
+                    </p>
+                  ) : (
+                    <>
+                      <h3 className="gray">Birds Inventory</h3>
+                      <table>
+                        <tr>
+                          <th>Bird</th>
+                          <th>Purchased</th>
+                          <th>Sold</th>
+                          <th>Died</th>
+                          <th>Balance</th>
+                        </tr>
+                        <tr>
+                          <td>Broiler</td>
+                          <td className="green">{broilerPurchaseQty}</td>
+                          <td className="red">{broilerSaleQty}</td>
+                          <td className="red">{broilerMortalityQty}</td>
+                          <td>
+                            {broilerPurchaseQty -
+                              (broilerMortalityQty + broilerSaleQty)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Noiler</td>
+                          <td className="green">{noilerPurchaseQty}</td>
+                          <td className="red">{noilerSaleQty}</td>
+                          <td className="red">{noilerMortalityQty}</td>
+                          <td>
+                            {noilerPurchaseQty -
+                              (noilerMortalityQty + noilerSaleQty)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Cockerel</td>
+                          <td className="green">{cockerelPurchaseQty}</td>
+                          <td className="red">{cockerelSaleQty}</td>
+                          <td className="red">{cockerelMortalityQty}</td>
+                          <td>
+                            {cockerelPurchaseQty -
+                              (cockerelMortalityQty + cockerelSaleQty)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Turkey</td>
+                          <td className="green">{turkeyPurchaseQty}</td>
+                          <td className="red">{turkeySaleQty}</td>
+                          <td className="red">{turkeyMortalityQty}</td>
+                          <td>
+                            {turkeyPurchaseQty -
+                              (turkeyMortalityQty + turkeySaleQty)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Layer</td>
+                          <td className="green">{layerPurchaseQty}</td>
+                          <td className="red">{layerSaleQty}</td>
+                          <td className="red">{layerMortalityQty}</td>
+                          <td>
+                            {layerPurchaseQty -
+                              (layerMortalityQty + layerSaleQty)}
+                          </td>
+                        </tr>
+                        <tfoot className="total-container">
+                          <tr>
+                            <th id="total" className="total" colspan="1">
+                              Total :
+                            </th>
+                            <td className="total">{totalBirdPurchaseQty}</td>
+                            <td className="total">{totalBirdSaleQty}</td>
+                            <td className="total">{totalBirdDiedQty}</td>
+                            <td className="total">
+                              {totalBirdPurchaseQty -
+                                (totalBirdSaleQty + totalBirdDiedQty)}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </>
+                  )}
+                </div>
+                <div className="dash-drug-container dash">
+                  {returnedDrugConsumed.name &&
+                  returnedDrugPurchase.name &&
+                  returnedDrugConsumed.name.length === 0 &&
+                  returnedDrugPurchase.name.length === 0 ? (
+                    <p>
+                      You do not have any drugs yet. when you do, they would
+                      appear here...
+                    </p>
+                  ) : (
+                    <>
+                      <h3 className="gray">Drugs Inventory</h3>
+                      <table>
+                        <tr>
+                          <th>Drug</th>
+                          <th>Purchased</th>
+                          <th>Cosumed</th>
+                          <th>Balance</th>
+                        </tr>
+                        <tr>
+                          <td>Antibiotics</td>
+                          <td className="green">{antibioticsPurchaseQty}</td>
+                          <td className="red">{antibioticsUsedQty}</td>
+                          <td>{antibioticsPurchaseQty - antibioticsUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Anticoccidiosis</td>
+                          <td className="green">
+                            {anticoccidiosisPurchaseQty}
+                          </td>
+                          <td className="red">{anticoccidiosisUsedQty}</td>
+                          <td>
+                            {anticoccidiosisPurchaseQty -
+                              anticoccidiosisUsedQty}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Antiviral</td>
+                          <td className="green">{antiviralPurchaseQty}</td>
+                          <td className="red">{antiviralUsedQty}</td>
+                          <td>{antiviralPurchaseQty - antiviralUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Coryza</td>
+                          <td className="green">{coryzaPurchaseQty}</td>
+                          <td className="red">{coryzaUsedQty}</td>
+                          <td>{coryzaPurchaseQty - coryzaUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Deworm</td>
+                          <td className="green">{dewormPurchaseQty}</td>
+                          <td className="red">{dewormUsedQty}</td>
+                          <td>{dewormPurchaseQty - dewormUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Multivitamin</td>
+                          <td className="green">{multivitaminPurchaseQty}</td>
+                          <td className="red">{multivitaminUsedQty}</td>
+                          <td>
+                            {multivitaminPurchaseQty - multivitaminUsedQty}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Vaccine</td>
+                          <td className="green">{vaccinePurchaseQty}</td>
+                          <td className="red">{vaccineUsedQty}</td>
+                          <td>{vaccinePurchaseQty - vaccineUsedQty}</td>
+                        </tr>
+                        <tfoot className="total-container">
+                          <tr>
+                            <th id="total" className="total" colspan="1">
+                              Total :
+                            </th>
+                            <td className="total">{totalDrugPurchaseQty}</td>
+                            <td className="total">{totalDrugSatchetUsed}</td>
+                            <td className="total">
+                              {totalDrugPurchaseQty - totalDrugSatchetUsed}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </>
+                  )}
+                </div>
 
-              <div className="dash-feed-container dash">
-                {returnedFeedConsumed.name &&
-                returnedFeedPurchase.name &&
-                returnedFeedConsumed.name.length === 0 &&
-                returnedFeedPurchase.name.length === 0 ? (
-                  <p>
-                    You do not have any feed yet. when you do, they would appear
-                    here...
-                  </p>
-                ) : (
-                  <>
-                    <h3 className="gray">Feed Inventory</h3>
-                    <table>
-                      <tr>
-                        <th>Feed</th>
-                        <th>Purchased</th>
-                        <th>Consumed</th>
-                        <th>Balance</th>
-                      </tr>
-                      <tr>
-                        <td>Starter</td>
-                        <td className="green">{starterPurchaseQty}</td>
-                        <td className="red">{starterUsedQty}</td>
-                        <td>{starterPurchaseQty - starterUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Grower</td>
-                        <td className="green">{growerPurchaseQty}</td>
-                        <td className="red">{growerUsedQty}</td>
-                        <td>{growerPurchaseQty - growerUsedQty}</td>
-                      </tr>
-                      <tr>
-                        <td>Finisher</td>
-                        <td className="green">{finisherPurchaseQty}</td>
-                        <td className="red">{finisherUsedQty}</td>
-                        <td>{finisherPurchaseQty - finisherUsedQty}</td>
-                      </tr>
-                    </table>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="dashboard-wrapper  animate__animated animate__fadeIn wrapper2">
-              <div className="dash-bird-container dash">
-                <div className="dash-total">
-                  <p>Total Birds Purchased:</p>
-                  <p className="green">{totalBirdPurchaseQty}</p>
+                <div className="dash-feed-container dash">
+                  {returnedFeedConsumed.name &&
+                  returnedFeedPurchase.name &&
+                  returnedFeedConsumed.name.length === 0 &&
+                  returnedFeedPurchase.name.length === 0 ? (
+                    <p>
+                      You do not have any feed yet. when you do, they would
+                      appear here...
+                    </p>
+                  ) : (
+                    <>
+                      <h3 className="gray">Feed Inventory</h3>
+                      <table>
+                        <tr>
+                          <th>Feed</th>
+                          <th>Purchased</th>
+                          <th>Consumed</th>
+                          <th>Balance</th>
+                        </tr>
+                        <tr>
+                          <td>Starter</td>
+                          <td className="green">{starterPurchaseQty}</td>
+                          <td className="red">{starterUsedQty}</td>
+                          <td>{starterPurchaseQty - starterUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Grower</td>
+                          <td className="green">{growerPurchaseQty}</td>
+                          <td className="red">{growerUsedQty}</td>
+                          <td>{growerPurchaseQty - growerUsedQty}</td>
+                        </tr>
+                        <tr>
+                          <td>Finisher</td>
+                          <td className="green">{finisherPurchaseQty}</td>
+                          <td className="red">{finisherUsedQty}</td>
+                          <td>{finisherPurchaseQty - finisherUsedQty}</td>
+                        </tr>
+                        <tfoot className="total-container">
+                          <tr>
+                            <th id="total" className="total" colspan="1">
+                              Total :
+                            </th>
+                            <td className="total">{totalFeedPurchaseQty}</td>
+                            <td className="total">{totalFeedBagUsed}</td>
+                            <td className="total">
+                              {totalFeedPurchaseQty - totalFeedBagUsed}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </>
+                  )}
                 </div>
-                <div className="dash-total">
-                  <p>Total Birds Sold:</p>
-                  <p className="red">{totalBirdSaleQty}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Total Birds Died:</p>
-                  <p className="red">{totalBirdDiedQty}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Birds balance:</p>
-                  <p>
-                    {totalBirdPurchaseQty -
-                      (totalBirdSaleQty + totalBirdDiedQty)}
-                  </p>
-                </div>
-              </div>
-              <div className="dash-drug-container dash">
-                <div className="dash-total">
-                  <p>Total Drugs Purchased:</p>
-                  <p className="green">{totalDrugPurchaseQty}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Total Drugs(Satchet) Consumed:</p>
-                  <p className="red">{totalDrugSatchetUsed}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Drugs balance:</p>
-                  <p>{totalDrugPurchaseQty - totalDrugSatchetUsed}</p>
-                </div>
-              </div>
-              <div className="dash-feed-container dash">
-                <div className="dash-total">
-                  <p>Total Feeds Purchased:</p>
-                  <p className="green">{totalFeedPurchaseQty}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Total Feeds(Bag) Consumed:</p>
-                  <p className="red">{totalFeedBagUsed}</p>
-                </div>
-                <div className="dash-total">
-                  <p>Feed balance:</p>
-                  <p>{totalFeedPurchaseQty - totalFeedBagUsed}</p>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       ) : (

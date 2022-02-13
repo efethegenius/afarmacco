@@ -35,14 +35,17 @@ export const DocPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -55,14 +58,17 @@ export const DocPage = () => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);
@@ -73,14 +79,17 @@ export const DocPage = () => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocMortality = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);
@@ -400,7 +409,6 @@ export const DocPage = () => {
                           ₦ {formatMoney(totalCredit)}.00
                         </p>
                       </div>
-                      {/* <button className="view-all">View All</button> */}
                     </div>
                   </div>
                 </div>
@@ -411,21 +419,7 @@ export const DocPage = () => {
             {isFullReport && (
               <div className="full-report">
                 <div className="doc-table-head">
-                  <h3>
-                    {isDocToggle
-                      ? "Your DOC purchase transactions:"
-                      : "Your DOC mortality transactions:"}
-                  </h3>
-                  <div className="sort-container">
-                    <div className="sort">
-                      <p>Sort by date</p>
-                      <IoIosArrowDown className="arrow-down" />
-                    </div>
-                    <div className="generate">
-                      <p>Generate Report</p>
-                      <BsFileEarmarkText className="report" />
-                    </div>
-                  </div>
+                  <h3>{isDocToggle ? "DOC purchase" : "DOC mortality"}</h3>
                 </div>
                 {isDocToggle && <DocPurchaseTable ref={componentRef} />}
                 {!isDocToggle && <DocMortalityTable ref={componentRef} />}

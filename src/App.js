@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { SignUpPage } from "./Pages/SignUpPage";
 import { LoginPage } from "./Pages/LoginPage";
 import { Creditor } from "./Pages/Creditor";
+import { Health } from "./Pages/Health";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);
@@ -56,6 +57,9 @@ function App() {
           </Route>
           <Route exact path="/feed">
             <FeedPage />
+          </Route>
+          <Route exact path="/health">
+            <Health />
           </Route>
           <Route exact path="/capex">
             <CapexPage />

@@ -23,17 +23,20 @@ export const DocMortality = ({
   });
 
   const newMortality = async () => {
-    const newData = await fetch("/create/doc_mortality", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...mortality,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/doc_mortality",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...mortality,
+        }),
+      }
+    ).then((res) => res.json());
     console.log(newData);
     setReturnedData(newData[0]);
   };

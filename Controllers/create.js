@@ -60,6 +60,10 @@ const createUserValidation = async (req, res) => {
   await dbOperation.createUserValidation(req.body);
   res.json({ code: 1, msg: "success" });
 };
+const payDebt = async (req, res) => {
+  await dbOperation.payDebt(req.body);
+  res.json({ code: 1, msg: "success" });
+};
 
 module.exports = {
   createBirdSales,
@@ -74,4 +78,5 @@ module.exports = {
   createFeedPurchase,
   createOtherSales,
   createUserValidation,
+  payDebt,
 };

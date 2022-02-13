@@ -36,14 +36,17 @@ export const FeedPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -53,14 +56,17 @@ export const FeedPage = () => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedPurchase(allFeedPurchase);
     } catch (error) {
       console.log(error);
@@ -71,14 +77,17 @@ export const FeedPage = () => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -191,7 +200,9 @@ export const FeedPage = () => {
       {/* {(isFeedConsumedForm || isFeedPurchaseForm || isFullReport) && ( */}
       <div
         className={`${
-          (isFeedConsumedForm || isFeedPurchaseForm) && "form-background"
+          isFeedConsumedForm || isFeedPurchaseForm
+            ? "form-background"
+            : "hide-background"
         }`}
         onClick={() => {
           setIsFeedConsumedForm(false);
@@ -205,7 +216,7 @@ export const FeedPage = () => {
       ></div>
       {/* )} */}
       <div
-        className={`${isFullReport && "form-background"}`}
+        className={`${isFullReport ? "form-background" : "hide-background"}`}
         onClick={() => {
           setIsFullReport(false);
         }}
@@ -409,21 +420,7 @@ export const FeedPage = () => {
             {isFullReport && (
               <div className="full-report">
                 <div className="feed-table-head">
-                  <h3>
-                    {isFeedToggle
-                      ? "Your feed purchase transactions:"
-                      : "Your feed consumption transactions:"}
-                  </h3>
-                  <div className="sort-container">
-                    <div className="sort">
-                      <p>Sort by</p>
-                      <IoIosArrowDown className="arrow-down" />
-                    </div>
-                    <div className="generate">
-                      <p>Generate Report</p>
-                      <BsFileEarmarkText className="report" />
-                    </div>
-                  </div>
+                  <h3>{isFeedToggle ? "Feed purchase" : "Feed consumption"}</h3>
                 </div>
                 {isFeedToggle && <FeedPurchaseTable ref={componentRef} />}
                 {!isFeedToggle && <FeedConsumedTable ref={componentRef} />}

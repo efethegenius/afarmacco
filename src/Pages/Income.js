@@ -35,14 +35,17 @@ export const Income = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeDebtors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-debtors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
@@ -53,14 +56,17 @@ export const Income = () => {
   // getting bird sales start-----------------------------------------------------
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allBirdSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -71,14 +77,17 @@ export const Income = () => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch("/api/all-other-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allOtherSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-other-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedOtherSales(allOtherSales);
     } catch (error) {
       console.log(error);
@@ -202,8 +211,10 @@ export const Income = () => {
   if (returnedActiveDebtors.name) {
     activeDebtors = returnedActiveDebtors.name.filter(
       (activeDebtor) =>
-        activeDebtor.PurchaseType === "Bird Sale" ||
-        activeDebtor.PurchaseType === "Other Sale"
+        (activeDebtor.PurchaseType === "Bird Sale" &&
+          activeDebtor.Status === "UNPAID") ||
+        (activeDebtor.PurchaseType === "Other Sale" &&
+          activeDebtor.Status === "UNPAID")
     );
   }
 
@@ -217,7 +228,9 @@ export const Income = () => {
       <Navbar isNav={isNav} setIsNav={setIsNav} />
       {/* {(isBirdForm || isOtherForm || isFullReport) && ( */}
       <div
-        className={`${(isBirdForm || isOtherForm) && "form-background"}`}
+        className={`${
+          isBirdForm || isOtherForm ? "form-background" : "hide-background"
+        }`}
         onClick={() => {
           setIsBirdForm(false);
           setIsOtherForm(false);
@@ -230,7 +243,7 @@ export const Income = () => {
       ></div>
       {/* )} */}
       <div
-        className={`${isFullReport && "form-background"}`}
+        className={`${isFullReport ? "form-background" : "hide-background"}`}
         onClick={() => {
           setIsFullReport(false);
         }}
@@ -456,17 +469,7 @@ export const Income = () => {
             {isFullReport && (
               <div className="full-report">
                 <div className="income-table-head">
-                  <h3>
-                    {isSaleToggle
-                      ? "Your bird sales Income:"
-                      : "Your other sales Income:"}
-                  </h3>
-                  <div className="sort-container">
-                    <div className="sort">
-                      <p>filter</p>
-                      <IoIosArrowDown className="arrow-down" />
-                    </div>
-                  </div>
+                  <h3>{isSaleToggle ? "Bird sales" : "Other sales"}</h3>
                 </div>
                 {isSaleToggle && <BirdSalesTable ref={componentRef} />}
                 {!isSaleToggle && <OtherSalesTable ref={componentRef} />}

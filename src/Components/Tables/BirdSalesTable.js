@@ -10,14 +10,17 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allBirdSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -34,29 +37,29 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
 
   let allBirdSales = returnedBirdSales.name;
 
-  const sortBirdSales =
-    returnedBirdSales.name && search
-      ? returnedBirdSales.name.filter(
-          (sortedBird) =>
-            sortedBird.Reference.toLowerCase() === search.toLowerCase() ||
-            sortedBird.BirdName.toLowerCase() === search.toLowerCase()
-        )
-      : allBirdSales;
   // const sortBirdSales =
-  //   returnedBirdSales.name && fromDate && toDate
+  //   returnedBirdSales.name && search
   //     ? returnedBirdSales.name.filter(
   //         (sortedBird) =>
-  //           sortedBird.SalesDate <= toDate && sortedBird.SalesDate >= fromDate
-  //       )
-  //     : returnedBirdSales.name && filter
-  //     ? returnedBirdSales.name.filter(
-  //         (sortedBird) => sortedBird.PmtType === filter
-  //       )
-  //     : returnedBirdSales.name && birdFilter
-  //     ? returnedBirdSales.name.filter(
-  //         (sortedBird) => sortedBird.BirdName === birdFilter
+  //           sortedBird.Reference.toLowerCase() === search.toLowerCase() ||
+  //           sortedBird.BirdName.toLowerCase() === search.toLowerCase()
   //       )
   //     : allBirdSales;
+  const sortBirdSales =
+    returnedBirdSales.name && fromDate && toDate
+      ? returnedBirdSales.name.filter(
+          (sortedBird) =>
+            sortedBird.SalesDate <= toDate && sortedBird.SalesDate >= fromDate
+        )
+      : returnedBirdSales.name && filter
+      ? returnedBirdSales.name.filter(
+          (sortedBird) => sortedBird.PmtType === filter
+        )
+      : returnedBirdSales.name && birdFilter
+      ? returnedBirdSales.name.filter(
+          (sortedBird) => sortedBird.BirdName === birdFilter
+        )
+      : allBirdSales;
 
   // calculating totals-----------------------------------------------------------------
   let totalAmount;
@@ -72,7 +75,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
   return (
     <>
       <div className="sort-report">
-        {/* <div className="sort-date">
+        <div className="sort-date">
           <label htmlFor="fromDate">From</label>
           <input
             type="date"
@@ -119,13 +122,13 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
             <option>Noiler</option>
             <option>Turkey</option>
           </select>
-        </div> */}
-        <input
+        </div>
+        {/* <input
           type="text"
           name="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-        />
+        /> */}
       </div>
       {sortBirdSales && sortBirdSales.length === 0 ? (
         <div className="empty-main-report">

@@ -31,57 +31,105 @@ const {
 const dbOperation = require("../dbFiles/dbOperation");
 
 //Birds Api
-router.get("/birds", getBirdTypes);
+router.get("https://afarmacco-api.herokuapp.com/birds", getBirdTypes);
 
 //Banks Api
-router.get("/banks", getBanks);
+router.get("https://afarmacco-api.herokuapp.com/banks", getBanks);
 
 //Payment Method API
-router.get("/payments", getPmtMethod);
+router.get("https://afarmacco-api.herokuapp.com/payments", getPmtMethod);
 
 //Drugs Api
-router.get("/drugs", getDrugs);
+router.get("https://afarmacco-api.herokuapp.com/drugs", getDrugs);
 
 //Feeds Api
-router.get("/feeds", getFeeds);
+router.get("https://afarmacco-api.herokuapp.com/feeds", getFeeds);
 
 //Other Items Api
-router.get("/other-items", getOtherItems);
+router.get("https://afarmacco-api.herokuapp.com/other-items", getOtherItems);
 
 //Expense Type Api
-router.get("/expense-types", getExpenseType);
+router.get("https://afarmacco-api.herokuapp.com/expense-types", getExpenseType);
 
 //Expense Head Api
-router.get("/expense-heads", getExpenseHead);
+router.get("https://afarmacco-api.herokuapp.com/expense-heads", getExpenseHead);
 
-router.get("/asset-types", getAssetType);
+router.get("https://afarmacco-api.herokuapp.com/asset-types", getAssetType);
 
-router.get("/txn-types", getTxnType);
+router.get("https://afarmacco-api.herokuapp.com/txn-types", getTxnType);
 
-router.get("/capexs", validateToken, getCapexs);
+router.get(
+  "https://afarmacco-api.herokuapp.com/capexs",
+  validateToken,
+  getCapexs
+);
 
-router.get("/active-debtors", validateToken, getActiveDebtors);
+router.get(
+  "https://afarmacco-api.herokuapp.com/active-debtors",
+  validateToken,
+  getActiveDebtors
+);
 
-router.get("/active-creditors", validateToken, getActiveCreditors);
+router.get(
+  "https://afarmacco-api.herokuapp.com/active-creditors",
+  validateToken,
+  getActiveCreditors
+);
 
-router.get("/user", validateToken, getUser);
+router.get("https://afarmacco-api.herokuapp.com/user", validateToken, getUser);
 
-router.get("/all-expenses", validateToken, getAllExpenses);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-expenses",
+  validateToken,
+  getAllExpenses
+);
 
-router.get("/all-bird-sales", validateToken, getAllBirdSales);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-bird-sales",
+  validateToken,
+  getAllBirdSales
+);
 
-router.get("/all-other-sales", validateToken, getAllOtherSales);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-other-sales",
+  validateToken,
+  getAllOtherSales
+);
 
-router.get("/all-doc-mortality", validateToken, getAllDocMortality);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-doc-mortality",
+  validateToken,
+  getAllDocMortality
+);
 
-router.get("/all-doc-purchase", validateToken, getAllDocPurchase);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-doc-purchase",
+  validateToken,
+  getAllDocPurchase
+);
 
-router.get("/all-drug-purchase", validateToken, getAllDrugPurchase);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-drug-purchase",
+  validateToken,
+  getAllDrugPurchase
+);
 
-router.get("/all-drug-consumed", validateToken, getAllDrugConsumed);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-drug-consumed",
+  validateToken,
+  getAllDrugConsumed
+);
 
-router.get("/all-feed-purchase", validateToken, getAllFeedPurchase);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-feed-purchase",
+  validateToken,
+  getAllFeedPurchase
+);
 
-router.get("/all-feed-consumed", validateToken, getAllFeedConsumed);
+router.get(
+  "https://afarmacco-api.herokuapp.com/all-feed-consumed",
+  validateToken,
+  getAllFeedConsumed
+);
 
 module.exports = router;

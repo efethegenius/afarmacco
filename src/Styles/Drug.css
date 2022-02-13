@@ -7,11 +7,13 @@
   background-color: white;
   width: 100vw;
   height: 100vh;
-  display: flex;
+  /* display: flex; */
   /* align-items: center; */
-  justify-content: center;
+  /* justify-content: center;
   flex-direction: row;
-  position: relative;
+  position: relative; */
+  display: grid;
+  grid-template-columns: 15% 85%;
 }
 
 .drug-container {
@@ -22,8 +24,8 @@
   flex-direction: column;
   /* background-color: #f1f7f7; */
   width: 100%;
-  height: 80%;
-  margin-top: 40px;
+  max-height: 90%;
+  /* margin-top: 40px; */
   /* padding: 1rem 3rem 1rem 3rem; */
 }
 
@@ -95,7 +97,14 @@
   font-size: 0.85rem;
   border-top: 1px solid #888eb0;
 }
-@media screen and (max-width: 916px) {
+.capex-creditors,
+.capex-debtors {
+  padding: 5px 20px;
+  margin: 0 10px;
+  border-radius: 7px;
+  border: 0.0625rem solid #e7eaf3;
+}
+@media screen and (max-width: 985px) {
   .drug-head h1 {
     font-size: 1.2rem;
   }
@@ -123,8 +132,46 @@
     z-index: 6;
   }
 }
+@media screen and (max-width: 781px) {
+  .all-capex-mini-list {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+  }
+  .all-capex-mini-wrapper {
+    /* align-items: unset; */
+    justify-content: unset;
+  }
+  .capex-mini {
+    margin-left: unset;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 515px) {
+  .capex-debt {
+    display: none;
+  }
+  .capex-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .capex-debtors,
+  .capex-creditors {
+    padding: 0;
+  }
+}
 @media screen and (max-width: 500px) {
   .drug-head h1 {
     font-size: 1rem;
+  }
+}
+@media screen and (max-width: 411px) {
+  .capex-mini {
+    width: 100%;
   }
 }

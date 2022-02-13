@@ -2,8 +2,10 @@ import React, { useContext, useState } from "react";
 import "../Styles/Navbar.css";
 import { MdDashboard } from "react-icons/md";
 import { BsWallet2, BsCashCoin } from "react-icons/bs";
+import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { RiHealthBookLine } from "react-icons/ri";
-import { SiBitcoincash, SiCashapp } from "react-icons/si";
+import { GiTakeMyMoney } from "react-icons/gi";
+import { GrMoney } from "react-icons/gr";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 import { AiFillCaretRight, AiFillCaretDown } from "react-icons/ai";
@@ -28,7 +30,7 @@ export const Navbar = ({ isNav, setIsNav }) => {
         {/* ALL OPEX INFO---------------------------------------------------------------------------- */}
         <div className="nav-link" onClick={() => setActiveNav(!activeNav)}>
           <div className="opex-container">
-            <SiCashapp className="nav-icon" />
+            <GiTakeMyMoney className="nav-icon" />
             <div className="opex-concat">
               <p className="link-desc">Opex</p>
               <AiFillCaretDown className={activeNav && "active-svg"} />
@@ -71,7 +73,7 @@ export const Navbar = ({ isNav, setIsNav }) => {
         {/* ALL OPEX INFO---------------------------------------------------------------------------- */}
         <div className="nav-link">
           <NavLink exact={true} activeClassName="active-nav" to="Capex">
-            <SiBitcoincash className="nav-icon" />
+            <GrMoney className="nav-icon" />
             <div className="concat">
               <p className="link-desc">Capex</p>
               <AiFillCaretRight />
@@ -80,7 +82,7 @@ export const Navbar = ({ isNav, setIsNav }) => {
         </div>
         <div className="nav-link">
           <NavLink exact={true} activeClassName="active-nav" to="/income">
-            <BsWallet2 className="nav-icon" />
+            <GiReceiveMoney className="nav-icon" />
             <div className="concat">
               <p className="link-desc">Income</p>
               <AiFillCaretRight />
@@ -89,7 +91,7 @@ export const Navbar = ({ isNav, setIsNav }) => {
         </div>
         <div className="nav-link">
           <NavLink exact={true} activeClassName="active-nav" to="/expenses">
-            <BsCashCoin className="nav-icon" />
+            <GiPayMoney className="nav-icon" />
             <div className="concat">
               <p className="link-desc">Expenses</p>
               <AiFillCaretRight />

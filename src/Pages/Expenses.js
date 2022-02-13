@@ -7,6 +7,7 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import { AuthContext } from "../helpers/AuthContext";
 import { AiOutlineMenu } from "react-icons/ai";
+import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
 
@@ -18,19 +19,23 @@ export const Expenses = () => {
   const [fromDate, setFromDate] = useState("");
   const { authState, setAuthState } = useContext(AuthContext);
   const [isNav, setIsNav] = useState(false);
+  const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
 
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch("/api/all-expenses", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allExpenses = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-expenses",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedExpenses(allExpenses);
     } catch (error) {
       console.log(error);
@@ -45,14 +50,17 @@ export const Expenses = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -82,13 +90,16 @@ export const Expenses = () => {
     return (Math.round(n * 100) / 100).toLocaleString();
   };
 
+  let totalCredit;
+  if (returnedActiveCreditors.name) {
+    totalCredit = activeCreditors.reduce((a, v) => (a = a + v.Amount), 0);
+  }
   return (
     <div className="expenses">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
 
-      {/* {isExpenseForm && ( */}
       <div
-        className={`${isExpenseForm && "form-background"}`}
+        className={`${isExpenseForm ? "form-background" : "hide-background"}`}
         onClick={() => {
           setAnimState(false);
           setTimeout(() => {
@@ -97,7 +108,6 @@ export const Expenses = () => {
           setIsExpenseForm(false);
         }}
       ></div>
-      {/* )} */}
 
       {authState ? (
         <div className="expense-container">
@@ -136,22 +146,36 @@ export const Expenses = () => {
                 </div> */}
                 </div>
               </div>
-              {/* <div className="sort-date-container">
-              <input
-                type="date"
-                name="fromDate"
-                id="fromDate"
-                value={fromDate}
-                onChange={(e) => setFromDate(e.target.value)}
-              />
-              <input
-                type="datetime-local"
-                name="toDate"
-                id="toDate"
-                value={toDate}
-                onChange={(e) => setToDate(e.target.value)}
-              />
-            </div> */}
+              {/* <div className="sort-report">
+                <div
+                  className={`${
+                    isDateFilter
+                      ? "sort-date-container"
+                      : "sort-date-container expense-date-container"
+                  }`}
+                >
+                  <label htmlFor="fromDate">From</label>
+                  <input
+                    type="date"
+                    name="fromDate"
+                    id="fromDate"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                  <label htmlFor="fromDate">To</label>
+                  <input
+                    type="datetime-local"
+                    name="toDate"
+                    id="toDate"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </div>
+                <FaFilter
+                  className="dateFilter"
+                  onClick={() => setIsDateFilter(!isDateFilter)}
+                />
+              </div> */}
               {sortExpense && sortExpense.length === 0 ? (
                 <div className="empty-main-report">
                   <h1>Oops! There are no Expense report available yet</h1>
@@ -161,7 +185,7 @@ export const Expenses = () => {
                   </p>
                 </div>
               ) : sortExpense ? (
-                <div className="table-container">
+                <div className="table-container expense-table">
                   <table>
                     <tbody>
                       <tr>
@@ -200,26 +224,44 @@ export const Expenses = () => {
                 "loading, please wait..."
               )}
             </div>
-            <div className="expense-creditors">
-              {activeCreditors && activeCreditors.length !== 0 ? (
-                activeCreditors.map((activeCreditor) => {
-                  const { SupplierId, SupplierName, Amount } = activeCreditor;
-                  return (
-                    <Link
-                      to={`/creditor/${SupplierId}`}
-                      key={SupplierId}
-                      className="debtor-list"
-                    >
-                      <p className="d-name">{SupplierName}</p>
-                      <p className="debt-amount">₦ {formatMoney(Amount)}.00</p>
-                    </Link>
-                  );
-                })
+            <div className="suppliers expense-creditors">
+              {!activeCreditors ? (
+                <p>loading, please wait</p>
               ) : (
-                <p className="title">
-                  You do not have any Expense creditor yet. When you do, they
-                  will appear here...
-                </p>
+                <>
+                  <p className="title">Active Creditors and amount</p>
+                  <div className="debtor-list-container">
+                    {activeCreditors && activeCreditors.length !== 0 ? (
+                      activeCreditors.map((activeCreditor) => {
+                        const { SupplierId, SupplierName, Amount } =
+                          activeCreditor;
+                        return (
+                          <Link
+                            to={`/creditor/${SupplierId}`}
+                            key={SupplierId}
+                            className="debtor-list"
+                          >
+                            <p className="d-name">{SupplierName}</p>
+                            <p className="debt-amount">
+                              ₦ {formatMoney(Amount)}.00
+                            </p>
+                          </Link>
+                        );
+                      })
+                    ) : (
+                      <p className="title">
+                        You do not have any Expense creditor yet. When you do,
+                        they will appear here...
+                      </p>
+                    )}
+                  </div>
+                  <div className="debtor-list">
+                    <p className="title">TOTAL CREDIT:</p>
+                    <p className="debt-amount">
+                      ₦ {formatMoney(totalCredit)}.00
+                    </p>
+                  </div>
+                </>
               )}
             </div>
           </div>

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Navbar } from "../Components/Navbar";
 import "../Styles/Debtor.css";
+
+import { useHistory } from "react-router-dom";
+
 export const Debtor = () => {
   const [returnedActiveDebtors, setReturnedActiveDebtors] = useState([]);
   const [name, setName] = useState("");
@@ -12,23 +15,46 @@ export const Debtor = () => {
   const [qty, setQty] = useState(0);
   const { id } = useParams();
 
+  const history = useHistory();
+
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeDebtors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-debtors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
     }
   };
   // getting active debtors end-----------------------------------------------------
+
+  const payDebt = async () => {
+    try {
+      await fetch("https://afarmacco-api.herokuapp.com/pay-debt", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: parseInt(id),
+        }),
+      }).then((res) => res.json());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //   let newDebtor;
   useEffect(() => {
     getActiveDebtors();
@@ -95,6 +121,14 @@ export const Debtor = () => {
               <h2>{amount}</h2>
             </div>
           </div>
+          <button
+            onClick={() => {
+              history.goBack();
+              payDebt();
+            }}
+          >
+            Mark as paid
+          </button>
         </div>
       </div>
     </div>

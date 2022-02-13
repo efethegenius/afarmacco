@@ -85,7 +85,7 @@ export const DocPurchase = ({
   // const getData = async () => {
   //   try {
   //     console.log(purchase);
-  //     const newData = await fetch("/get_doc_purchase", {
+  //     const newData = await fetch("https://afarmacco-api.herokuapp.com/get_doc_purchase", {
   //       method: "POST",
   //       headers: {
   //         "content-type": "application/json",

@@ -32,6 +32,7 @@
   display: flex;
   /* background-color: red; */
   width: 80%;
+  min-width: 320px;
   align-items: center;
   justify-content: top;
   overflow-x: hidden;
@@ -106,4 +107,12 @@
 .redirect-login a {
   color: #377dff;
   text-decoration: none;
+}
+@media screen and (max-width: 500px) {
+  h2 {
+    font-size: 1rem;
+  }
+  .redirect-login {
+    font-size: 0.9rem;
+  }
 }
