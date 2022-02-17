@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { useReactToPrint } from "react-to-print";
 import "../Styles/Expense.css";
 import { Expense } from "../Components/Expense";
 import { BsFileEarmarkText } from "react-icons/bs";
@@ -10,6 +11,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
+import { ExpenseTable } from "../Components/Tables/ExpenseTable";
 
 export const Expenses = () => {
   const [returnedExpenses, setReturnedExpenses] = useState([]);
@@ -19,8 +21,14 @@ export const Expenses = () => {
   const [fromDate, setFromDate] = useState("");
   const { authState, setAuthState } = useContext(AuthContext);
   const [isNav, setIsNav] = useState(false);
+  const [isFullReport, setIsFullReport] = useState(false);
   const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
@@ -76,7 +84,9 @@ export const Expenses = () => {
   let activeCreditors;
   if (returnedActiveCreditors.name) {
     activeCreditors = returnedActiveCreditors.name.filter(
-      (activeCreditor) => activeCreditor.PurchaseType === "Expense"
+      (activeCreditor) =>
+        activeCreditor.PurchaseType === "Expense" &&
+        activeCreditor.Status === "UNPAID"
     );
   }
 
@@ -88,6 +98,28 @@ export const Expenses = () => {
   if (returnedActiveCreditors.name) {
     totalCredit = activeCreditors.reduce((a, v) => (a = a + v.Amount), 0);
   }
+
+  let miniExpenseList;
+  if (returnedExpenses.name) {
+    {
+      miniExpenseList = returnedExpenses.name.map((expense) => {
+        const { ExpenseId, ExpenseDate, HeadName, ExpenseName, Amount } =
+          expense;
+        const newDate = `${new Date(ExpenseDate).toLocaleDateString()}`;
+        return (
+          <tbody key={ExpenseId}>
+            <tr>
+              <td>{newDate}</td>
+              <td>{ExpenseName}</td>
+              <td>{HeadName}</td>
+              <td>{Amount}</td>
+            </tr>
+          </tbody>
+        );
+      });
+    }
+  }
+
   return (
     <div className="expenses">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
@@ -103,13 +135,19 @@ export const Expenses = () => {
         }}
       ></div>
 
+      <div
+        className={`${isFullReport ? "form-background" : "hide-background"}`}
+        onClick={() => {
+          setIsFullReport(false);
+        }}
+      ></div>
+
       {authState ? (
         <div className="expense-container">
           <div className="expense-head">
             <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
             <div className="expense-heading">
               <h1>Expenses</h1>
-              {/* <p>Manage all your expenses here</p> */}
             </div>
             <div
               className="new-btn"
@@ -131,131 +169,105 @@ export const Expenses = () => {
                 setAnimState={setAnimState}
                 getActiveCreditors={getActiveCreditors}
               />
-              <div className="expense-table-head">
-                <h3>Your expenses report: </h3>
-                <div className="sort-container">
-                  {/* <div className="sort">
-                  <p>Filter</p>
-                  <IoIosArrowDown className="arrow-down" />
-                </div> */}
-                </div>
-              </div>
-              {/* <div className="sort-report">
-                <div
-                  className={`${
-                    isDateFilter
-                      ? "sort-date-container"
-                      : "sort-date-container expense-date-container"
-                  }`}
-                >
-                  <label htmlFor="fromDate">From</label>
-                  <input
-                    type="date"
-                    name="fromDate"
-                    id="fromDate"
-                    value={fromDate}
-                    onChange={(e) => setFromDate(e.target.value)}
-                  />
-                  <label htmlFor="fromDate">To</label>
-                  <input
-                    type="datetime-local"
-                    name="toDate"
-                    id="toDate"
-                    value={toDate}
-                    onChange={(e) => setToDate(e.target.value)}
-                  />
-                </div>
-                <FaFilter
-                  className="dateFilter"
-                  onClick={() => setIsDateFilter(!isDateFilter)}
-                />
-              </div> */}
-              {sortExpense && sortExpense.length === 0 ? (
-                <div className="empty-main-report">
-                  <h1>Oops! There are no Expense report available yet</h1>
-                  <p>
-                    Create a new report by tapping the <span>NEW</span>{" "}
-                    button...
-                  </p>
-                </div>
-              ) : sortExpense ? (
-                <div className="table-container expense-table">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Name</th>
-                        <th>Amount</th>
-                      </tr>
-                    </tbody>
-                    {returnedExpenses.name &&
-                      sortExpense.map((expense) => {
-                        const {
-                          ExpenseId,
-                          ExpenseDate,
-                          ExpenseName,
-                          HeadName,
-                          Amount,
-                        } = expense;
-                        const newDate = `${new Date(
-                          ExpenseDate
-                        ).toLocaleDateString()}`;
-                        return (
-                          <tbody key={ExpenseId}>
-                            <tr>
-                              <td>{newDate}</td>
-                              <td>{ExpenseName}</td>
-                              <td>{HeadName}</td>
-                              <td>{Amount}</td>
-                            </tr>
-                          </tbody>
-                        );
-                      })}
-                  </table>
-                </div>
-              ) : (
-                "loading, please wait..."
-              )}
-            </div>
-            <div className="suppliers expense-creditors">
-              {!activeCreditors ? (
-                <p>loading, please wait</p>
-              ) : (
-                <>
-                  <p className="title">Active Creditors and amount</p>
-                  <div className="debtor-list-container">
-                    {activeCreditors && activeCreditors.length !== 0 ? (
-                      activeCreditors.map((activeCreditor) => {
-                        const { SupplierId, SupplierName, Amount } =
-                          activeCreditor;
-                        return (
-                          <Link
-                            to={`/creditor/${SupplierId}`}
-                            key={SupplierId}
-                            className="debtor-list"
-                          >
-                            <p className="d-name">{SupplierName}</p>
-                            <p className="debt-amount">
-                              ₦ {formatMoney(Amount)}.00
-                            </p>
-                          </Link>
-                        );
-                      })
-                    ) : (
-                      <p className="title">
-                        You do not have any Expense creditor yet. When you do,
-                        they will appear here...
-                      </p>
-                    )}
-                  </div>
-                  <div className="debtor-list">
-                    <p className="title">TOTAL CREDIT:</p>
-                    <p className="debt-amount">
-                      ₦ {formatMoney(totalCredit)}.00
+
+              {/* Start of new-------------------------------------------------------------------------------------- */}
+              {!isFullReport &&
+                (miniExpenseList && miniExpenseList.length === 0 ? (
+                  <div className="empty-main-report">
+                    <h1>There are no Expense reports available yet</h1>
+                    <p>
+                      Create a new report by tapping the <span>NEW</span>{" "}
+                      button...
                     </p>
                   </div>
-                </>
+                ) : miniExpenseList ? (
+                  <div className="mini-list">
+                    <div className="mini-list-container animate__animated animate__fadeIn">
+                      <div className="all-mini-wrapper">
+                        <div className="all-mini-list">
+                          <div className="bird-mini-list">
+                            <div className="mini-table">
+                              <p className="title mini-title">
+                                {miniExpenseList === 0
+                                  ? "You do not have Expense report"
+                                  : "Your most recent expenses:"}
+                              </p>
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                  </tr>
+                                </tbody>
+                                {returnedExpenses.name &&
+                                  miniExpenseList.slice(0, 5)}
+                              </table>
+                            </div>
+                            <button
+                              className="view-report"
+                              onClick={() => {
+                                setIsFullReport(!isFullReport);
+                              }}
+                            >
+                              View full report <BsFileEarmarkText />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="debtors">
+                        <p className="title">Active Creditors and Amount</p>
+                        <div className="debtor-list-container animate__animated animate__fadeIn">
+                          {activeCreditors && activeCreditors.length !== 0 ? (
+                            activeCreditors.map((activeCreditor) => {
+                              const { CreditorId, SupplierName, Amount } =
+                                activeCreditor;
+                              return (
+                                <Link
+                                  to={`/creditor/${CreditorId}`}
+                                  className="debtor-list"
+                                  key={CreditorId}
+                                >
+                                  <p className="d-name">{SupplierName}</p>
+                                  <p className="debt-amount">
+                                    ₦ {formatMoney(Amount)}.00
+                                  </p>
+                                </Link>
+                              );
+                            })
+                          ) : (
+                            <p className="title">
+                              You do not have any creditor yet. When you do,
+                              they will appear here
+                            </p>
+                          )}
+                        </div>
+                        <div className="debtor-list">
+                          <p className="title">TOTAL DEBT:</p>
+                          <p className="debt-amount">
+                            ₦ {formatMoney(totalCredit)}.00
+                          </p>
+                        </div>
+                        {/* <button className="view-all">View All</button> */}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  "Loading, please wait..."
+                ))}
+              {/* End of new-------------------------------------------------------------------------------------- */}
+
+              {isFullReport && (
+                <div className="full-report">
+                  <div className="income-table-head">
+                    <h3>Expenses</h3>
+                  </div>
+                  {<ExpenseTable ref={componentRef} />}
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -266,19 +278,3 @@ export const Expenses = () => {
     </div>
   );
 };
-
-// if (returnedExpenses.name) {
-//   allExpenses = sortedExpenses.map((expense) => {
-//     const { ExpenseId, ExpenseDate, ExpenseName, HeadName, Amount } = expense;
-//     return (
-//       <tbody key={ExpenseId}>
-//         <tr>
-//           <td>{ExpenseDate}</td>
-//           <td>{ExpenseName}</td>
-//           <td>{HeadName}</td>
-//           <td>{Amount}</td>
-//         </tr>
-//       </tbody>
-//     );
-//   });
-// }

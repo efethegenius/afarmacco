@@ -165,8 +165,16 @@
 .active-svg {
   opacity: 1 !important;
 }
-.logo {
+.nav-head {
   margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.nav-close {
+  display: none;
 }
 @media screen and (max-width: 985px) {
   .navbar {
@@ -184,5 +192,8 @@
   }
   .show-nav {
     left: 0;
+  }
+  .nav-close {
+    display: unset;
   }
 }

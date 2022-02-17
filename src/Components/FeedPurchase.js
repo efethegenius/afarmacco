@@ -19,6 +19,8 @@ export const FeedPurchase = ({
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd } = useContext(AuthContext);
+  const [fieldErr, setFieldErr] = useState(false);
+  const [pmtErr, setPmtErr] = useState(false);
 
   const [purchase, setPurchase] = useState({
     LotNo: 0,
@@ -55,6 +57,31 @@ export const FeedPurchase = ({
   }
 
   const newPurchase = async () => {
+    if (
+      !purchase.FeedType ||
+      !purchase.LotNo ||
+      !purchase.PmtMethod ||
+      !purchase.PurchaseDate ||
+      !purchase.Qty ||
+      !purchase.UnitPrice
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
+    if (
+      !purchase.BankName &&
+      !purchase.Creditor &&
+      purchase.PmtMethod !== "Cash"
+    ) {
+      setPmtErr(true);
+      setTimeout(function () {
+        setPmtErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/feed_purchase", {
       method: "POST",
       headers: {
@@ -66,8 +93,12 @@ export const FeedPurchase = ({
         ...purchase,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsFeedPurchaseForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -123,6 +154,11 @@ export const FeedPurchase = ({
     >
       <section className="form-feed-purchase">
         <h2 className="form-head">Feed Purchase</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="PurchaseDate">Date</label>
           <input
@@ -190,6 +226,11 @@ export const FeedPurchase = ({
             {methods}
           </select>
         </div>
+        {pmtErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Please select a payment method
+          </p>
+        )}
         {purchase.PmtMethod === "Credit" && (
           <div className="input">
             <label htmlFor="Creditor">Creditor</label>
@@ -234,12 +275,7 @@ export const FeedPurchase = ({
           className="btn-order"
           type="submit"
           onClick={() => {
-            setIsFeedPurchaseForm(false);
             handleSubmit();
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

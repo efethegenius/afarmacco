@@ -129,7 +129,7 @@
   }
   .ham {
     display: unset;
-    z-index: 6;
+    /* z-index: 6; */
   }
 }
 @media screen and (max-width: 781px) {

@@ -20,6 +20,8 @@ export const DrugPurchase = ({
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd } = useContext(AuthContext);
+  const [fieldErr, setFieldErr] = useState(false);
+  const [pmtErr, setPmtErr] = useState(false);
 
   const [purchase, setPurchase] = useState({
     LotNo: 0,
@@ -55,7 +57,44 @@ export const DrugPurchase = ({
     });
   }
 
+  //  LotNo: 0,
+  //   PurchaseDate: 0,
+  //   InvoiceNo: 0,
+  //   DrugName: "",
+  //   BagWeight: 0,
+  //   Qty: 0,
+  //   UnitPrice: 0,
+  //   PmtMethod: "",
+  //   Creditor: "",
+  //   BankName: "",
+  //   Updtype: 1,
+  //   RecId: 0,
+
   const newPurchase = async () => {
+    if (
+      !purchase.DrugName ||
+      !purchase.LotNo ||
+      !purchase.PmtMethod ||
+      !purchase.Qty ||
+      !purchase.UnitPrice
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
+    if (
+      !purchase.BankName &&
+      !purchase.Creditor &&
+      purchase.PmtMethod !== "Cash"
+    ) {
+      setPmtErr(true);
+      setTimeout(function () {
+        setPmtErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/drug_purchase", {
       method: "POST",
       headers: {
@@ -67,8 +106,12 @@ export const DrugPurchase = ({
         ...purchase,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsDrugPurchaseForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -124,6 +167,11 @@ export const DrugPurchase = ({
     >
       <section className="form-drug-purchase">
         <h2 className="form-head">Drug Purchase</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="PurchaseDate">Date</label>
           <input
@@ -191,6 +239,11 @@ export const DrugPurchase = ({
             {methods}
           </select>
         </div>
+        {pmtErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Please select a payment method
+          </p>
+        )}
         {purchase.PmtMethod === "Credit" && (
           <div className="input">
             <label htmlFor="Creditor">Creditor</label>
@@ -235,12 +288,7 @@ export const DrugPurchase = ({
           className="btn-order"
           type="submit"
           onClick={() => {
-            setIsDrugPurchaseForm(false);
             handleSubmit();
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

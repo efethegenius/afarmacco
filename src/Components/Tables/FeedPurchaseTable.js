@@ -6,6 +6,9 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
   const [filter, setFilter] = useState("");
   const [feedFilter, setFeedFilter] = useState("");
   const [returnedFeedPurchase, setReturnedFeedPurchase] = useState([]);
+  const [isDate, setIsDate] = useState(false);
+  const [isPmt, setIsPmt] = useState(false);
+  const [isFeedFilter, setIsFeedFilter] = useState(false);
 
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
@@ -72,53 +75,103 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
 
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsPmt(false);
+            setIsFeedFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setFeedFilter("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsPmt(!isPmt);
+            setIsDate(false);
+            setIsFeedFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setFeedFilter("");
+          }}
+        >
+          Payment method
+        </button>
+        <button
+          onClick={() => {
+            setIsFeedFilter(!isFeedFilter);
+            setIsDate(false);
+            setIsPmt(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setFeedFilter("");
+          }}
+        >
+          Feed Type
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From:</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To:</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="pmt-filter">
-          <label htmlFor="filter">Payment Method:</label>
-          <select
-            name="filter"
-            id="filter"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Bank</option>
-            <option>Credit</option>
-            <option>Cash</option>
-          </select>
-        </div>
-        <div className="feed-filter">
-          <label htmlFor="feedfilter">Drug:</label>
-          <select
-            name="feedfilter"
-            id="feedfilter"
-            value={feedFilter}
-            onChange={(e) => setFeedFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Starter</option>
-            <option>Grower</option>
-            <option>Finisher</option>
-          </select>
-        </div>
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From:</label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isPmt && (
+          <div className="pmt-filter">
+            <label htmlFor="filter">Payment Method:</label>
+            <select
+              name="filter"
+              id="filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Bank</option>
+              <option>Credit</option>
+              <option>Cash</option>
+            </select>
+          </div>
+        )}
+        {isFeedFilter && (
+          <div className="feed-filter">
+            <label htmlFor="feedfilter">Feed:</label>
+            <select
+              name="feedfilter"
+              id="feedfilter"
+              value={feedFilter}
+              onChange={(e) => setFeedFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Starter</option>
+              <option>Grower</option>
+              <option>Finisher</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortFeedPurchase && sortFeedPurchase.length === 0 ? (
         <div className="empty-main-report">

@@ -12,6 +12,7 @@ export const DrugConsumed = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedBirds } = FetchBirds();
   const { returnedDrugs } = FetchDrugs();
+  const [fieldErr, setFieldErr] = useState(false);
   const { upd, setUpd } = useContext(AuthContext);
 
   const [consumed, setConsumed] = useState({
@@ -27,6 +28,19 @@ export const DrugConsumed = ({
   });
 
   const newConsumed = async () => {
+    if (
+      !consumed.Batch ||
+      !consumed.BirdType ||
+      !consumed.ConsumptionDate ||
+      !consumed.DrugName ||
+      !consumed.SatchetQtyUsed
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/drug_consumed", {
       method: "POST",
       headers: {
@@ -38,8 +52,12 @@ export const DrugConsumed = ({
         ...consumed,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsDrugConsumedForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -106,6 +124,11 @@ export const DrugConsumed = ({
     >
       <section className="form-drug-consumed">
         <h2 className="form-head">New Drug Consumption</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="ConsumptionDate">Date</label>
           <input
@@ -191,12 +214,7 @@ export const DrugConsumed = ({
           className="btn-order"
           type="submit"
           onClick={(e) => {
-            setIsDrugConsumedForm(false);
             handleSubmit(e);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

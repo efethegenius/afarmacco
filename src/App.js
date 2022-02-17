@@ -18,6 +18,7 @@ import { SignUpPage } from "./Pages/SignUpPage";
 import { LoginPage } from "./Pages/LoginPage";
 import { Creditor } from "./Pages/Creditor";
 import { Health } from "./Pages/Health";
+import { OpexPage } from "./Pages/OpexPage";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);
@@ -63,6 +64,9 @@ function App() {
           </Route>
           <Route exact path="/capex">
             <CapexPage />
+          </Route>
+          <Route exact path="/opex">
+            <OpexPage />
           </Route>
           <Route path="/creditor/:id" children={<Creditor />}></Route>
           <Route path="/debtor/:id" children={<Debtor />}></Route>

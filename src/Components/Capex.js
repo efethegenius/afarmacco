@@ -20,6 +20,7 @@ export const Capex = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
+  const [fieldErr, setFieldErr] = useState(false);
   const { returnedAssetTypes } = FetchAssetTypes();
   const { returnedTxnTypes } = FetchTxnTypes();
   const { upd, setUpd } = useContext(AuthContext);
@@ -74,8 +75,12 @@ export const Capex = ({
         ...capex,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsCapexForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   // submit function
@@ -135,6 +140,11 @@ export const Capex = ({
     >
       <section className="form-capex">
         <h2 className="form-head">Capex</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="TxnType">Transaction Type</label>
           <select name="TxnType" id="TxnType" onChange={handleChange}>
@@ -152,13 +162,15 @@ export const Capex = ({
           />
         </div>
         <div className="double-input">
-          <div className="input">
-            <label htmlFor="AssetType">Asset Type</label>
-            <select name="AssetType" id="AssetType" onChange={handleChange}>
-              <option></option>
-              {assets}
-            </select>
-          </div>
+          {capex.TxnType !== "Disposal" && (
+            <div className="input">
+              <label htmlFor="AssetType">Asset Type</label>
+              <select name="AssetType" id="AssetType" onChange={handleChange}>
+                <option></option>
+                {assets}
+              </select>
+            </div>
+          )}
           <div className="input">
             <label htmlFor="FACode">Asset Code</label>
             <input
@@ -169,25 +181,29 @@ export const Capex = ({
             />
           </div>
         </div>
-        <div className="input">
-          <label htmlFor="FADesc">Asset Description</label>
-          <input
-            type="text"
-            name="FADesc"
-            id="FADesc"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="double-input">
+        {capex.TxnType !== "Disposal" && (
           <div className="input">
-            <label htmlFor="Lifespan">Lifespan (years)</label>
+            <label htmlFor="FADesc">Asset Description</label>
             <input
-              type="number"
-              name="Lifespan"
-              id="Lifespan"
+              type="text"
+              name="FADesc"
+              id="FADesc"
               onChange={handleChange}
             />
           </div>
+        )}
+        <div className="double-input">
+          {capex.TxnType !== "Disposal" && (
+            <div className="input">
+              <label htmlFor="Lifespan">Lifespan (years)</label>
+              <input
+                type="number"
+                name="Lifespan"
+                id="Lifespan"
+                onChange={handleChange}
+              />
+            </div>
+          )}
           <div className="input">
             <label htmlFor="Amount">Amount</label>
             <input
@@ -260,12 +276,7 @@ export const Capex = ({
           className="btn-order"
           type="submit"
           onClick={(e) => {
-            setIsCapexForm(false);
             handleSubmit(e);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

@@ -19,6 +19,8 @@ export const OtherSales = ({
   const { returnedMethods } = FetchMethods();
   const { returnedOtherItems } = FetchOtherItems();
   const { upd, setUpd } = useContext(AuthContext);
+  const [fieldErr, setFieldErr] = useState(false);
+  const [pmtErr, setPmtErr] = useState(false);
 
   const [sales, setSales] = useState({
     ItemDate: 0,
@@ -34,6 +36,27 @@ export const OtherSales = ({
   });
 
   const newSales = async () => {
+    if (
+      !sales.Item ||
+      !sales.ItemDate ||
+      !sales.Qty ||
+      !sales.UnitPrice ||
+      !sales.PmtMethod
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
+
+    if (!sales.BankName && !sales.Debtor && sales.PmtMethod !== "Cash") {
+      setPmtErr(true);
+      setTimeout(function () {
+        setPmtErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/other_sales", {
       method: "POST",
       headers: {
@@ -45,8 +68,12 @@ export const OtherSales = ({
         ...sales,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsOtherForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleSubmit = () => {
@@ -120,6 +147,11 @@ export const OtherSales = ({
     >
       <section className="form-other-sales">
         <h2 className="form-head">Other Sale</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="ItemDate">Date</label>
           <input
@@ -169,6 +201,11 @@ export const OtherSales = ({
             {methods}
           </select>
         </div>
+        {pmtErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Please select a payment method
+          </p>
+        )}
         {sales.PmtMethod === "Credit" && (
           <div className="input">
             <label htmlFor="Debtor">Debtor</label>
@@ -214,12 +251,7 @@ export const OtherSales = ({
           className="btn-order"
           type="submit"
           onClick={() => {
-            setIsOtherForm(false);
             handleSubmit();
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

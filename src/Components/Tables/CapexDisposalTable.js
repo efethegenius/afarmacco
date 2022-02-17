@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 export const CapexDisposalTable = React.forwardRef((props, ref) => {
   const [returnedCapexDisposal, setReturnedCapexDisposal] = useState([]);
   const [toDate, setToDate] = useState("");
+  const [isDate, setIsDate] = useState(false);
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
   // getting capex start-----------------------------------------------------
@@ -69,26 +70,42 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
 
   return (
     <>
-      <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From:</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To:</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setToDate("");
+            setFromDate("");
+          }}
+        >
+          Date
+        </button>
       </div>
+      {isDate && (
+        <div className="sort-report">
+          <div className="sort-date">
+            <label htmlFor="fromDate">From:</label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        </div>
+      )}
       {sortCapexDisposal && sortCapexDisposal.length === 0 ? (
         <div className="empty-main-report">
           <h1>Oops! There are no Disposal report available yet</h1>

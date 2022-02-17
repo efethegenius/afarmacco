@@ -11,6 +11,7 @@ export const DocMortality = ({
 }) => {
   const [returnedData, setReturnedData] = useState();
   const { returnedBirds } = FetchBirds();
+  const [fieldErr, setFieldErr] = useState(false);
   const { upd, setUpd } = useContext(AuthContext);
 
   const [mortality, setMortality] = useState({
@@ -23,6 +24,18 @@ export const DocMortality = ({
   });
 
   const newMortality = async () => {
+    if (
+      !mortality.Batch ||
+      !mortality.BirdType ||
+      !mortality.MortalityDate ||
+      !mortality.Qty
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/doc_mortality", {
       method: "POST",
       headers: {
@@ -34,8 +47,12 @@ export const DocMortality = ({
         ...mortality,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsMortalityForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -94,6 +111,11 @@ export const DocMortality = ({
     >
       <section className="form-mortality">
         <h2 className="form-head">Day Old Chicks Mortality</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="MortalityDate">Date</label>
           <input
@@ -148,11 +170,6 @@ export const DocMortality = ({
           type="submit"
           onClick={() => {
             handleSubmit();
-            setIsMortalityForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

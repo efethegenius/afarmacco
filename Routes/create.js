@@ -17,7 +17,8 @@ const {
   createOtherSales,
   createUserValidation,
   createDepr,
-  payDebt,
+  debtorPay,
+  creditorPay,
 } = require("../Controllers/create");
 
 router.post("/doc_purchase", validateToken, createDocPurchase);
@@ -32,6 +33,7 @@ router.post("/feed_consumed", validateToken, createFeedConsumed);
 router.post("/depr", validateToken, createDepr);
 router.post("/capex", validateToken, createCapex);
 router.post("/validation", createUserValidation);
-router.post("/pay-debt", payDebt);
+router.post("/debtor-pay", validateToken, debtorPay);
+router.post("/creditor-pay", validateToken, creditorPay);
 
 module.exports = router;

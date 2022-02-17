@@ -6,6 +6,9 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
   const [itemFilter, setItemFilter] = useState("");
+  const [isDate, setIsDate] = useState(false);
+  const [isPmt, setIsPmt] = useState(false);
+  const [isItemFilter, setIsItemFilter] = useState(false);
 
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
@@ -64,54 +67,102 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
 
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsPmt(false);
+            setIsItemFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setItemFilter("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsPmt(!isPmt);
+            setIsDate(false);
+            setIsItemFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setItemFilter("");
+          }}
+        >
+          Payment method
+        </button>
+        <button
+          onClick={() => {
+            setIsItemFilter(!isItemFilter);
+            setIsDate(false);
+            setIsPmt(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setItemFilter("");
+          }}
+        >
+          Bird Type
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="pmt-filter">
-          <label htmlFor="filter">Payment Method</label>
-          <select
-            name="filter"
-            id="filter"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Bank</option>
-            <option>Credit</option>
-            <option>Cash</option>
-          </select>
-        </div>
-        <div className="item-filter">
-          <label htmlFor="itemfilter">Item</label>
-          <select
-            name="itemfilter"
-            id="itemfilter"
-            value={itemFilter}
-            onChange={(e) => setItemFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Used Bags</option>
-            <option>Chicken Manure</option>
-            <option>Discarded Utensils</option>
-            <option>Others</option>
-          </select>
-        </div>
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From</label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label htmlFor="toDate">To</label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isPmt && (
+          <div className="pmt-filter">
+            <label htmlFor="filter">Payment Method</label>
+            <select
+              name="filter"
+              id="filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Bank</option>
+              <option>Credit</option>
+              <option>Cash</option>
+            </select>
+          </div>
+        )}
+        {isItemFilter && (
+          <div className="item-filter">
+            <label htmlFor="itemfilter">Item</label>
+            <select
+              name="itemfilter"
+              id="itemfilter"
+              value={itemFilter}
+              onChange={(e) => setItemFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Used Bags</option>
+              <option>Chicken Manure</option>
+              <option>Discarded Utensils</option>
+              <option>Others</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortOtherSales && sortOtherSales.length === 0 ? (
         <div className="empty-main-report">

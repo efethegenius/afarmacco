@@ -6,6 +6,9 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
   const [fromDate, setFromDate] = useState("");
   const [birdFilter, setBirdFilter] = useState("");
   const [feedFilter, setFeedFilter] = useState("");
+  const [isDate, setIsDate] = useState(false);
+  const [isFeedFilter, setIsFeedFilter] = useState(false);
+  const [isBirdFilter, setIsBirdFilter] = useState(false);
 
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
@@ -68,55 +71,105 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
   };
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsFeedFilter(false);
+            setIsBirdFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFeedFilter("");
+            setBirdFilter("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsFeedFilter(!isFeedFilter);
+            setIsDate(false);
+            setIsBirdFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFeedFilter("");
+            setBirdFilter("");
+          }}
+        >
+          Feed Type
+        </button>
+        <button
+          onClick={() => {
+            setIsBirdFilter(!isBirdFilter);
+            setIsDate(false);
+            setIsFeedFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFeedFilter("");
+            setBirdFilter("");
+          }}
+        >
+          Bird Type
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From:</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To:</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="bird-filter">
-          <label htmlFor="birdfilter">Bird</label>
-          <select
-            name="birdfilter"
-            id="birdfilter"
-            value={birdFilter}
-            onChange={(e) => setBirdFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Broiler</option>
-            <option>Layer</option>
-            <option>Cockerel</option>
-            <option>Noiler</option>
-            <option>Turkey</option>
-          </select>
-        </div>
-        <div className="feed-filter">
-          <label htmlFor="feedfilter">Drug:</label>
-          <select
-            name="feedfilter"
-            id="feedfilter"
-            value={feedFilter}
-            onChange={(e) => setFeedFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Starter</option>
-            <option>Grower</option>
-            <option>Finisher</option>
-          </select>
-        </div>
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From:</label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isBirdFilter && (
+          <div className="bird-filter">
+            <label htmlFor="birdfilter">Bird: </label>
+            <select
+              name="birdfilter"
+              id="birdfilter"
+              value={birdFilter}
+              onChange={(e) => setBirdFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Broiler</option>
+              <option>Layer</option>
+              <option>Cockerel</option>
+              <option>Noiler</option>
+              <option>Turkey</option>
+            </select>
+          </div>
+        )}
+        {isFeedFilter && (
+          <div className="feed-filter">
+            <label htmlFor="feedfilter">Feed: </label>
+            <select
+              name="feedfilter"
+              id="feedfilter"
+              value={feedFilter}
+              onChange={(e) => setFeedFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Starter</option>
+              <option>Grower</option>
+              <option>Finisher</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortFeedConsumed && sortFeedConsumed.length === 0 ? (
         <div className="empty-main-report">

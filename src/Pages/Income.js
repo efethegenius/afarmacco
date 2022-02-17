@@ -245,7 +245,6 @@ export const Income = () => {
             <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
             <div className="income-heading">
               <h1>Income</h1>
-              {/* <p>Manage all your income here</p> */}
             </div>
             <div
               className="new-btn"
@@ -419,13 +418,13 @@ export const Income = () => {
                       <div className="debtor-list-container animate__animated animate__fadeIn">
                         {activeDebtors && activeDebtors.length !== 0 ? (
                           activeDebtors.map((activeDebtor) => {
-                            const { CustomerId, CustomerName, Amount } =
+                            const { DebtorId, CustomerName, Amount } =
                               activeDebtor;
                             return (
                               <Link
-                                to={`/debtor/${CustomerId}`}
+                                to={`/debtor/${DebtorId}`}
                                 className="debtor-list"
-                                key={CustomerId}
+                                key={DebtorId}
                               >
                                 {/* <div key={CustomerId}> */}
                                 <p className="d-name">{CustomerName}</p>

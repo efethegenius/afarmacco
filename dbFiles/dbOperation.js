@@ -56,18 +56,6 @@ const getLogin = async (user) => {
 };
 //Get User Login
 // ---------------------------------------------------------------------
-
-const payDebt = async (id) => {
-  try {
-    let pool = await sql.connect(config);
-    let payment = await pool
-      .request()
-      .query(`update tbl_debtor set Status = 'PAID' Where CustomerId ='${id}'`);
-    return payment;
-  } catch (error) {
-    console.log(error);
-  }
-};
 // DOC PURCHASES START
 const getDocPurchases = async (invoiceNo) => {
   try {
@@ -106,6 +94,30 @@ const createDocPurchase = async (purchase) => {
 };
 // DOC PURCHASES END
 
+// Debtor Pay START
+const debtorPay = async (debtor) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("Id", sql.Int, debtor.theDebtor).execute("sp_DebtorPay");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// Debtor Pay END
+// Creditor Pay START
+const creditorPay = async (creditor) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request
+      .input("Id", sql.Int, creditor.theCreditor)
+      .execute("sp_CreditorPay");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// Creditor Pay END
 // Capex Transaction START
 const createCapex = async (capex) => {
   try {
@@ -236,6 +248,7 @@ const createDepr = async (depr) => {
       .input("ExpenseDate", sql.Date, depr.ExpenseDate)
       .input("ExpenseType", sql.NVarChar, depr.ExpenseType)
       .input("ExpenseHead", sql.NVarChar, depr.ExpenseHead)
+      .output("Message", sql.NVarChar)
       .execute("sp_Depr");
   } catch (error) {
     console.log(error);
@@ -667,5 +680,6 @@ module.exports = {
   getUser,
   getAssetType,
   getTxnType,
-  payDebt,
+  debtorPay,
+  creditorPay,
 };

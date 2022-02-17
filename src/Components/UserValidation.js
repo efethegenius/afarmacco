@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "animate.css";
 
 export const UserValidation = () => {
   const [returnedData, setReturnedData] = useState();
+  const [fieldErr, setFieldErr] = useState(false);
+  const [passErr, setPassErr] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userValidation, setUserValidation] = useState({
     FirstName: "",
@@ -33,6 +36,27 @@ export const UserValidation = () => {
   };
 
   const newUser = async () => {
+    if (
+      !userValidation.FirstName ||
+      !userValidation.Email ||
+      !userValidation.LastName ||
+      !userValidation.SignOnName ||
+      !userValidation.UserPassword
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
+
+    if (userValidation.UserPassword !== confirmPassword) {
+      setPassErr(true);
+      setTimeout(function () {
+        setPassErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/validation", {
       method: "POST",
       headers: {
@@ -67,6 +91,11 @@ export const UserValidation = () => {
       <div className="validation-header">
         {/* <h2>Create an account</h2> */}
         <h2>Let's get you set up</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All fields must be filled
+          </p>
+        )}
       </div>
       <div className="user-validation-wrapper">
         <div className="double-input">
@@ -123,6 +152,11 @@ export const UserValidation = () => {
             />
           </div>
         </div>
+        {passErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Passwords do not match
+          </p>
+        )}
         <button
           type="submit"
           onClick={(e) => handleSubmit(e)}
@@ -130,6 +164,7 @@ export const UserValidation = () => {
         >
           Create Account
         </button>
+
         <p className="redirect-login">
           Already have an account? <Link to="/login">login here</Link>
         </p>

@@ -6,6 +6,9 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
   const [drugFilter, setDrugFilter] = useState("");
+  const [isDate, setIsDate] = useState(false);
+  const [isPmt, setIsPmt] = useState(false);
+  const [isDrugFilter, setIsDrugFilter] = useState(false);
 
   // getting drug purchase start-----------------------------------------------------
   const getAllDrugPurchase = async () => {
@@ -71,57 +74,107 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
 
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsPmt(false);
+            setIsDrugFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setDrugFilter("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsPmt(!isPmt);
+            setIsDate(false);
+            setIsDrugFilter(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setDrugFilter("");
+          }}
+        >
+          Payment method
+        </button>
+        <button
+          onClick={() => {
+            setIsDrugFilter(!isDrugFilter);
+            setIsDate(false);
+            setIsPmt(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setDrugFilter("");
+          }}
+        >
+          Drug Type
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From:</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To:</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="pmt-filter">
-          <label htmlFor="filter">Payment Method:</label>
-          <select
-            name="filter"
-            id="filter"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Bank</option>
-            <option>Credit</option>
-            <option>Cash</option>
-          </select>
-        </div>
-        <div className="drug-filter">
-          <label htmlFor="drugfilter">Drug:</label>
-          <select
-            name="drugfilter"
-            id="drugfilter"
-            value={drugFilter}
-            onChange={(e) => setDrugFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Antibiotics</option>
-            <option>Anticoccidiosis</option>
-            <option>Antiviral</option>
-            <option>Coryza</option>
-            <option>Deworm</option>
-            <option>Multivitamin</option>
-            <option>Vaccine</option>
-          </select>
-        </div>
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From:</label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isPmt && (
+          <div className="pmt-filter">
+            <label htmlFor="filter">Payment Method:</label>
+            <select
+              name="filter"
+              id="filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Bank</option>
+              <option>Credit</option>
+              <option>Cash</option>
+            </select>
+          </div>
+        )}
+        {isDrugFilter && (
+          <div className="drug-filter">
+            <label htmlFor="drugfilter">Drug:</label>
+            <select
+              name="drugfilter"
+              id="drugfilter"
+              value={drugFilter}
+              onChange={(e) => setDrugFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Antibiotics</option>
+              <option>Anticoccidiosis</option>
+              <option>Antiviral</option>
+              <option>Coryza</option>
+              <option>Deworm</option>
+              <option>Multivitamin</option>
+              <option>Vaccine</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortDrugPurchase && sortDrugPurchase.length === 0 ? (
         <div className="empty-main-report">

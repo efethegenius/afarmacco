@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.all-opex {
+  /* background-color: red; */
+  width: 90%;
+  height: 90%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.top-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.opex-opt {
+  /* background-color: blue; */
+  width: 80%;
+  height: 65%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  box-shadow: 4.2px 1.1px 6.6px rgba(0, 0, 0, 0.037),
+    10px 2.7px 13.6px rgba(0, 0, 0, 0.053),
+    18.9px 5.1px 21.8px rgba(0, 0, 0, 0.065),
+    33.7px 9.2px 33.2px rgba(0, 0, 0, 0.077),
+    63.1px 17.1px 53.4px rgba(0, 0, 0, 0.093),
+    151px 41px 113px rgba(0, 0, 0, 0.13);
+  text-decoration: none;
+}
+
+.opex-opt:hover {
+  font-size: 1.1rem;
+  transform: scale(1.03);
+}
+
+.doc-opt {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/doc.jpg") center/cover no-repeat;
+}
+.drug-opt {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/drug.jpg") center/cover no-repeat;
+}
+.feed-opt {
+  width: 40% !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/feed.jpg") center/cover no-repeat;
+}

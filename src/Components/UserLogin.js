@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 export const UserLogin = () => {
   const [returnedData, setReturnedData] = useState([]);
   const { setAuthState } = useContext(AuthContext);
+  const [fieldErr, setFieldErr] = useState(false);
   const [userLogin, setUserLogin] = useState({
     Email: "",
     SignOnName: "",
@@ -37,7 +38,10 @@ export const UserLogin = () => {
 
       //storing our accessToken to the local storage if there is no error
       if (newData.error) {
-        alert(newData.error);
+        setFieldErr(true);
+        setTimeout(function () {
+          setFieldErr(false);
+        }, 4000);
       } else {
         localStorage.setItem("accessToken", newData);
         setAuthState(true);
@@ -60,6 +64,11 @@ export const UserLogin = () => {
     <div className="user-validation">
       <div className="validation-header">
         <h2>Sign in to your account</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Username or Password is incorrect
+          </p>
+        )}
       </div>
       <div className="user-validation-wrapper">
         {/* <div className="input input-2">

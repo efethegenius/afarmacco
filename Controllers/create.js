@@ -1,9 +1,4 @@
 const dbOperation = require("../dbFiles/dbOperation");
-
-const payDebt = async (req, res) => {
-  await dbOperation.payDebt(req.body);
-  res.json({ code: 1, msg: "success" });
-};
 const createDocPurchase = async (req, res) => {
   await dbOperation.createDocPurchase(req.body);
   res.json({ code: 1, msg: "success" });
@@ -43,12 +38,10 @@ const createOtherSales = async (req, res) => {
   res.json({ code: 1, msg: "success" });
 };
 
-//working on this--------------------------
 const createFeedPurchase = async (req, res) => {
   await dbOperation.createFeedPurchase(req.body);
   res.json({ code: 1, msg: "success" });
 };
-//working on this--------------------------
 
 const createFeedConsumed = async (req, res) => {
   await dbOperation.createFeedConsumed(req.body);
@@ -57,6 +50,14 @@ const createFeedConsumed = async (req, res) => {
 
 const createCapex = async (req, res) => {
   await dbOperation.createCapex(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const debtorPay = async (req, res) => {
+  await dbOperation.debtorPay(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const creditorPay = async (req, res) => {
+  await dbOperation.creditorPay(req.body);
   res.json({ code: 1, msg: "success" });
 };
 
@@ -78,5 +79,6 @@ module.exports = {
   createFeedPurchase,
   createOtherSales,
   createUserValidation,
-  payDebt,
+  debtorPay,
+  creditorPay,
 };

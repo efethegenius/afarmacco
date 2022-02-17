@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.all-meds {
+  /* background-color: red; */
+  width: 90%;
+  height: 90%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.med-container {
+  /* background-color: blue; */
+  width: 80%;
+  height: 65%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  box-shadow: 4.2px 1.1px 6.6px rgba(0, 0, 0, 0.037),
+    10px 2.7px 13.6px rgba(0, 0, 0, 0.053),
+    18.9px 5.1px 21.8px rgba(0, 0, 0, 0.065),
+    33.7px 9.2px 33.2px rgba(0, 0, 0, 0.077),
+    63.1px 17.1px 53.4px rgba(0, 0, 0, 0.093),
+    151px 41px 113px rgba(0, 0, 0, 0.13);
+}
+
+.med-container:hover {
+  font-size: 1.1rem;
+  transform: scale(1.03);
+}
+.broiler-med-container {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/broiler.jpg") center/cover no-repeat;
+}
+.noiler-med-container {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/noiler.jpeg") center/cover no-repeat;
+}
+.cockerel-med-container {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/cockerel.jpeg") center/cover no-repeat;
+}
+.layer-med-container {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/layer.jpeg") center/cover no-repeat;
+}
+
+.meds {
+  /* position: absolute; */
+  z-index: 6;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  right: 0;
+  overflow: scroll;
+  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
+  z-index: 9;
+}
+.meds-table td {
+  background-color: rgb(241, 241, 241);
+}
+
+.meds-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  align-self: center;
+}

@@ -18,7 +18,9 @@ export const BirdSales = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedBirds } = FetchBirds();
   const { returnedBanks } = FetchBanks();
+  const [fieldErr, setFieldErr] = useState(false);
   const { returnedMethods } = FetchMethods();
+  const [pmtErr, setPmtErr] = useState(false);
   const { upd, setUpd } = useContext(AuthContext);
 
   const [sales, setSales] = useState({
@@ -36,6 +38,28 @@ export const BirdSales = ({
   });
 
   const newSales = async () => {
+    if (
+      !sales.Batch ||
+      !sales.BirdType ||
+      !sales.PmtMethod ||
+      !sales.Qty ||
+      !sales.SalesDate ||
+      !sales.UnitPrice
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
+    if (!sales.BankName && !sales.Debtor && sales.PmtMethod !== "Cash") {
+      setPmtErr(true);
+      setTimeout(function () {
+        setPmtErr(false);
+      }, 4000);
+      return;
+    }
+
     const newData = await fetch("/create/bird_sales", {
       method: "POST",
       headers: {
@@ -47,8 +71,12 @@ export const BirdSales = ({
         ...sales,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsBirdForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -122,6 +150,11 @@ export const BirdSales = ({
     >
       <section className="form-bird-sale">
         <h2 className="form-head">Bird Sale</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="SalesDate"> Date</label>
           <input
@@ -180,6 +213,11 @@ export const BirdSales = ({
             {methods}
           </select>
         </div>
+        {pmtErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Please select a payment method
+          </p>
+        )}
         {sales.PmtMethod === "Credit" && (
           <div className="input">
             <label htmlFor="Debtor">Debtor</label>
@@ -225,11 +263,6 @@ export const BirdSales = ({
           type="submit"
           onClick={() => {
             handleSubmit();
-            setIsBirdForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

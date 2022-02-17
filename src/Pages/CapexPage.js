@@ -147,20 +147,23 @@ export const CapexPage = () => {
   let activeCreditors;
   if (returnedActiveCreditors.name) {
     activeCreditors = returnedActiveCreditors.name.filter(
-      (activeCreditor) => activeCreditor.PurchaseType === "Capex Purchase"
+      (activeCreditor) =>
+        activeCreditor.PurchaseType === "Capex Purchase" &&
+        activeCreditor.Status === "UNPAID"
     );
   }
 
   let activeDebtors;
   if (returnedActiveDebtors.name) {
     activeDebtors = returnedActiveDebtors.name.filter(
-      (activeDebtor) => activeDebtor.PurchaseType === "Capex Disposal"
+      (activeDebtor) =>
+        activeDebtor.PurchaseType === "Capex Disposal" &&
+        activeDebtor.Status === "UNPAID"
     );
   }
   return (
     <div className="drug">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
-      {/* {(isCapexForm || isFullReport) && ( */}
       <div
         className={`${isCapexForm ? "form-background" : "hide-background"}`}
         onClick={() => {
@@ -178,7 +181,6 @@ export const CapexPage = () => {
           setIsFullReport(false);
         }}
       ></div>
-      {/* )} */}
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
@@ -308,12 +310,12 @@ export const CapexPage = () => {
                           <p className="title">Active creditors</p>
                           {activeCreditors && activeCreditors.length !== 0 ? (
                             activeCreditors.map((activeCreditor) => {
-                              const { SupplierId, SupplierName, Amount } =
+                              const { CreditorId, SupplierName, Amount } =
                                 activeCreditor;
                               return (
                                 <Link
-                                  to={`/creditor/${SupplierId}`}
-                                  key={SupplierId}
+                                  to={`/creditor/${CreditorId}`}
+                                  key={CreditorId}
                                   className="debtor-list capex-list"
                                 >
                                   <p className="d-name">{SupplierName}</p>
@@ -325,7 +327,7 @@ export const CapexPage = () => {
                             })
                           ) : (
                             <p className="title">
-                              You do not have any FEED creditor yet. When you
+                              You do not have any capex creditor yet. When you
                               do, they will appear here...
                             </p>
                           )}
@@ -334,13 +336,13 @@ export const CapexPage = () => {
                           <p className="title">Active debtors</p>
                           {activeDebtors && activeDebtors.length !== 0 ? (
                             activeDebtors.map((activeDebtor) => {
-                              const { CustomerId, CustomerName, Amount } =
+                              const { DebtorId, CustomerName, Amount } =
                                 activeDebtor;
                               return (
                                 <Link
-                                  to={`/debtor/${CustomerId}`}
+                                  to={`/debtor/${DebtorId}`}
                                   className="debtor-list capex-list"
-                                  key={CustomerId}
+                                  key={DebtorId}
                                 >
                                   {/* <div key={CustomerId}> */}
                                   <p className="d-name">{CustomerName}</p>
@@ -387,7 +389,3 @@ export const CapexPage = () => {
     </div>
   );
 };
-
-{
-  /* <Capex /> */
-}

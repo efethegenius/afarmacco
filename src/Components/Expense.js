@@ -64,8 +64,8 @@ export const Expense = ({
         ...expense,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedDepr(newData[0]);
+    console.log(newData);
   };
 
   const handleChange = (e) => {
@@ -262,10 +262,16 @@ export const Expense = ({
           type="submit"
           onClick={(e) => {
             setIsExpenseForm(false);
-            {
-              expense.ExpenseHead === "Depreciation" && handleDepr();
+            // {
+            //   expense.ExpenseHead === "Depreciation"
+            //     ? handleDepr()
+            //     : handleSubmit;
+            // }
+            if (expense.ExpenseHead === "Depreciation") {
+              handleDepr();
+              return;
             }
-            handleSubmit(e);
+            handleSubmit();
           }}
         >
           Create

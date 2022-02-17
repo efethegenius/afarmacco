@@ -113,3 +113,18 @@
   color: #888eb0;
   font-size: 0.8rem;
 }
+@media screen and (max-width: 900px) {
+  .pay-confirm {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .debtor-info-container {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .pay-confirm {
+    width: 90%;
+  }
+}

@@ -11,6 +11,7 @@ export const FeedConsumed = ({
 }) => {
   const [returnedData, setReturnedData] = useState();
   const { returnedBirds } = FetchBirds();
+  const [fieldErr, setFieldErr] = useState(false);
   const { returnedFeeds } = FetchFeeds();
   const { upd, setUpd } = useContext(AuthContext);
 
@@ -27,6 +28,20 @@ export const FeedConsumed = ({
   });
 
   const newConsumed = async () => {
+    if (
+      !consumed.Batch ||
+      !consumed.BirdType ||
+      !consumed.ConsumptionDate ||
+      !consumed.FeedType ||
+      !consumed.LotNo ||
+      !consumed.BagQtyUsed
+    ) {
+      setFieldErr(true);
+      setTimeout(function () {
+        setFieldErr(false);
+      }, 4000);
+      return;
+    }
     const newData = await fetch("/create/feed_consumed", {
       method: "POST",
       headers: {
@@ -38,8 +53,12 @@ export const FeedConsumed = ({
         ...consumed,
       }),
     }).then((res) => res.json());
-    console.log(newData);
     setReturnedData(newData[0]);
+    setIsFeedConsumedForm(false);
+    setAnimState(false);
+    setTimeout(() => {
+      setAnimState(true);
+    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -106,6 +125,11 @@ export const FeedConsumed = ({
     >
       <section className="form-feed-consumption">
         <h2 className="form-head">Feed Consumption</h2>
+        {fieldErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            All required fields must be filled
+          </p>
+        )}
         <div className="input">
           <label htmlFor="ConsumptionDate">Date</label>
           <input
@@ -191,12 +215,7 @@ export const FeedConsumed = ({
           className="btn-order"
           type="submit"
           onClick={() => {
-            setIsFeedConsumedForm(false);
             handleSubmit();
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
           }}
         >
           Create

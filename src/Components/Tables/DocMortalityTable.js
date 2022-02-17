@@ -5,6 +5,8 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
   const [fromDate, setFromDate] = useState("");
   const [returnedDocMortality, setReturnedDocMortality] = useState([]);
   const [birdFilter, setBirdFilter] = useState("");
+  const [isDate, setIsDate] = useState(false);
+  const [isBirdFilter, setIsBirdFilter] = useState(false);
 
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
@@ -56,41 +58,72 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
 
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsBirdFilter(false);
+            setToDate("");
+            setFromDate("");
+            setBirdFilter("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsBirdFilter(!isBirdFilter);
+            setIsDate(false);
+            setToDate("");
+            setFromDate("");
+            setBirdFilter("");
+          }}
+        >
+          Bird Type
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="bird-filter">
-          <label htmlFor="birdfilter">Bird</label>
-          <select
-            name="birdfilter"
-            id="birdfilter"
-            value={birdFilter}
-            onChange={(e) => setBirdFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Broiler</option>
-            <option>Layer</option>
-            <option>Cockerel</option>
-            <option>Noiler</option>
-            <option>Turkey</option>
-          </select>
-        </div>
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From: </label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isBirdFilter && (
+          <div className="bird-filter">
+            <label htmlFor="birdfilter">Bird</label>
+            <select
+              name="birdfilter"
+              id="birdfilter"
+              value={birdFilter}
+              onChange={(e) => setBirdFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Broiler</option>
+              <option>Layer</option>
+              <option>Cockerel</option>
+              <option>Noiler</option>
+              <option>Turkey</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortDocMortality && sortDocMortality.length === 0 ? (
         <div className="empty-main-report">

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Navbar } from "../Components/Navbar";
+import { useHistory } from "react-router-dom";
 import "../Styles/Debtor.css";
+import { AiOutlineLeft } from "react-icons/ai";
 export const Debtor = () => {
   const [returnedActiveDebtors, setReturnedActiveDebtors] = useState([]);
+  const [returnedData, setReturnedData] = useState([]);
   const [name, setName] = useState("");
   const [bird, setBird] = useState("");
   const [cost, setCost] = useState(0);
@@ -11,6 +14,25 @@ export const Debtor = () => {
   const [date, setDate] = useState("");
   const [qty, setQty] = useState(0);
   const { id } = useParams();
+  const history = useHistory();
+  const [debtorId, setDebtorId] = useState({ theDebtor: parseInt(id) });
+  const [isConfirm, setIsConfirm] = useState(false);
+  console.log(debtorId);
+
+  const newDebtPay = async () => {
+    const newData = await fetch("/create/debtor-pay", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        accessToken: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        ...debtorId,
+      }),
+    }).then((res) => res.json());
+    setReturnedData(newData[0]);
+  };
 
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
@@ -36,10 +58,8 @@ export const Debtor = () => {
   useEffect(() => {
     if (returnedActiveDebtors.name) {
       const newDebtor = returnedActiveDebtors.name.find(
-        (debtor) => debtor.CustomerId === parseInt(id)
+        (debtor) => debtor.DebtorId === parseInt(id)
       );
-      console.log(newDebtor);
-
       setName(newDebtor.CustomerName);
       setBird(newDebtor.PurchaseName);
       setDate(newDebtor.PurchaseDate);
@@ -52,9 +72,34 @@ export const Debtor = () => {
   console.log(name);
   return (
     <div className="income">
+      <div
+        className={`${isConfirm ? "form-background" : "hide-background"}`}
+        onClick={() => {
+          setIsConfirm(false);
+        }}
+      >
+        <div className="pay-confirm">
+          <p>Are you sure you want to mark this transaction as paid?</p>
+          <div className="btn-pay-confirm">
+            <button
+              className="btn-order"
+              onClick={() => {
+                newDebtPay();
+                history.goBack();
+              }}
+            >
+              Confirm
+            </button>
+            <button className="btn-discard">Discard</button>
+          </div>
+        </div>
+      </div>
       <Navbar />
       <div className="income-container">
         <div className="debtor-info-container">
+          <button className="btn-back" onClick={() => history.goBack()}>
+            <AiOutlineLeft /> Go back
+          </button>
           <div className="pay-status-container">
             <p className="status">Status</p>
             <div className="unpaid">
@@ -95,6 +140,14 @@ export const Debtor = () => {
               <h2>{amount}</h2>
             </div>
           </div>
+          <button
+            className="btn-pay"
+            onClick={() => {
+              setIsConfirm(!isConfirm);
+            }}
+          >
+            Mark as paid
+          </button>
         </div>
       </div>
     </div>

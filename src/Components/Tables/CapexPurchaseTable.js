@@ -5,6 +5,9 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [itemStatus, setItemStatus] = useState("");
+  const [isDate, setIsDate] = useState(false);
+  const [isStatus, setIsStatus] = useState(false);
+
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
@@ -69,57 +72,67 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
 
   return (
     <>
+      <div className="filter-container">
+        Filter By:
+        <button
+          onClick={() => {
+            setIsDate(!isDate);
+            setIsStatus(false);
+            setItemStatus("");
+          }}
+        >
+          Date
+        </button>
+        <button
+          onClick={() => {
+            setIsDate(false);
+            setIsStatus(!isStatus);
+            setFromDate("");
+            setToDate("");
+          }}
+        >
+          Status
+        </button>
+      </div>
       <div className="sort-report">
-        <div className="sort-date">
-          <label htmlFor="fromDate">From:</label>
-          <input
-            type="date"
-            name="fromDate"
-            id="fromDate"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label htmlFor="toDate">To:</label>
-          <input
-            type="datetime-local"
-            name="toDate"
-            id="toDate"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </div>
-        <div className="status-filter">
-          <label htmlFor="filter">Status</label>
-          <select
-            name="itemStatus"
-            id="itemStatus"
-            value={itemStatus}
-            onChange={(e) => setItemStatus(e.target.value)}
-          >
-            <option></option>
-            <option>Depreciated</option>
-            <option>Disposed</option>
-            <option>Active</option>
-          </select>
-        </div>
-        {/* <div className="drug-filter">
-          <label htmlFor="drugfilter">Drug:</label>
-          <select
-            name="drugfilter"
-            id="drugfilter"
-            value={drugFilter}
-            onChange={(e) => setDrugFilter(e.target.value)}
-          >
-            <option></option>
-            <option>Antibiotics</option>
-            <option>Anticoccidiosis</option>
-            <option>Antiviral</option>
-            <option>Coryza</option>
-            <option>Deworm</option>
-            <option>Multivitamin</option>
-            <option>Vaccine</option>
-          </select>
-        </div> */}
+        {isDate && (
+          <div className="sort-date">
+            <label htmlFor="fromDate">From: </label>
+            <input
+              type="date"
+              name="fromDate"
+              id="fromDate"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <label className="to" htmlFor="toDate">
+              To:
+            </label>
+            <input
+              type="datetime-local"
+              name="toDate"
+              id="toDate"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </div>
+        )}
+        {isStatus && (
+          <div className="status-filter">
+            <label htmlFor="filter">Status: </label>
+            <select
+              name="itemStatus"
+              id="itemStatus"
+              value={itemStatus}
+              onChange={(e) => setItemStatus(e.target.value)}
+            >
+              <option></option>
+              <option>Depreciated</option>
+              <option>Disposed</option>
+              <option>Active</option>
+            </select>
+          </div>
+        )}
       </div>
       {sortCapexPurchase && sortCapexPurchase.length === 0 ? (
         <div className="empty-main-report">

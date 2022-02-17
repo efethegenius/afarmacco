@@ -147,7 +147,9 @@ export const DrugPage = () => {
   let activeCreditors;
   if (returnedActiveCreditors.name) {
     activeCreditors = returnedActiveCreditors.name.filter(
-      (activeCreditor) => activeCreditor.PurchaseType === "Drug Purchase"
+      (activeCreditor) =>
+        activeCreditor.PurchaseType === "Drug Purchase" &&
+        activeCreditor.Status === "UNPAID"
     );
   }
 
@@ -365,12 +367,12 @@ export const DrugPage = () => {
                       <div className="debtor-list-container">
                         {activeCreditors && activeCreditors.length !== 0 ? (
                           activeCreditors.map((activeCreditor) => {
-                            const { SupplierId, SupplierName, Amount } =
+                            const { CreditorId, SupplierName, Amount } =
                               activeCreditor;
                             return (
                               <Link
-                                to={`/creditor/${SupplierId}`}
-                                key={SupplierId}
+                                to={`/creditor/${CreditorId}`}
+                                key={CreditorId}
                                 className="debtor-list"
                               >
                                 <p className="d-name">{SupplierName}</p>

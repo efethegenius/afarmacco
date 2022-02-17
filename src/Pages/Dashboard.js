@@ -714,79 +714,83 @@ export const Dashboard = () => {
                   ) : (
                     <>
                       <h3 className="gray">Birds Inventory</h3>
-                      <table>
-                        <tr>
-                          <th>Bird</th>
-                          <th>Purchased</th>
-                          <th>Sold</th>
-                          <th>Died</th>
-                          <th>Balance</th>
-                        </tr>
-                        <tr>
-                          <td>Broiler</td>
-                          <td className="green">{broilerPurchaseQty}</td>
-                          <td className="red">{broilerSaleQty}</td>
-                          <td className="red">{broilerMortalityQty}</td>
-                          <td>
-                            {broilerPurchaseQty -
-                              (broilerMortalityQty + broilerSaleQty)}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Noiler</td>
-                          <td className="green">{noilerPurchaseQty}</td>
-                          <td className="red">{noilerSaleQty}</td>
-                          <td className="red">{noilerMortalityQty}</td>
-                          <td>
-                            {noilerPurchaseQty -
-                              (noilerMortalityQty + noilerSaleQty)}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Cockerel</td>
-                          <td className="green">{cockerelPurchaseQty}</td>
-                          <td className="red">{cockerelSaleQty}</td>
-                          <td className="red">{cockerelMortalityQty}</td>
-                          <td>
-                            {cockerelPurchaseQty -
-                              (cockerelMortalityQty + cockerelSaleQty)}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Turkey</td>
-                          <td className="green">{turkeyPurchaseQty}</td>
-                          <td className="red">{turkeySaleQty}</td>
-                          <td className="red">{turkeyMortalityQty}</td>
-                          <td>
-                            {turkeyPurchaseQty -
-                              (turkeyMortalityQty + turkeySaleQty)}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Layer</td>
-                          <td className="green">{layerPurchaseQty}</td>
-                          <td className="red">{layerSaleQty}</td>
-                          <td className="red">{layerMortalityQty}</td>
-                          <td>
-                            {layerPurchaseQty -
-                              (layerMortalityQty + layerSaleQty)}
-                          </td>
-                        </tr>
-                        <tfoot className="total-container">
+                      {returnedBirdSales.name ? (
+                        <table>
                           <tr>
-                            <th id="total" className="total" colspan="1">
-                              Total :
-                            </th>
-                            <td className="total">{totalBirdPurchaseQty}</td>
-                            <td className="total">{totalBirdSaleQty}</td>
-                            <td className="total">{totalBirdDiedQty}</td>
-                            <td className="total">
-                              {totalBirdPurchaseQty -
-                                (totalBirdSaleQty + totalBirdDiedQty)}
+                            <th>Bird</th>
+                            <th>Purchased</th>
+                            <th>Sold</th>
+                            <th>Died</th>
+                            <th>Balance</th>
+                          </tr>
+                          <tr>
+                            <td>Broiler</td>
+                            <td className="green">{broilerPurchaseQty}</td>
+                            <td className="red">{broilerSaleQty}</td>
+                            <td className="red">{broilerMortalityQty}</td>
+                            <td>
+                              {broilerPurchaseQty -
+                                (broilerMortalityQty + broilerSaleQty)}
                             </td>
                           </tr>
-                        </tfoot>
-                      </table>
+                          <tr>
+                            <td>Noiler</td>
+                            <td className="green">{noilerPurchaseQty}</td>
+                            <td className="red">{noilerSaleQty}</td>
+                            <td className="red">{noilerMortalityQty}</td>
+                            <td>
+                              {noilerPurchaseQty -
+                                (noilerMortalityQty + noilerSaleQty)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Cockerel</td>
+                            <td className="green">{cockerelPurchaseQty}</td>
+                            <td className="red">{cockerelSaleQty}</td>
+                            <td className="red">{cockerelMortalityQty}</td>
+                            <td>
+                              {cockerelPurchaseQty -
+                                (cockerelMortalityQty + cockerelSaleQty)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Turkey</td>
+                            <td className="green">{turkeyPurchaseQty}</td>
+                            <td className="red">{turkeySaleQty}</td>
+                            <td className="red">{turkeyMortalityQty}</td>
+                            <td>
+                              {turkeyPurchaseQty -
+                                (turkeyMortalityQty + turkeySaleQty)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Layer</td>
+                            <td className="green">{layerPurchaseQty}</td>
+                            <td className="red">{layerSaleQty}</td>
+                            <td className="red">{layerMortalityQty}</td>
+                            <td>
+                              {layerPurchaseQty -
+                                (layerMortalityQty + layerSaleQty)}
+                            </td>
+                          </tr>
+                          <tfoot className="total-container">
+                            <tr>
+                              <th id="total" className="total" colspan="1">
+                                Total :
+                              </th>
+                              <td className="total">{totalBirdPurchaseQty}</td>
+                              <td className="total">{totalBirdSaleQty}</td>
+                              <td className="total">{totalBirdDiedQty}</td>
+                              <td className="total">
+                                {totalBirdPurchaseQty -
+                                  (totalBirdSaleQty + totalBirdDiedQty)}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      ) : (
+                        <p>loading, please wait...</p>
+                      )}
                     </>
                   )}
                 </div>
@@ -802,75 +806,81 @@ export const Dashboard = () => {
                   ) : (
                     <>
                       <h3 className="gray">Drugs Inventory</h3>
-                      <table>
-                        <tr>
-                          <th>Drug</th>
-                          <th>Purchased</th>
-                          <th>Cosumed</th>
-                          <th>Balance</th>
-                        </tr>
-                        <tr>
-                          <td>Antibiotics</td>
-                          <td className="green">{antibioticsPurchaseQty}</td>
-                          <td className="red">{antibioticsUsedQty}</td>
-                          <td>{antibioticsPurchaseQty - antibioticsUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Anticoccidiosis</td>
-                          <td className="green">
-                            {anticoccidiosisPurchaseQty}
-                          </td>
-                          <td className="red">{anticoccidiosisUsedQty}</td>
-                          <td>
-                            {anticoccidiosisPurchaseQty -
-                              anticoccidiosisUsedQty}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Antiviral</td>
-                          <td className="green">{antiviralPurchaseQty}</td>
-                          <td className="red">{antiviralUsedQty}</td>
-                          <td>{antiviralPurchaseQty - antiviralUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Coryza</td>
-                          <td className="green">{coryzaPurchaseQty}</td>
-                          <td className="red">{coryzaUsedQty}</td>
-                          <td>{coryzaPurchaseQty - coryzaUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Deworm</td>
-                          <td className="green">{dewormPurchaseQty}</td>
-                          <td className="red">{dewormUsedQty}</td>
-                          <td>{dewormPurchaseQty - dewormUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Multivitamin</td>
-                          <td className="green">{multivitaminPurchaseQty}</td>
-                          <td className="red">{multivitaminUsedQty}</td>
-                          <td>
-                            {multivitaminPurchaseQty - multivitaminUsedQty}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Vaccine</td>
-                          <td className="green">{vaccinePurchaseQty}</td>
-                          <td className="red">{vaccineUsedQty}</td>
-                          <td>{vaccinePurchaseQty - vaccineUsedQty}</td>
-                        </tr>
-                        <tfoot className="total-container">
+                      {returnedDrugPurchase.name ? (
+                        <table>
                           <tr>
-                            <th id="total" className="total" colspan="1">
-                              Total :
-                            </th>
-                            <td className="total">{totalDrugPurchaseQty}</td>
-                            <td className="total">{totalDrugSatchetUsed}</td>
-                            <td className="total">
-                              {totalDrugPurchaseQty - totalDrugSatchetUsed}
+                            <th>Drug</th>
+                            <th>Purchased</th>
+                            <th>Cosumed</th>
+                            <th>Balance</th>
+                          </tr>
+                          <tr>
+                            <td>Antibiotics</td>
+                            <td className="green">{antibioticsPurchaseQty}</td>
+                            <td className="red">{antibioticsUsedQty}</td>
+                            <td>
+                              {antibioticsPurchaseQty - antibioticsUsedQty}
                             </td>
                           </tr>
-                        </tfoot>
-                      </table>
+                          <tr>
+                            <td>Anticoccidiosis</td>
+                            <td className="green">
+                              {anticoccidiosisPurchaseQty}
+                            </td>
+                            <td className="red">{anticoccidiosisUsedQty}</td>
+                            <td>
+                              {anticoccidiosisPurchaseQty -
+                                anticoccidiosisUsedQty}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Antiviral</td>
+                            <td className="green">{antiviralPurchaseQty}</td>
+                            <td className="red">{antiviralUsedQty}</td>
+                            <td>{antiviralPurchaseQty - antiviralUsedQty}</td>
+                          </tr>
+                          <tr>
+                            <td>Coryza</td>
+                            <td className="green">{coryzaPurchaseQty}</td>
+                            <td className="red">{coryzaUsedQty}</td>
+                            <td>{coryzaPurchaseQty - coryzaUsedQty}</td>
+                          </tr>
+                          <tr>
+                            <td>Deworm</td>
+                            <td className="green">{dewormPurchaseQty}</td>
+                            <td className="red">{dewormUsedQty}</td>
+                            <td>{dewormPurchaseQty - dewormUsedQty}</td>
+                          </tr>
+                          <tr>
+                            <td>Multivitamin</td>
+                            <td className="green">{multivitaminPurchaseQty}</td>
+                            <td className="red">{multivitaminUsedQty}</td>
+                            <td>
+                              {multivitaminPurchaseQty - multivitaminUsedQty}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Vaccine</td>
+                            <td className="green">{vaccinePurchaseQty}</td>
+                            <td className="red">{vaccineUsedQty}</td>
+                            <td>{vaccinePurchaseQty - vaccineUsedQty}</td>
+                          </tr>
+                          <tfoot className="total-container">
+                            <tr>
+                              <th id="total" className="total" colspan="1">
+                                Total :
+                              </th>
+                              <td className="total">{totalDrugPurchaseQty}</td>
+                              <td className="total">{totalDrugSatchetUsed}</td>
+                              <td className="total">
+                                {totalDrugPurchaseQty - totalDrugSatchetUsed}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      ) : (
+                        <p>loading, please wait...</p>
+                      )}
                     </>
                   )}
                 </div>
@@ -887,44 +897,48 @@ export const Dashboard = () => {
                   ) : (
                     <>
                       <h3 className="gray">Feed Inventory</h3>
-                      <table>
-                        <tr>
-                          <th>Feed</th>
-                          <th>Purchased</th>
-                          <th>Consumed</th>
-                          <th>Balance</th>
-                        </tr>
-                        <tr>
-                          <td>Starter</td>
-                          <td className="green">{starterPurchaseQty}</td>
-                          <td className="red">{starterUsedQty}</td>
-                          <td>{starterPurchaseQty - starterUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Grower</td>
-                          <td className="green">{growerPurchaseQty}</td>
-                          <td className="red">{growerUsedQty}</td>
-                          <td>{growerPurchaseQty - growerUsedQty}</td>
-                        </tr>
-                        <tr>
-                          <td>Finisher</td>
-                          <td className="green">{finisherPurchaseQty}</td>
-                          <td className="red">{finisherUsedQty}</td>
-                          <td>{finisherPurchaseQty - finisherUsedQty}</td>
-                        </tr>
-                        <tfoot className="total-container">
+                      {returnedFeedPurchase.name ? (
+                        <table>
                           <tr>
-                            <th id="total" className="total" colspan="1">
-                              Total :
-                            </th>
-                            <td className="total">{totalFeedPurchaseQty}</td>
-                            <td className="total">{totalFeedBagUsed}</td>
-                            <td className="total">
-                              {totalFeedPurchaseQty - totalFeedBagUsed}
-                            </td>
+                            <th>Feed</th>
+                            <th>Purchased</th>
+                            <th>Consumed</th>
+                            <th>Balance</th>
                           </tr>
-                        </tfoot>
-                      </table>
+                          <tr>
+                            <td>Starter</td>
+                            <td className="green">{starterPurchaseQty}</td>
+                            <td className="red">{starterUsedQty}</td>
+                            <td>{starterPurchaseQty - starterUsedQty}</td>
+                          </tr>
+                          <tr>
+                            <td>Grower</td>
+                            <td className="green">{growerPurchaseQty}</td>
+                            <td className="red">{growerUsedQty}</td>
+                            <td>{growerPurchaseQty - growerUsedQty}</td>
+                          </tr>
+                          <tr>
+                            <td>Finisher</td>
+                            <td className="green">{finisherPurchaseQty}</td>
+                            <td className="red">{finisherUsedQty}</td>
+                            <td>{finisherPurchaseQty - finisherUsedQty}</td>
+                          </tr>
+                          <tfoot className="total-container">
+                            <tr>
+                              <th id="total" className="total" colspan="1">
+                                Total :
+                              </th>
+                              <td className="total">{totalFeedPurchaseQty}</td>
+                              <td className="total">{totalFeedBagUsed}</td>
+                              <td className="total">
+                                {totalFeedPurchaseQty - totalFeedBagUsed}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      ) : (
+                        <p>loading, please wait...</p>
+                      )}
                     </>
                   )}
                 </div>
