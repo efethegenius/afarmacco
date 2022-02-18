@@ -13,7 +13,7 @@ export const OpexPage = () => {
   const [showOptions, setShowOptions] = useState(false);
   return (
     <div className="drug">
-      <Navbar />
+      <Navbar isNav={isNav} setIsNav={setIsNav} />
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
@@ -21,6 +21,7 @@ export const OpexPage = () => {
             <div className="drug-heading">
               <h1>Operating Expenses</h1>
             </div>
+            <p> </p>
           </div>
           <div className="all-opex">
             <div className="top-grid">

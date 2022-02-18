@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Navbar } from "../Components/Navbar";
 import { AiOutlineLeft } from "react-icons/ai";
 import "../Styles/Debtor.css";
+import { Loading } from "../Components/Loading";
 
 export const Creditor = () => {
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
@@ -29,31 +30,37 @@ export const Creditor = () => {
   console.log(b);
 
   const newCreditPay = async () => {
-    const newData = await fetch("/create/creditor-pay", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...creditorId,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/creditor-pay",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...creditorId,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -163,7 +170,7 @@ export const Creditor = () => {
             </button>
           </div>
         ) : (
-          <p>loading, please wait...</p>
+          <Loading />
         )}
       </div>
     </div>

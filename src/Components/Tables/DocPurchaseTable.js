@@ -13,14 +13,17 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);

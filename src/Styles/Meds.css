@@ -31,6 +31,7 @@
     33.7px 9.2px 33.2px rgba(0, 0, 0, 0.077),
     63.1px 17.1px 53.4px rgba(0, 0, 0, 0.093),
     151px 41px 113px rgba(0, 0, 0, 0.13);
+  text-align: center;
 }
 
 .med-container:hover {

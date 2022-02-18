@@ -13,14 +13,17 @@ export const DrugConsumedTable = React.forwardRef((props, ref) => {
   // getting drug consumed start-----------------------------------------------------
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDrugConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-drug-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDrugConsumed(allDrugConsumed);
     } catch (error) {
       console.log(error);

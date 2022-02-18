@@ -13,6 +13,7 @@ import { FeedConsumedTable } from "../Components/Tables/FeedConsumedTable";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
+import { Loading } from "../Components/Loading";
 
 export const FeedPage = () => {
   const [returnedFeedPurchase, setReturnedFeedPurchase] = useState([]);
@@ -36,14 +37,17 @@ export const FeedPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -53,14 +57,17 @@ export const FeedPage = () => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedPurchase(allFeedPurchase);
     } catch (error) {
       console.log(error);
@@ -71,14 +78,17 @@ export const FeedPage = () => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -405,7 +415,7 @@ export const FeedPage = () => {
                   </div>
                 </div>
               ) : (
-                "loading, please wait"
+                <Loading />
               ))}
 
             {isFullReport && (

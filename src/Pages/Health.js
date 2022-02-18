@@ -22,7 +22,7 @@ export const Health = () => {
 
   return (
     <div className="drug">
-      <Navbar />
+      <Navbar isNav={isNav} setIsNav={setIsNav} />
       {isBroilerMed && <BroilerMeds />}
       {isNoilerMed && <NoilerMeds />}
       {isCockerelMed && <CockerelMeds />}
@@ -47,22 +47,7 @@ export const Health = () => {
             <div className="drug-heading">
               <h1>Medication & Vaccination</h1>
             </div>
-            {/* <div
-              className="new-btn"
-              onClick={() => setShowOptions(!showOptions)}
-            >
-              <div className="plus-circle">
-                <HiOutlinePlus />
-              </div>
-              <p>New</p>
-              <div
-                className={`${
-                  showOptions ? "new-options show-new-options" : "new-options"
-                }`}
-              >
-                <button>Capex</button>
-              </div>
-            </div> */}
+            <p> </p>
           </div>
           <div className="all-meds">
             <div

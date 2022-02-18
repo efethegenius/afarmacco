@@ -11,14 +11,17 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocMortality = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);

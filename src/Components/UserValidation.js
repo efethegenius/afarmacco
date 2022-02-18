@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "animate.css";
+import { TailSpin } from "react-loader-spinner";
 
 export const UserValidation = () => {
   const [returnedData, setReturnedData] = useState();
   const [fieldErr, setFieldErr] = useState(false);
   const [passErr, setPassErr] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
   const [userValidation, setUserValidation] = useState({
     FirstName: "",
     LastName: "",
@@ -44,6 +47,7 @@ export const UserValidation = () => {
       !userValidation.UserPassword
     ) {
       setFieldErr(true);
+      setIsRegistering(false);
       setTimeout(function () {
         setFieldErr(false);
       }, 4000);
@@ -52,22 +56,25 @@ export const UserValidation = () => {
 
     if (userValidation.UserPassword !== confirmPassword) {
       setPassErr(true);
+      setIsRegistering(false);
       setTimeout(function () {
         setPassErr(false);
       }, 4000);
       return;
     }
-    const newData = await fetch("/create/validation", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        ...userValidation,
-      }),
-    }).then((res) => res.json());
-    console.log(newData);
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/validation",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...userValidation,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
     history.push("/login");
   };
@@ -76,15 +83,6 @@ export const UserValidation = () => {
     e.preventDefault();
     newUser();
   };
-
-  // const handleRegister = () => {
-  //   //changing the value of the action when the button is clicked
-  //   setUserValidation((prevState) => ({
-  //     ...prevState,
-  //     Action: 1,
-  //   }));
-  //   setRegister(true);
-  // };
 
   return (
     <div className="user-validation">
@@ -120,8 +118,23 @@ export const UserValidation = () => {
         </div>
         <div className="input input-2">
           <label htmlFor="Email">Email</label>
-          <input type="email" name="Email" id="Email" onChange={handleChange} />
+          <input
+            type="email"
+            name="Email"
+            id="Email"
+            onChange={handleChange}
+            onBlur={() => {
+              !userValidation.Email.includes("@")
+                ? setEmailErr(true)
+                : setEmailErr(false);
+            }}
+          />
         </div>
+        {emailErr && (
+          <p className="form-err animate__animated animate__shakeX">
+            Invalid email, must include @ sign.
+          </p>
+        )}
         <div className="input input-2">
           <label htmlFor="SignOnName">Username</label>
           <input
@@ -159,10 +172,17 @@ export const UserValidation = () => {
         )}
         <button
           type="submit"
-          onClick={(e) => handleSubmit(e)}
+          onClick={(e) => {
+            setIsRegistering(true);
+            handleSubmit(e);
+          }}
           className="btn-create"
         >
-          Create Account
+          {!isRegistering ? (
+            "Create Account"
+          ) : (
+            <TailSpin color="#FFF" height={30} width={30} />
+          )}
         </button>
 
         <p className="redirect-login">

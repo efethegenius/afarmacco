@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../helpers/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
 
 export const UserLogin = () => {
   const [returnedData, setReturnedData] = useState([]);
   const { setAuthState } = useContext(AuthContext);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [fieldErr, setFieldErr] = useState(false);
   const [userLogin, setUserLogin] = useState({
     Email: "",
@@ -25,16 +27,19 @@ export const UserLogin = () => {
 
   const newLogin = async () => {
     try {
-      const newData = await fetch("/get_login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          ...userLogin,
-        }),
-      }).then((res) => res.json());
+      const newData = await fetch(
+        "https://afarmacco-api.herokuapp.com/get_login",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            ...userLogin,
+          }),
+        }
+      ).then((res) => res.json());
 
       //storing our accessToken to the local storage if there is no error
       if (newData.error) {
@@ -42,6 +47,7 @@ export const UserLogin = () => {
         setTimeout(function () {
           setFieldErr(false);
         }, 4000);
+        setIsLoggingIn(false);
       } else {
         localStorage.setItem("accessToken", newData);
         setAuthState(true);
@@ -96,9 +102,16 @@ export const UserLogin = () => {
         <button
           className="btn-create"
           type="submit"
-          onClick={(e) => handleSubmit(e)}
+          onClick={(e) => {
+            setIsLoggingIn(true);
+            handleSubmit(e);
+          }}
         >
-          Sign in
+          {isLoggingIn ? (
+            <TailSpin color="#FFF" height={25} width={25} />
+          ) : (
+            "Sign in"
+          )}
         </button>
         <p className="redirect-login">
           Not a member yet? <Link to="/register">sign-up here</Link>

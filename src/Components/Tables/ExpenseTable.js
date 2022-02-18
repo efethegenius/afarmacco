@@ -13,14 +13,17 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch("/api/all-expenses", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allExpenses = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-expenses",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedExpenses(allExpenses);
     } catch (error) {
       console.log(error);

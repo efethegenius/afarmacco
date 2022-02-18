@@ -19,6 +19,7 @@ import { LoginPage } from "./Pages/LoginPage";
 import { Creditor } from "./Pages/Creditor";
 import { Health } from "./Pages/Health";
 import { OpexPage } from "./Pages/OpexPage";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);

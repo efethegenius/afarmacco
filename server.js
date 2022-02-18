@@ -20,7 +20,7 @@ app.use("/create", create);
 //   res.send(result.recordset);
 // });
 //---------------------------------------------------------------
-app.post("/get_login", async (req, res) => {
+app.post("https://afarmacco-api.herokuapp.com/get_login", async (req, res) => {
   const result = await dbOperation.getLogin(req.body);
   res.json(result);
 });

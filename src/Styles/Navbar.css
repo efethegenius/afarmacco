@@ -189,11 +189,17 @@
       35.1px 20.8px 17.9px -7px rgba(0, 0, 0, 0.014),
       50.8px 30.1px 33.4px -7px rgba(0, 0, 0, 0.019),
       98px 58px 80px -7px rgba(0, 0, 0, 0.03);
+    width: 40%;
   }
   .show-nav {
     left: 0;
   }
   .nav-close {
     display: unset;
+  }
+}
+@media screen and (max-width: 500px) {
+  .navbar {
+    width: 50%;
   }
 }
