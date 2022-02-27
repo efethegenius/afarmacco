@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
 
 export const ExpenseTable = React.forwardRef((props, ref) => {
   const [returnedExpenses, setReturnedExpenses] = useState([]);
@@ -13,17 +14,14 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-expenses",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allExpenses = await fetch("/api/all-expenses", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedExpenses(allExpenses);
     } catch (error) {
       console.log(error);
@@ -149,7 +147,7 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortExpense ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody className="table-head">
               <tr>
                 <th>Date</th>
@@ -194,7 +192,7 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

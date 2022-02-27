@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 
-export const LayerMeds = () => {
+export const LayerMeds = ({ setIsLayerMed }) => {
   const [isPeriod, setIsPeriod] = useState("Day");
   return (
-    <div className="meds">
+    <div className="meds animate__animated animate__zoomIn">
+      <p className="btn-close med-close" onClick={() => setIsLayerMed(false)}>
+        X
+      </p>
       <p className="meds-title">Layer Medications</p>
-      <button onClick={() => setIsPeriod("Day")}>Day</button>
-      <button onClick={() => setIsPeriod("Week")}>Week</button>
+      <button onClick={() => setIsPeriod("Day")} className="period">
+        Daily
+      </button>
+      <button onClick={() => setIsPeriod("Week")} className="period">
+        Weekly
+      </button>
       {isPeriod === "Day" && (
         <table className="meds-table">
           <tr>

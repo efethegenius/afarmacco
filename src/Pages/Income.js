@@ -5,14 +5,14 @@ import { BirdSales } from "../Components/BirdSales";
 import { OtherSales } from "../Components/OtherSales";
 import { Navbar } from "../Components/Navbar";
 import { HiOutlinePlus } from "react-icons/hi";
-import { IoIosArrowDown } from "react-icons/io";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { BirdSalesTable } from "../Components/Tables/BirdSalesTable";
 import { OtherSalesTable } from "../Components/Tables/OtherSalesTable";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Loading } from "../Components/Loading";
 
 export const Income = () => {
@@ -36,17 +36,14 @@ export const Income = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-debtors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeDebtors = await fetch("/api/active-debtors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
@@ -57,17 +54,14 @@ export const Income = () => {
   // getting bird sales start-----------------------------------------------------
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allBirdSales = await fetch("/api/all-bird-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -78,17 +72,14 @@ export const Income = () => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-other-sales",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allOtherSales = await fetch("/api/all-other-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedOtherSales(allOtherSales);
     } catch (error) {
       console.log(error);
@@ -101,7 +92,6 @@ export const Income = () => {
     getAllOtherSales();
     getActiveDebtors();
   }, []);
-
   // Top 7 List----------------------------------------------------------------------------------
   let miniBirdList;
   if (returnedBirdSales.name) {
@@ -354,7 +344,7 @@ export const Income = () => {
                               setIsSaleToggle(true);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                         <div className="other-mini-list">
@@ -384,7 +374,7 @@ export const Income = () => {
                               setIsSaleToggle(false);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                       </div>
@@ -439,7 +429,7 @@ export const Income = () => {
                                 {/* <div key={CustomerId}> */}
                                 <p className="d-name">{CustomerName}</p>
                                 <p className="debt-amount">
-                                  ₦ {formatMoney(Amount)}.00
+                                  {formatMoney(Amount)}.00
                                 </p>
                                 {/* </div> */}
                               </Link>
@@ -455,10 +445,9 @@ export const Income = () => {
                       <div className="debtor-list">
                         <p className="title">TOTAL DEBT:</p>
                         <p className="debt-amount">
-                          ₦ {formatMoney(totalDebt)}.00
+                          {formatMoney(totalDebt)}.00
                         </p>
                       </div>
-                      {/* <button className="view-all">View All</button> */}
                     </div>
                   </div>
                 </div>
@@ -470,13 +459,31 @@ export const Income = () => {
               <div className="full-report">
                 <div className="income-table-head">
                   <h3>{isSaleToggle ? "Bird sales" : "Other sales"}</h3>
+                  <AiOutlineClose
+                    className="btn-close"
+                    onClick={() => setIsFullReport(false)}
+                  />
                 </div>
                 {isSaleToggle && <BirdSalesTable ref={componentRef} />}
                 {!isSaleToggle && <OtherSalesTable ref={componentRef} />}
 
-                <button onClick={handlePrint} className="btn-generate">
-                  Generate Report <BsFileEarmarkText className="report" />
-                </button>
+                <div className="btn-generate-container">
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button btn-generate"
+                    table="table-to-xls"
+                    filename={
+                      !isSaleToggle
+                        ? "Afarmacco-Other Sale"
+                        : "Afarmacco-Bird Sale"
+                    }
+                    sheet={!isSaleToggle ? "Other Sale" : "Bird Sale"}
+                    buttonText="Download as Excel"
+                  />
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               </div>
             )}
           </div>

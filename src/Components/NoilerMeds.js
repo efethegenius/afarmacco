@@ -1,8 +1,11 @@
 import React from "react";
 import { BsCheckLg } from "react-icons/bs";
-export const NoilerMeds = () => {
+export const NoilerMeds = ({ setIsNoilerMed }) => {
   return (
-    <div className="meds">
+    <div className="meds animate__animated animate__zoomIn">
+      <p className="btn-close med-close" onClick={() => setIsNoilerMed(false)}>
+        X
+      </p>
       <p className="meds-title">Noiler Medications</p>
       <table className="meds-table">
         <tr>

@@ -21,37 +21,31 @@ export const Debtor = () => {
   console.log(debtorId);
 
   const newDebtPay = async () => {
-    const newData = await fetch(
-      "https://afarmacco-api.herokuapp.com/create/debtor-pay",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify({
-          ...debtorId,
-        }),
-      }
-    ).then((res) => res.json());
+    const newData = await fetch("/create/debtor-pay", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        accessToken: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        ...debtorId,
+      }),
+    }).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-debtors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeDebtors = await fetch("/api/active-debtors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);

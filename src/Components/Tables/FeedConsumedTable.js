@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
 
 export const FeedConsumedTable = React.forwardRef((props, ref) => {
   const [returnedFeedConsumed, setReturnedFeedConsumed] = useState([]);
@@ -13,17 +14,14 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -183,7 +181,7 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortFeedConsumed ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Date</th>
@@ -248,7 +246,7 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

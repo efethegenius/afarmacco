@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export const CapexDisposalTable = React.forwardRef((props, ref) => {
   const [returnedCapexDisposal, setReturnedCapexDisposal] = useState([]);
@@ -9,17 +11,14 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/capexs",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const capexs = await fetch("/api/capexs", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedCapexDisposal(capexs);
     } catch (error) {
       console.log(error);
@@ -118,7 +117,15 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortCapexDisposal ? (
         <div className="table-container" ref={ref}>
-          <table>
+          {/* <ReactHTMLTableToExcel
+            id="test-table-xls-button"
+            className="download-table-xls-button btn-generate"
+            table="table-to-xls"
+            filename="Afarmacco-Capex Disposal"
+            sheet="CapexDisposal"
+            buttonText="Download as Excel"
+          /> */}
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Asset Code</th>
@@ -186,7 +193,7 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

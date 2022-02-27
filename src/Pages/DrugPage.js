@@ -9,9 +9,10 @@ import { IoIosArrowDown } from "react-icons/io";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { DrugPurchaseTable } from "../Components/Tables/DrugPurchaseTable";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 import { DrugConsumedTable } from "../Components/Tables/DrugConsumedTable";
 import { Loading } from "../Components/Loading";
@@ -38,17 +39,14 @@ export const DrugPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-creditors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeCreditors = await fetch("/api/active-creditors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -59,17 +57,14 @@ export const DrugPage = () => {
   // getting drug purchase start-----------------------------------------------------
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-drug-purchase",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDrugPurchase(allDrugPurchase);
     } catch (error) {
       console.log(error);
@@ -80,17 +75,14 @@ export const DrugPage = () => {
   // getting drug consumed start-----------------------------------------------------
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-drug-consumed",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDrugConsumed(allDrugConsumed);
     } catch (error) {
       console.log(error);
@@ -296,7 +288,7 @@ export const DrugPage = () => {
                             <p className="title mini-title">
                               {miniPurchaseList && miniPurchaseList.length === 0
                                 ? "You do ot have a Drug purchase report yet"
-                                : "Your most recent Drug Purchase transactions:"}
+                                : "Your most recent Drug Purchases:"}
                             </p>
                             <table>
                               <tbody>
@@ -319,7 +311,7 @@ export const DrugPage = () => {
                               setIsDrugToggle(true);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                         <div className="other-mini-list">
@@ -351,7 +343,7 @@ export const DrugPage = () => {
                               setIsDrugToggle(false);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                       </div>
@@ -387,7 +379,7 @@ export const DrugPage = () => {
                               >
                                 <p className="d-name">{SupplierName}</p>
                                 <p className="debt-amount">
-                                  ₦ {formatMoney(Amount)}.00
+                                  {formatMoney(Amount)}.00
                                 </p>
                               </Link>
                             );
@@ -402,7 +394,7 @@ export const DrugPage = () => {
                       <div className="debtor-list">
                         <p className="title">TOTAL CREDIT:</p>
                         <p className="debt-amount">
-                          ₦ {formatMoney(totalCredit)}.00
+                          {formatMoney(totalCredit)}.00
                         </p>
                       </div>
                       {/* <button className="view-all">View All</button> */}
@@ -417,13 +409,31 @@ export const DrugPage = () => {
               <div className="full-report">
                 <div className="drug-table-head">
                   <h3>{isDrugToggle ? "Drug purchase" : "Drug consumption"}</h3>
+                  <AiOutlineClose
+                    className="btn-close"
+                    onClick={() => setIsFullReport(false)}
+                  />
                 </div>
                 {isDrugToggle && <DrugPurchaseTable ref={componentRef} />}
                 {!isDrugToggle && <DrugConsumedTable ref={componentRef} />}
 
-                <button onClick={handlePrint} className="btn-generate">
-                  Generate Report <BsFileEarmarkText className="report" />
-                </button>
+                <div className="btn-generate-container">
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button btn-generate"
+                    table="table-to-xls"
+                    filename={
+                      !isDrugToggle
+                        ? "Afarmacco-Drug Consumed"
+                        : "Afarmacco-Drug Purchase"
+                    }
+                    sheet={!isDrugToggle ? "DrugConsumed" : "DrugPurchase"}
+                    buttonText="Download as Excel"
+                  />
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               </div>
             )}
           </div>

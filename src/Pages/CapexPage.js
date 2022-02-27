@@ -9,10 +9,11 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
 import { CapexPurchaseTable } from "../Components/Tables/CapexPurchaseTable";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { CapexDisposalTable } from "../Components/Tables/CapexDisposalTable";
 import { Link } from "react-router-dom";
 import { Loading } from "../Components/Loading";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export const CapexPage = () => {
   const [returnedCapexs, setReturnedCapexs] = useState([]);
@@ -34,17 +35,14 @@ export const CapexPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-creditors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeCreditors = await fetch("/api/active-creditors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -54,17 +52,14 @@ export const CapexPage = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-debtors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeDebtors = await fetch("/api/active-debtors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
@@ -75,17 +70,14 @@ export const CapexPage = () => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/capexs",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const capexs = await fetch("/api/capexs", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedCapexs(capexs);
     } catch (error) {
       console.log(error);
@@ -279,7 +271,7 @@ export const CapexPage = () => {
                               setIsCapexToggle(true);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                         <div className="other-mini-list capex-mini">
@@ -311,7 +303,7 @@ export const CapexPage = () => {
                               setIsCapexToggle(false);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                       </div>
@@ -330,7 +322,7 @@ export const CapexPage = () => {
                                 >
                                   <p className="d-name">{SupplierName}</p>
                                   <p className="debt-amount capex-debt">
-                                    ₦ {formatMoney(Amount)}.00
+                                    {formatMoney(Amount)}.00
                                   </p>
                                 </Link>
                               );
@@ -357,7 +349,7 @@ export const CapexPage = () => {
                                   {/* <div key={CustomerId}> */}
                                   <p className="d-name">{CustomerName}</p>
                                   <p className="debt-amount capex-debt">
-                                    ₦ {formatMoney(Amount)}.00
+                                    {formatMoney(Amount)}.00
                                   </p>
                                   {/* </div> */}
                                 </Link>
@@ -382,13 +374,30 @@ export const CapexPage = () => {
               <div className="full-report">
                 <div className="drug-table-head">
                   <h3>{isCapexToggle ? "Capex purchase" : "Capex disposal"}</h3>
+                  <AiOutlineClose
+                    className="btn-close"
+                    onClick={() => setIsFullReport(false)}
+                  />
                 </div>
                 {isCapexToggle && <CapexPurchaseTable ref={componentRef} />}
                 {!isCapexToggle && <CapexDisposalTable ref={componentRef} />}
-
-                <button onClick={handlePrint} className="btn-generate">
-                  Generate Report <BsFileEarmarkText className="report" />
-                </button>
+                <div className="btn-generate-container">
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button btn-generate"
+                    table="table-to-xls"
+                    filename={
+                      !isCapexToggle
+                        ? "Afarmacco-Capex Disposal"
+                        : "Afarmacco-Capex Purchase"
+                    }
+                    sheet={!isCapexToggle ? "CapexDisposal" : "CapexPurchase"}
+                    buttonText="Download as Excel"
+                  />
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               </div>
             )}
           </div>

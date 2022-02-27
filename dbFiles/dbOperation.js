@@ -47,7 +47,6 @@ const getLogin = async (user) => {
       },
       "7JUU39959Eohyue"
     );
-    console.log(accessToken);
 
     return accessToken;
   } catch (error) {
@@ -63,7 +62,6 @@ const getDocPurchases = async (invoiceNo) => {
     let purchases = await pool
       .request()
       .query(`select * from vwDOCPurchase_1 Where InvoiceNo = '${invoiceNo}'`);
-    console.log(purchases);
     return purchases;
   } catch (error) {
     console.log(error);
@@ -353,11 +351,23 @@ const createFeedConsumed = async (consumed) => {
 // FEED CONSUMPTION END
 
 // GET REQUESTS START
+const getDeprDate = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let deprDate = await pool
+      .request()
+      .query(
+        `select max(TxnDate) as LastDeprDate FROM tbl_FA_Transaction where TxnTypeId = 3 and userId = ${user.id}`
+      );
+    return deprDate;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const getBirdTypes = async () => {
   try {
     let pool = await sql.connect(config);
     let birds = await pool.request().query("select * from tbl_BirdType");
-    console.log(birds);
     return birds;
   } catch (error) {
     console.log(error);
@@ -367,7 +377,6 @@ const getBanks = async () => {
   try {
     let pool = await sql.connect(config);
     let banks = await pool.request().query("select * from tbl_Bank");
-    console.log(banks);
     return banks;
   } catch (error) {
     console.log(error);
@@ -377,7 +386,6 @@ const getPmtMethod = async () => {
   try {
     let pool = await sql.connect(config);
     let pmtMethod = await pool.request().query("select * from tbl_PmtMethod");
-    console.log(pmtMethod);
     return pmtMethod;
   } catch (error) {
     console.log(error);
@@ -387,7 +395,6 @@ const getDrugs = async () => {
   try {
     let pool = await sql.connect(config);
     let drugs = await pool.request().query("select * from tbl_DrugType");
-    console.log(drugs);
     return drugs;
   } catch (error) {
     console.log(error);
@@ -398,7 +405,6 @@ const getFeeds = async () => {
   try {
     let pool = await sql.connect(config);
     let feeds = await pool.request().query("select * from tbl_FeedType");
-    console.log(feeds);
     return feeds;
   } catch (error) {
     console.log(error);
@@ -410,7 +416,6 @@ const getOtherItems = async () => {
     let otherItems = await pool
       .request()
       .query("select * from tbl_OtherSalesItem");
-    console.log(otherItems);
     return otherItems;
   } catch (error) {
     console.log(error);
@@ -422,7 +427,6 @@ const getExpenseType = async () => {
     let expenseType = await pool
       .request()
       .query("select * from tbl_ExpenseType");
-    console.log(expenseType);
     return expenseType;
   } catch (error) {
     console.log(error);
@@ -434,7 +438,6 @@ const getExpenseHead = async () => {
     let expenseHead = await pool
       .request()
       .query("select * from tbl_ExpenseHead");
-    console.log(expenseHead);
     return expenseHead;
   } catch (error) {
     console.log(error);
@@ -444,7 +447,6 @@ const getAssetType = async () => {
   try {
     let pool = await sql.connect(config);
     let assetType = await pool.request().query("select * from tbl_FA_Type");
-    console.log(assetType);
     return assetType;
   } catch (error) {
     console.log(error);
@@ -454,7 +456,6 @@ const getTxnType = async () => {
   try {
     let pool = await sql.connect(config);
     let txnType = await pool.request().query("select * from tbl_TxnType");
-    console.log(txnType);
     return txnType;
   } catch (error) {
     console.log(error);
@@ -466,7 +467,6 @@ const getUser = async () => {
     let currentUser = await pool
       .request()
       .query(`select * from vw_Users Where UserId = ${user.id}`);
-    console.log(currentUser);
     return currentUser;
   } catch (error) {
     console.log(error);
@@ -480,7 +480,6 @@ const getActiveDebtors = async () => {
       .query(
         `select * from vw_ActiveDebtors Where UserId = ${user.id} Order by CustomerId desc`
       );
-    console.log(activeDebtors);
     return activeDebtors;
   } catch (error) {
     console.log(error);
@@ -494,7 +493,6 @@ const getActiveCreditors = async () => {
       .query(
         `select * from vw_ActiveSuppliers Where UserId = ${user.id} Order by SupplierId desc`
       );
-    console.log(activeCreditors);
     return activeCreditors;
   } catch (error) {
     console.log(error);
@@ -508,7 +506,6 @@ const getCapexs = async () => {
       .query(
         `select * from vw_FixedAsset Where UserId = ${user.id} Order by FAId desc`
       );
-    console.log(capexs);
     return capexs;
   } catch (error) {
     console.log(error);
@@ -522,7 +519,6 @@ const getAllExpenses = async () => {
       .query(
         `select * from vw_Expense  Where UserId = ${user.id} Order by ExpenseId desc`
       );
-    console.log(expenses);
     return expenses;
   } catch (error) {
     console.log(error);
@@ -536,7 +532,6 @@ const getAllBirdSales = async () => {
       .query(
         `select * from vw_BirdSales  Where UserId = ${user.id} Order by SalesId desc`
       );
-    console.log(birdSales);
     return birdSales;
   } catch (error) {
     console.log(error);
@@ -550,7 +545,6 @@ const getAllOtherSales = async () => {
       .query(
         `select * from vw_OtherSales  Where UserId = ${user.id} Order by OtherSalesId desc`
       );
-    console.log(otherSales);
     return otherSales;
   } catch (error) {
     console.log(error);
@@ -564,7 +558,6 @@ const getAllDocPurchase = async () => {
       .query(
         `select * from vw_DocPurchase  Where UserId = ${user.id} Order by DOCPurchaseId desc`
       );
-    console.log(docPurchase);
     return docPurchase;
   } catch (error) {
     console.log(error);
@@ -578,7 +571,6 @@ const getAllDocMortality = async () => {
       .query(
         `select * from vw_DocMortality  Where UserId = ${user.id} Order by MortalityId desc`
       );
-    console.log(docMortality);
     return docMortality;
   } catch (error) {
     console.log(error);
@@ -592,7 +584,6 @@ const getAllDrugPurchase = async () => {
       .query(
         `select * from vw_DrugPurchase  Where UserId = ${user.id} Order by DrugPurchaseId desc`
       );
-    console.log(drugPurchase);
     return drugPurchase;
   } catch (error) {
     console.log(error);
@@ -606,7 +597,6 @@ const getAllDrugConsumed = async () => {
       .query(
         `select * from vw_DrugConsumption  Where UserId = ${user.id} Order by DrugConsumptionId desc`
       );
-    console.log(drugConsumed);
     return drugConsumed;
   } catch (error) {
     console.log(error);
@@ -620,7 +610,6 @@ const getAllFeedPurchase = async () => {
       .query(
         `select * from vw_FeedPurchase  Where UserId = ${user.id}  Order by FeedPurchaseId desc`
       );
-    console.log(feedPurchase);
     return feedPurchase;
   } catch (error) {
     console.log(error);
@@ -634,7 +623,6 @@ const getAllFeedConsumed = async () => {
       .query(
         `select * from vw_FeedConsumption  Where UserId = ${user.id} Order by FeedConsumptionId desc`
       );
-    console.log(feedConsumed);
     return feedConsumed;
   } catch (error) {
     console.log(error);
@@ -680,6 +668,7 @@ module.exports = {
   getUser,
   getAssetType,
   getTxnType,
+  getDeprDate,
   debtorPay,
   creditorPay,
 };

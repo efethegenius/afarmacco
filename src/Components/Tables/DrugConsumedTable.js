@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
 
 export const DrugConsumedTable = React.forwardRef((props, ref) => {
   const [toDate, setToDate] = useState("");
@@ -13,17 +14,14 @@ export const DrugConsumedTable = React.forwardRef((props, ref) => {
   // getting drug consumed start-----------------------------------------------------
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-drug-consumed",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDrugConsumed(allDrugConsumed);
     } catch (error) {
       console.log(error);
@@ -190,7 +188,7 @@ export const DrugConsumedTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortDrugConsumed ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Date</th>
@@ -255,7 +253,7 @@ export const DrugConsumedTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

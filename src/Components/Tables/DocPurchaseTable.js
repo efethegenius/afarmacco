@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
 
 export const DocPurchaseTable = React.forwardRef((props, ref) => {
   const [toDate, setToDate] = useState("");
@@ -13,17 +14,14 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDocPurchase = await fetch("/api/all-doc-purchase", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);
@@ -180,7 +178,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortDocPurchase ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Date</th>
@@ -249,7 +247,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

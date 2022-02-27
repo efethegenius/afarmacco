@@ -1,7 +1,5 @@
 import "./App.css";
 import "./Styles/Form.css";
-import { UserLogin } from "./Components/UserLogin";
-import { UserValidation } from "./Components/UserValidation";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Income } from "./Pages/Income";
 import { Expenses } from "./Pages/Expenses";
@@ -20,6 +18,7 @@ import { Creditor } from "./Pages/Creditor";
 import { Health } from "./Pages/Health";
 import { OpexPage } from "./Pages/OpexPage";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { SiteApp } from "./Website/SiteApp";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);
@@ -43,6 +42,9 @@ function App() {
             <LoginPage />
           </Route>
           <Route exact path="/">
+            {authState ? <Dashboard /> : <SiteApp />}
+          </Route>
+          <Route exact path="/inventory">
             <Dashboard />
           </Route>
           <Route exact path="/income">
@@ -68,6 +70,9 @@ function App() {
           </Route>
           <Route exact path="/opex">
             <OpexPage />
+          </Route>
+          <Route exact path="/site">
+            <SiteApp />
           </Route>
           <Route path="/creditor/:id" children={<Creditor />}></Route>
           <Route path="/debtor/:id" children={<Debtor />}></Route>

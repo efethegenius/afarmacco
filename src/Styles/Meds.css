@@ -14,6 +14,12 @@
   align-items: center;
 }
 
+.med-close {
+  align-self: flex-end;
+  font-size: 1rem !important;
+  font-weight: 700;
+}
+
 .med-container {
   /* background-color: blue; */
   width: 80%;
@@ -59,11 +65,11 @@
   /* position: absolute; */
   z-index: 6;
   background-color: white;
-  border: 1px solid black;
-  border-radius: 10px;
+  /* border: 1px solid black; */
+  /* border-radius: 10px; */
   padding: 5px;
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   margin: auto;
   position: absolute;
   top: 0;
@@ -74,12 +80,6 @@
   flex-direction: column;
   right: 0;
   overflow: scroll;
-  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
   z-index: 9;
 }
 .meds-table td {
@@ -90,4 +90,19 @@
   font-size: 1.2rem;
   font-weight: 600;
   align-self: center;
+}
+
+.period {
+  border: 0.5px solid rgb(104, 104, 104);
+  background-color: transparent;
+  margin-bottom: 3px;
+  border-radius: 4px;
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 3px 8px;
 }

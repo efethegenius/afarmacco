@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 
-export const CockerelMeds = () => {
+export const CockerelMeds = ({ setIsCockerelMed }) => {
   const [isPeriod, setIsPeriod] = useState("Day");
   return (
-    <div className="meds">
+    <div className="meds animate__animated animate__zoomIn">
+      <p
+        className="btn-close med-close"
+        onClick={() => setIsCockerelMed(false)}
+      >
+        X
+      </p>
       <p className="meds-title">Cockerel Medications</p>
-      <button onClick={() => setIsPeriod("Day")}>Day</button>
-      <button onClick={() => setIsPeriod("Week")}>Week</button>
+      <button onClick={() => setIsPeriod("Day")} className="period">
+        Daily
+      </button>
+      <button onClick={() => setIsPeriod("Week")} className="period">
+        Weekly
+      </button>
       {isPeriod === "Day" && (
         <table className="meds-table">
           <tr>

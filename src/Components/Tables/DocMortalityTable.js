@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "../Loading";
 
 export const DocMortalityTable = React.forwardRef((props, ref) => {
   const [toDate, setToDate] = useState("");
@@ -11,17 +12,14 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDocMortality = await fetch("/api/all-doc-mortality", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);
@@ -137,7 +135,7 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortDocMortality ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Date</th>
@@ -177,7 +175,7 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

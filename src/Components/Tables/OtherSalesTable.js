@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Loading } from "../Loading";
 
 export const OtherSalesTable = React.forwardRef((props, ref) => {
   const [toDate, setToDate] = useState("");
@@ -13,17 +14,14 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-other-sales",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allOtherSales = await fetch("/api/all-other-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedOtherSales(allOtherSales);
     } catch (error) {
       console.log(error);
@@ -109,7 +107,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
             setItemFilter("");
           }}
         >
-          Bird Type
+          Item
         </button>
       </div>
       <div className="sort-report">
@@ -176,7 +174,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
         </div>
       ) : sortOtherSales ? (
         <div className="table-container" ref={ref}>
-          <table>
+          <table id="table-to-xls">
             <tbody>
               <tr>
                 <th>Date</th>
@@ -240,7 +238,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
           </table>
         </div>
       ) : (
-        "loading, please wait..."
+        <Loading />
       )}
     </>
   );

@@ -6,8 +6,13 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { Navbar } from "../Components/Navbar";
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { AuthContext } from "../helpers/AuthContext";
-import { AiOutlineMenu } from "react-icons/ai";
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiOutlineQuestionCircle,
+} from "react-icons/ai";
 import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
@@ -16,6 +21,7 @@ import { Loading } from "../Components/Loading";
 
 export const Expenses = () => {
   const [returnedExpenses, setReturnedExpenses] = useState([]);
+  const [returnedDeprDate, setReturnedDeprDate] = useState([]);
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
   const [isExpenseForm, setIsExpenseForm] = useState(false);
   const [toDate, setToDate] = useState("");
@@ -25,6 +31,7 @@ export const Expenses = () => {
   const [isFullReport, setIsFullReport] = useState(false);
   const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
+  const [isDeprMsg, setIsDeprMsg] = useState(false);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -34,17 +41,14 @@ export const Expenses = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-expenses",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allExpenses = await fetch("/api/all-expenses", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedExpenses(allExpenses);
     } catch (error) {
       console.log(error);
@@ -53,29 +57,45 @@ export const Expenses = () => {
   useEffect(() => {
     getAllExpenses();
     getActiveCreditors();
+    getDeprDate();
   }, []);
   console.log(returnedExpenses);
   //getting the data from the database from the db end-----------------------------------------
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-creditors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeCreditors = await fetch("/api/active-creditors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
     }
   };
   // getting active creditors end-----------------------------------------------------
+  //getting depr date-----------------------------------------
+  const getDeprDate = async () => {
+    try {
+      const deprDate = await fetch("/api/depr-date", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
+      setReturnedDeprDate(deprDate);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(returnedDeprDate);
+  //getting depr date-----------------------------------------
 
   let allExpenses = returnedExpenses.name;
 
@@ -128,7 +148,14 @@ export const Expenses = () => {
   }
 
   return (
-    <div className="expenses">
+    <div
+      className="expenses"
+      onClick={() => {
+        if (isDeprMsg) {
+          setIsDeprMsg(false);
+        }
+      }}
+    >
       <Navbar isNav={isNav} setIsNav={setIsNav} />
 
       <div
@@ -218,10 +245,62 @@ export const Expenses = () => {
                                 setIsFullReport(!isFullReport);
                               }}
                             >
-                              View full report <BsFileEarmarkText />
+                              View full report
                             </button>
                           </div>
                         </div>
+                        {returnedDeprDate.name &&
+                        returnedDeprDate.name.length > 0 ? (
+                          returnedDeprDate.name.map((deprDate) => {
+                            const { LastDeprDate } = deprDate;
+                            let NextDeprDate = new Date(LastDeprDate);
+                            NextDeprDate.setMonth(NextDeprDate.getMonth() + 1);
+                            console.log(NextDeprDate);
+                            const newDate = `${new Date(
+                              LastDeprDate
+                            ).toDateString()}`;
+                            return (
+                              <div key={LastDeprDate}>
+                                <p>Last depreciation was run on {newDate}</p>
+                                <p>
+                                  Next depreciation to be run on{" "}
+                                  {NextDeprDate.toDateString()}{" "}
+                                  <AiOutlineQuestionCircle
+                                    className="depr-help"
+                                    onClick={() => {
+                                      setIsDeprMsg(!isDeprMsg);
+                                    }}
+                                  />
+                                </p>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <p>
+                            Depreciation not calculated yet.{" "}
+                            <AiOutlineQuestionCircle
+                              className="depr-help"
+                              onClick={() => {
+                                setIsDeprMsg(!isDeprMsg);
+                              }}
+                            />
+                          </p>
+                        )}
+                        {isDeprMsg && (
+                          <div className="depr-msg-container">
+                            <p>
+                              Depreciation of assets are done on a monthly
+                              basis. At the end of each month, you are expected
+                              to perform depreciation to calculate the current
+                              value of your assets. The depreciation would
+                              automatically run for ALL assets that are due for
+                              depreciation so you do not have to manually
+                              depreciate each asset. To perform depreciation,
+                              click on the NEW button and select DEPRECIATION
+                              under the Expense drop-down.
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="debtors">
                         <p className="title">Active Creditors and Amount</p>
@@ -238,7 +317,7 @@ export const Expenses = () => {
                                 >
                                   <p className="d-name">{SupplierName}</p>
                                   <p className="debt-amount">
-                                    ₦ {formatMoney(Amount)}.00
+                                    {formatMoney(Amount)}.00
                                   </p>
                                 </Link>
                               );
@@ -253,7 +332,7 @@ export const Expenses = () => {
                         <div className="debtor-list">
                           <p className="title">TOTAL DEBT:</p>
                           <p className="debt-amount">
-                            ₦ {formatMoney(totalCredit)}.00
+                            {formatMoney(totalCredit)}.00
                           </p>
                         </div>
                         {/* <button className="view-all">View All</button> */}
@@ -269,11 +348,25 @@ export const Expenses = () => {
                 <div className="full-report">
                   <div className="income-table-head">
                     <h3>Expenses</h3>
+                    <AiOutlineClose
+                      className="btn-close"
+                      onClick={() => setIsFullReport(false)}
+                    />
                   </div>
                   {<ExpenseTable ref={componentRef} />}
-                  <button onClick={handlePrint} className="btn-generate">
-                    Generate Report <BsFileEarmarkText className="report" />
-                  </button>
+                  <div className="btn-generate-container">
+                    <ReactHTMLTableToExcel
+                      id="test-table-xls-button"
+                      className="download-table-xls-button btn-generate"
+                      table="table-to-xls"
+                      filename="Afarmacco-Expenses"
+                      sheet="Expenses"
+                      buttonText="Download as Excel"
+                    />
+                    <button onClick={handlePrint} className="btn-generate">
+                      Generate Report <BsFileEarmarkText className="report" />
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

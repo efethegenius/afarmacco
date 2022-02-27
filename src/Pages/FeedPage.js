@@ -12,8 +12,9 @@ import { FeedPurchaseTable } from "../Components/Tables/FeedPurchaseTable";
 import { FeedConsumedTable } from "../Components/Tables/FeedConsumedTable";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { Loading } from "../Components/Loading";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export const FeedPage = () => {
   const [returnedFeedPurchase, setReturnedFeedPurchase] = useState([]);
@@ -37,17 +38,14 @@ export const FeedPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-creditors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeCreditors = await fetch("/api/active-creditors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -57,17 +55,14 @@ export const FeedPage = () => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-feed-purchase",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedFeedPurchase(allFeedPurchase);
     } catch (error) {
       console.log(error);
@@ -78,17 +73,14 @@ export const FeedPage = () => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -122,7 +114,7 @@ export const FeedPage = () => {
         // <div key={FeedPurchaseId} className="mini-list-wrapper">
         //   <p>{newDate}</p>
         //   <p>{Qty === 1 ? Qty + " " + FeedName : Qty + " " + FeedName + "s"}</p>
-        //   <p>₦ {UnitPrice} each</p>
+        //   <p> {UnitPrice} each</p>
         // </div>
       );
     });
@@ -303,7 +295,7 @@ export const FeedPage = () => {
                             <p className="title mini-title">
                               {miniPurchaseList && miniPurchaseList.length === 0
                                 ? "You do ot have a Feed purchase report yet"
-                                : "Your most recent Feed Purchase transactions:"}
+                                : "Your most recent Feed Purchases:"}
                             </p>
                             <table>
                               <tbody>
@@ -325,7 +317,7 @@ export const FeedPage = () => {
                               setIsFeedToggle(true);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                         <div className="other-mini-list">
@@ -356,7 +348,7 @@ export const FeedPage = () => {
                               setIsFeedToggle(false);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                       </div>
@@ -392,7 +384,7 @@ export const FeedPage = () => {
                               >
                                 <p className="d-name">{SupplierName}</p>
                                 <p className="debt-amount">
-                                  ₦ {formatMoney(Amount)}.00
+                                  {formatMoney(Amount)}.00
                                 </p>
                               </Link>
                             );
@@ -407,7 +399,7 @@ export const FeedPage = () => {
                       <div className="debtor-list">
                         <p className="title">TOTAL CREDIT:</p>
                         <p className="debt-amount">
-                          ₦ {formatMoney(totalCredit)}.00
+                          {formatMoney(totalCredit)}.00
                         </p>
                       </div>
                       {/* <button className="view-all">View All</button> */}
@@ -422,13 +414,31 @@ export const FeedPage = () => {
               <div className="full-report">
                 <div className="feed-table-head">
                   <h3>{isFeedToggle ? "Feed purchase" : "Feed consumption"}</h3>
+                  <AiOutlineClose
+                    className="btn-close"
+                    onClick={() => setIsFullReport(false)}
+                  />
                 </div>
                 {isFeedToggle && <FeedPurchaseTable ref={componentRef} />}
                 {!isFeedToggle && <FeedConsumedTable ref={componentRef} />}
 
-                <button onClick={handlePrint} className="btn-generate">
-                  Generate Report <BsFileEarmarkText className="report" />
-                </button>
+                <div className="btn-generate-container">
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button btn-generate"
+                    table="table-to-xls"
+                    filename={
+                      !isFeedToggle
+                        ? "Afarmacco-Feed Consumed"
+                        : "Afarmacco-Feed Purchase"
+                    }
+                    sheet={!isFeedToggle ? "FeedConsumed" : "FeedPurchase"}
+                    buttonText="Download as Excel"
+                  />
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               </div>
             )}
           </div>

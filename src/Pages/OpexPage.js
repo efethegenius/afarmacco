@@ -25,14 +25,23 @@ export const OpexPage = () => {
           </div>
           <div className="all-opex">
             <div className="top-grid">
-              <Link className="opex-opt doc-opt" to="/doc">
+              <Link
+                className="opex-opt doc-opt animate__animated animate__fadeInLeft"
+                to="/doc"
+              >
                 <h2>Day Old Chicks</h2>
               </Link>
-              <Link className="opex-opt drug-opt" to="/drug">
+              <Link
+                className="opex-opt drug-opt animate__animated animate__fadeInRight"
+                to="/drug"
+              >
                 <h2>Drugs</h2>
               </Link>
             </div>
-            <Link to="/feed" className="opex-opt feed-opt">
+            <Link
+              to="/feed"
+              className="opex-opt feed-opt animate__animated animate__fadeInUp"
+            >
               <h2>Feeds</h2>
             </Link>
           </div>

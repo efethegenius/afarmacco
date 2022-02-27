@@ -12,7 +12,8 @@ import { DocMortalityTable } from "../Components/Tables/DocMortalityTable";
 import { AuthContext } from "../helpers/AuthContext";
 import { Link } from "react-router-dom";
 import { LoggedOut } from "../Components/LoggedOut";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Loading } from "../Components/Loading";
 
 export const DocPage = () => {
@@ -36,17 +37,14 @@ export const DocPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/active-creditors",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const activeCreditors = await fetch("/api/active-creditors", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -59,17 +57,14 @@ export const DocPage = () => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDocPurchase = await fetch("/api/all-doc-purchase", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);
@@ -80,17 +75,14 @@ export const DocPage = () => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch(
-        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Accept: "application/json",
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      ).then((res) => res.json());
+      const allDocMortality = await fetch("/api/all-doc-mortality", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);
@@ -126,7 +118,7 @@ export const DocPage = () => {
         // <div key={DOCPurchaseId} className="mini-list-wrapper">
         //   <p>{newDate}</p>
         //   <p>{Qty === 1 ? Qty + " " + BirdName : Qty + " " + BirdName + "s"}</p>
-        //   <p>₦ {UnitPrice} each</p>
+        //   <p> {UnitPrice} each</p>
         // </div>
       );
     });
@@ -304,7 +296,7 @@ export const DocPage = () => {
                             <p className="title mini-title">
                               {miniPurchaseList && miniPurchaseList.length === 0
                                 ? "You do ot have a DOC purchase report yet"
-                                : "Your most recent DOC Purchase transactions:"}
+                                : "Your most recent DOC Purchases:"}
                             </p>
                             <table>
                               <tbody>
@@ -327,7 +319,7 @@ export const DocPage = () => {
                               setIsDocToggle(true);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                         <div className="other-mini-list">
@@ -358,7 +350,7 @@ export const DocPage = () => {
                               setIsDocToggle(false);
                             }}
                           >
-                            View full report <BsFileEarmarkText />
+                            View full report
                           </button>
                         </div>
                       </div>
@@ -394,14 +386,14 @@ export const DocPage = () => {
                               >
                                 <p className="d-name">{SupplierName}</p>
                                 <p className="debt-amount">
-                                  ₦ {formatMoney(Amount)}.00
+                                  {formatMoney(Amount)}.00
                                 </p>
                               </Link>
                             );
                           })
                         ) : (
                           <p className="title">
-                            You do not have any FEED creditor yet. When you do,
+                            You do not have any DOC creditor yet. When you do,
                             they will appear here...
                           </p>
                         )}
@@ -409,7 +401,7 @@ export const DocPage = () => {
                       <div className="debtor-list">
                         <p className="title">TOTAL CREDIT:</p>
                         <p className="debt-amount">
-                          ₦ {formatMoney(totalCredit)}.00
+                          {formatMoney(totalCredit)}.00
                         </p>
                       </div>
                     </div>
@@ -423,13 +415,31 @@ export const DocPage = () => {
               <div className="full-report">
                 <div className="doc-table-head">
                   <h3>{isDocToggle ? "DOC purchase" : "DOC mortality"}</h3>
+                  <AiOutlineClose
+                    className="btn-close"
+                    onClick={() => setIsFullReport(false)}
+                  />
                 </div>
                 {isDocToggle && <DocPurchaseTable ref={componentRef} />}
                 {!isDocToggle && <DocMortalityTable ref={componentRef} />}
 
-                <button onClick={handlePrint} className="btn-generate">
-                  Generate Report <BsFileEarmarkText className="report" />
-                </button>
+                <div className="btn-generate-container">
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button btn-generate"
+                    table="table-to-xls"
+                    filename={
+                      !isDocToggle
+                        ? "Afarmacco-Doc Mortality"
+                        : "Afarmacco-Doc Purchase"
+                    }
+                    sheet={!isDocToggle ? "DocMortality" : "DocPurchase"}
+                    buttonText="Download as Excel"
+                  />
+                  <button onClick={handlePrint} className="btn-generate">
+                    Generate Report <BsFileEarmarkText className="report" />
+                  </button>
+                </div>
               </div>
             )}
           </div>

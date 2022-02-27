@@ -23,10 +23,10 @@ export const Health = () => {
   return (
     <div className="drug">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
-      {isBroilerMed && <BroilerMeds />}
-      {isNoilerMed && <NoilerMeds />}
-      {isCockerelMed && <CockerelMeds />}
-      {isLayerMed && <LayerMeds />}
+      {isBroilerMed && <BroilerMeds setIsBroilerMed={setIsBroilerMed} />}
+      {isNoilerMed && <NoilerMeds setIsNoilerMed={setIsNoilerMed} />}
+      {isCockerelMed && <CockerelMeds setIsCockerelMed={setIsCockerelMed} />}
+      {isLayerMed && <LayerMeds setIsLayerMed={setIsLayerMed} />}
       <div
         className={`${
           isBroilerMed || isLayerMed || isNoilerMed || isCockerelMed
@@ -51,26 +51,26 @@ export const Health = () => {
           </div>
           <div className="all-meds">
             <div
-              className="med-container broiler-med-container"
+              className="med-container broiler-med-container animate__animated animate__fadeInLeft"
               onClick={() => setIsBroilerMed(!isBroilerMed)}
             >
               <h2>Broiler Meds</h2>
             </div>
             <div
               onClick={() => setIsNoilerMed(!isNoilerMed)}
-              className="med-container noiler-med-container"
+              className="med-container noiler-med-container animate__animated animate__fadeInRight"
             >
               <h2>Noiler Meds</h2>
             </div>
             <div
               onClick={() => setIsCockerelMed(!isCockerelMed)}
-              className="med-container cockerel-med-container"
+              className="med-container cockerel-med-container animate__animated animate__fadeInLeft"
             >
               <h2>Cockerel Meds</h2>
             </div>
             <div
               onClick={() => setIsLayerMed(!isLayerMed)}
-              className="med-container layer-med-container"
+              className="med-container layer-med-container animate__animated animate__fadeInRight"
             >
               <h2>Layer Meds</h2>
             </div>

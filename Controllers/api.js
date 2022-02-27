@@ -97,6 +97,10 @@ const getAllFeedConsumed = async (req, res) => {
   const result = await dbOperation.getAllFeedConsumed();
   res.json({ name: result.recordset });
 };
+const getDeprDate = async (req, res) => {
+  const result = await dbOperation.getDeprDate();
+  res.json({ name: result.recordset });
+};
 
 module.exports = {
   getActiveDebtors,
@@ -111,6 +115,7 @@ module.exports = {
   getExpenseHead,
   getFeeds,
   getUser,
+  getDeprDate,
   getOtherItems,
   getCapexs,
   getAllDocMortality,
