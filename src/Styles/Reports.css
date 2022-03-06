@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.all-reports {
+  /* background-color: blue; */
+  /* height: 100%; */
+  width: 95%;
+  display: flex;
+  align-items: center;
+  /* position: relative; */
+  /* justify-content: center; */
+  flex-direction: column;
+}
+
+.reports-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: blueviolet; */
+  /* height: 100vh; */
+}
+
+.main-report {
+  /* background-color: green; */
+  width: 100vw;
+  /* height: 100vh; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center;
+  flex-direction: row;
+  position: relative; */
+
+  display: grid;
+  grid-template-columns: 15% 85%;
+}
+
+canvas {
+  width: 70% !important;
+  height: 100% !important;
+  font-size: 3rem !important;
+}
+
+.chart-container {
+  /* background-color: rebeccapurple; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.pl-info {
+  /* background-color: red; */
+  width: 30%;
+  height: 100%;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
+}
+
+.pl-info h5 {
+  margin-bottom: 20px;
+}
+
+.report-table-container {
+  max-height: 500px;
+}
+
+@media screen and (max-width: 985px) {
+  .main-report {
+    display: flex;
+    width: 100vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .chart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .pl-info {
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .pl-info h5 {
+    margin-bottom: 10px;
+  }
+}

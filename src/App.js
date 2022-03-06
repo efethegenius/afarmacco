@@ -1,6 +1,6 @@
 import "./App.css";
 import "./Styles/Form.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { Income } from "./Pages/Income";
 import { Expenses } from "./Pages/Expenses";
 import { DocPage } from "./Pages/DocPage";
@@ -19,10 +19,17 @@ import { Health } from "./Pages/Health";
 import { OpexPage } from "./Pages/OpexPage";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { SiteApp } from "./Website/SiteApp";
+import { PolPage } from "./Pages/PolPage";
+import { ReportsPage } from "./Pages/ReportsPage";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);
   const [upd, setUpd] = useState(true);
+  const [opexTxn, setOpexTxn] = useState(false);
+  const [capexTxn, setCapexTxn] = useState(false);
+  const [expenseTxn, setExpenseTxn] = useState(false);
+  const [deprTxn, setDeprTxn] = useState(false);
+  const [signIn, setSignIn] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -31,9 +38,58 @@ function App() {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ authState, setAuthState, activeNav, setActiveNav, upd, setUpd }}
+      value={{
+        authState,
+        setAuthState,
+        activeNav,
+        setActiveNav,
+        upd,
+        setUpd,
+        opexTxn,
+        setOpexTxn,
+        capexTxn,
+        setCapexTxn,
+        expenseTxn,
+        setExpenseTxn,
+        deprTxn,
+        setDeprTxn,
+        signIn,
+        setSignIn,
+      }}
     >
       <Router>
+        <Link
+          to="/"
+          className={opexTxn ? "opex-alert show-opex-alert" : "opex-alert"}
+        >
+          <p>
+            Transaction created successfully. Click here to view your INVENTORY.
+          </p>
+        </Link>
+        <Link
+          to="/reports"
+          className={expenseTxn ? "opex-alert show-opex-alert" : "opex-alert"}
+        >
+          <p>
+            Transaction created successfully. Click here to view your Financial
+            Reports.
+          </p>
+        </Link>
+        <Link
+          to="/capex"
+          className={deprTxn ? "opex-alert show-opex-alert" : "opex-alert"}
+        >
+          <p>
+            Depreciation calculated successfully. Click here to view your CAPEX
+            page.
+          </p>
+        </Link>
+        <div className={capexTxn ? "opex-alert show-opex-alert" : "opex-alert"}>
+          <p>Transaction created successfully.</p>
+        </div>
+        <div className={signIn ? "opex-alert show-opex-alert" : "opex-alert"}>
+          <p>Signed in successfully.</p>
+        </div>
         <Switch>
           <Route exact path="/register">
             <SignUpPage />
@@ -53,6 +109,9 @@ function App() {
           <Route exact path="/expenses">
             <Expenses />
           </Route>
+          <Route exact path="/pol">
+            <PolPage />
+          </Route>
           <Route exact path="/doc">
             <DocPage />
           </Route>
@@ -70,6 +129,9 @@ function App() {
           </Route>
           <Route exact path="/opex">
             <OpexPage />
+          </Route>
+          <Route exact path="/reports">
+            <ReportsPage />
           </Route>
           <Route exact path="/site">
             <SiteApp />

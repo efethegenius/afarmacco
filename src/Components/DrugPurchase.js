@@ -19,7 +19,7 @@ export const DrugPurchase = ({
   const { returnedDrugs } = FetchDrugs();
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
   const [fieldErr, setFieldErr] = useState(false);
   const [pmtErr, setPmtErr] = useState(false);
 
@@ -87,7 +87,8 @@ export const DrugPurchase = ({
     if (
       !purchase.BankName &&
       !purchase.Creditor &&
-      purchase.PmtMethod !== "Cash"
+      purchase.PmtMethod !== "Cash" &&
+      purchase.PmtMethod !== "Other"
     ) {
       setPmtErr(true);
       setTimeout(function () {
@@ -112,6 +113,10 @@ export const DrugPurchase = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
@@ -209,7 +214,7 @@ export const DrugPurchase = ({
           </select>
         </div>
         <div className="input">
-          <label htmlFor="BagWeight">Bag Weight</label>
+          <label htmlFor="BagWeight">Bag Weight (Kg)</label>
           <input
             type="number"
             name="BagWeight"

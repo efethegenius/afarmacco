@@ -27,9 +27,10 @@
   flex-direction: column;
   /* background-color: #f1f7f7; */
   width: 100%;
-  height: 90%;
+  height: 100%;
   /* margin-top: 40px; */
   /* padding: 1rem 3rem 1rem 3rem; */
+  padding-bottom: 30px;
 }
 
 .doc-head {
@@ -70,7 +71,7 @@
   width: 95%;
   display: flex;
   align-items: center;
-  position: relative;
+  /* position: relative; */
   /* justify-content: center; */
   flex-direction: column;
 }

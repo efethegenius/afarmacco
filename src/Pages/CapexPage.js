@@ -35,7 +35,7 @@ export const CapexPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
+      const activeCreditors = await fetch("api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -52,7 +52,7 @@ export const CapexPage = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
+      const activeDebtors = await fetch("api/active-debtors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -70,7 +70,7 @@ export const CapexPage = () => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
+      const capexs = await fetch("api/capexs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -89,14 +89,15 @@ export const CapexPage = () => {
   let miniPurchaseList;
   if (returnedCapexs.name) {
     miniPurchaseList = returnedCapexs.name.map((capex) => {
-      const { FAId, PurchaseDate, FACode, FADesc, FACost, StatusDesc } = capex;
+      const { FAId, PurchaseDate, FACode, AssetTypeDesc, FACost, StatusDesc } =
+        capex;
       const newDate = `${new Date(PurchaseDate).toLocaleDateString()}`;
       return (
         <tbody key={FAId}>
           <tr>
             <td>{newDate}</td>
             <td>{FACode}</td>
-            <td>{FADesc}</td>
+            <td>{AssetTypeDesc}</td>
             <td>{FACost}</td>
             <td>{StatusDesc}</td>
           </tr>
@@ -111,8 +112,6 @@ export const CapexPage = () => {
       (capex) => capex.StatusDesc === "Disposed"
     );
   }
-
-  console.log(disposedItems);
 
   let miniDisposalList;
   if (disposedItems) {
@@ -166,7 +165,7 @@ export const CapexPage = () => {
   return (
     <div className="drug">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
-      <div
+      {/* <div
         className={`${isCapexForm ? "form-background" : "hide-background"}`}
         onClick={() => {
           setIsCapexForm(false);
@@ -176,7 +175,7 @@ export const CapexPage = () => {
             setAnimState(true);
           }, 1000);
         }}
-      ></div>
+      ></div> */}
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}
         onClick={() => {
@@ -254,7 +253,7 @@ export const CapexPage = () => {
                                 <tr>
                                   <th>Purchase Date</th>
                                   <th>Asset Code</th>
-                                  <th>Asset Desc</th>
+                                  <th>Asset Type</th>
                                   <th>Cost</th>
                                   <th>Status</th>
                                 </tr>
@@ -303,7 +302,7 @@ export const CapexPage = () => {
                               setIsCapexToggle(false);
                             }}
                           >
-                            View full report
+                            View full Profit / Loss statement
                           </button>
                         </div>
                       </div>

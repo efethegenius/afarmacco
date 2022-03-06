@@ -37,7 +37,7 @@ export const DocPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
+      const activeCreditors = await fetch("api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -57,7 +57,7 @@ export const DocPage = () => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
+      const allDocPurchase = await fetch("api/all-doc-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -75,7 +75,7 @@ export const DocPage = () => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
+      const allDocMortality = await fetch("api/all-doc-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -114,12 +114,6 @@ export const DocPage = () => {
             <td>{UnitPrice}</td>
           </tr>
         </tbody>
-
-        // <div key={DOCPurchaseId} className="mini-list-wrapper">
-        //   <p>{newDate}</p>
-        //   <p>{Qty === 1 ? Qty + " " + BirdName : Qty + " " + BirdName + "s"}</p>
-        //   <p> {UnitPrice} each</p>
-        // </div>
       );
     });
   }
@@ -136,15 +130,6 @@ export const DocPage = () => {
             <td>{Qty}</td>
           </tr>
         </tbody>
-
-        // <div key={MortalityId} className="mini-list-wrapper">
-        //   <p>{newDate}</p>
-        //   <p>
-        //     {Qty === 1
-        //       ? Qty + " " + BirdName + " died"
-        //       : Qty + " " + BirdName + "s" + " died"}
-        //   </p>
-        // </div>
       );
     });
   }
@@ -193,7 +178,7 @@ export const DocPage = () => {
   return (
     <div className="doc">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
-      <div
+      {/* <div
         className={`${
           isMortalityForm || isDocPurchaseForm
             ? "form-background"
@@ -208,7 +193,7 @@ export const DocPage = () => {
             setAnimState(true);
           }, 1000);
         }}
-      ></div>
+      ></div> */}
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}
         onClick={() => {
@@ -221,7 +206,6 @@ export const DocPage = () => {
             <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
             <div className="doc-heading">
               <h1>Day Old Chicks</h1>
-              {/* <p>Manage all your DOC transactions here</p> */}
             </div>
             <div
               className="new-btn"

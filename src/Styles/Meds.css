@@ -20,6 +20,21 @@
   font-weight: 700;
 }
 
+.med-dir {
+  margin-bottom: 5px;
+  font-size: 0.8rem !important;
+}
+
+.med-note {
+  margin-top: 20px;
+  color: red;
+}
+
+.med-dir span {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
 .med-container {
   /* background-color: blue; */
   width: 80%;
@@ -87,9 +102,15 @@
 }
 
 .meds-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem !important;
   font-weight: 600;
   align-self: center;
+  color: rgb(151, 151, 151);
+}
+
+.med-active {
+  background-color: #2070e7 !important;
+  color: white;
 }
 
 .period {

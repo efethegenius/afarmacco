@@ -20,7 +20,7 @@ export const DocPurchase = ({
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
   const { returnedBirds } = FetchBirds();
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
 
   const [purchase, setPurchase] = useState({
     PurchaseDate: 0,
@@ -87,7 +87,7 @@ export const DocPurchase = ({
   // const getData = async () => {
   //   try {
   //     console.log(purchase);
-  //     const newData = await fetch("/get_doc_purchase", {
+  //     const newData = get_doc_purchase", {
   //       method: "POST",
   //       headers: {
   //         "content-type": "application/json",
@@ -127,7 +127,8 @@ export const DocPurchase = ({
     if (
       !purchase.BankName &&
       !purchase.Creditor &&
-      purchase.PmtMethod !== "Cash"
+      purchase.PmtMethod !== "Cash" &&
+      purchase.PmtMethod !== "Other"
     ) {
       setPmtErr(true);
       setTimeout(function () {
@@ -152,6 +153,10 @@ export const DocPurchase = ({
       setAnimState(true);
     }, 1000);
     setIsDocPurchaseForm(false);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleSubmit = () => {

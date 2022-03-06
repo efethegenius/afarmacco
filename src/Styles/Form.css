@@ -1,15 +1,15 @@
 .input {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  width: 80%;
+  width: 70%;
 }
 
 .input label {
-  font-size: 0.75rem;
-  color: rgb(126, 136, 195);
+  font-size: 0.8rem;
+  color: rgb(110, 110, 110);
   /* font-weight: 300; */
 }
 
@@ -43,6 +43,7 @@
 #UpdType,
 #RecId,
 #TxnType,
+#txnType,
 #TxnDate,
 #AssetType,
 #FADesc,
@@ -56,12 +57,12 @@
 #UserPassword {
   width: 100%;
   border: 0.1px solid rgb(126, 136, 195);
-  border-radius: 4px;
-  height: 45px;
+  border-radius: 3px;
+  height: 35px;
   padding-left: 10px;
   font-family: "Nunito", sans-serif;
   font-weight: 500;
-  background-color: rgba(85, 85, 85, 0.03);
+  background-color: rgba(155, 155, 155, 0.03);
 }
 
 .bird-sale,
@@ -75,21 +76,22 @@
 .capexs,
 .expense {
   background-color: white;
-  border-radius: 10px;
-  position: fixed;
+  /* border-radius: 10px; */
+  position: absolute;
   top: 0;
-  width: 40%;
+  width: 100%;
   /* height: 100vh; */
   z-index: 10;
   padding: 20px;
   /* transition: all ease-in-out 0.4s; */
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   flex-direction: column;
-  max-width: 650px;
-  min-width: 450px;
-  max-height: 100%;
+  height: 100%;
+  left: 0;
+
+  /* border: 1px solid black; */
 }
 
 /* .expense {
@@ -126,21 +128,29 @@
   /* justify-content: center; */
   flex-direction: column;
   width: 100%;
-  /* height: 100vh; */
-  max-width: 600px;
+  height: 100%;
+  /* max-width: 600px; */
   overflow-x: hidden;
   /* padding-top: 100px; */
 }
 
 .bird-type-container,
-.expense-type-container,
 .sale-qty-container,
 .qty-container,
+.expense-type-container,
 .double-input {
-  width: 90%;
+  width: 70%;
   display: grid;
-  justify-items: center;
+  /* justify-items: center; */
   grid-template-columns: repeat(2, 1fr);
+}
+
+.bird-type-container .input,
+.qty-container .input,
+.sale-qty-container .input,
+.expense-type-container .input,
+.double-input .input {
+  width: 90%;
 }
 
 .upd-type,
@@ -201,7 +211,10 @@
 
 .form-head {
   color: #1e2022;
+  align-self: flex-start;
+  opacity: 0.3;
   /* font-size: 0.9rem; */
+  margin-bottom: 15px;
 }
 @media screen and (max-width: 500px) {
   .hide-bird-sale,

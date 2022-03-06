@@ -13,7 +13,7 @@ export const FeedConsumed = ({
   const { returnedBirds } = FetchBirds();
   const [fieldErr, setFieldErr] = useState(false);
   const { returnedFeeds } = FetchFeeds();
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
 
   const [consumed, setConsumed] = useState({
     ConsumptionDate: 0,
@@ -59,6 +59,10 @@ export const FeedConsumed = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
@@ -174,7 +178,7 @@ export const FeedConsumed = ({
           />
         </div>
         <div className="input">
-          <label htmlFor="SizeQtyUsed">Size (Quantity Used)</label>
+          <label htmlFor="SizeQtyUsed">size (Quantity used in kg)</label>
           <input
             type="number"
             name="SizeQtyUsed"

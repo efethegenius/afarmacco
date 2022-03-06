@@ -1,4 +1,5 @@
 import React from "react";
+import banner from "./banner.png";
 import {
   AiOutlineMail,
   AiOutlineInstagram,
@@ -55,7 +56,8 @@ export const Footer = () => {
           <p>• Privacy</p>
           <p>• Terms and Conditions</p>
         </div>
-        <p className="copyright">© 2022 afarmacco</p>
+        <p className="copyright">© 2022 afarmacco&reg;</p>
+        <img src={banner} alt="banner" className="banner" />
       </div>
     </div>
   );

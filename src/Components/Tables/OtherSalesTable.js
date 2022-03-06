@@ -14,7 +14,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch("/api/all-other-sales", {
+      const allOtherSales = await fetch("api/all-other-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -167,7 +167,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
       </div>
       {sortOtherSales && sortOtherSales.length === 0 ? (
         <div className="empty-main-report">
-          <h1>Oops! There are no Other Income report available yet</h1>
+          <h1> There are no Other Income report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
@@ -221,7 +221,7 @@ export const OtherSalesTable = React.forwardRef((props, ref) => {
               })}
             <tfoot className="total-container">
               <tr>
-                <th id="total" className="total" colspan="1">
+                <th id="total" className="total" colSpan="1">
                   Total :
                 </th>
                 <td className="total"></td>

@@ -11,7 +11,7 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
+      const capexs = await fetch("api/capexs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -110,7 +110,7 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
       )}
       {sortCapexDisposal && sortCapexDisposal.length === 0 ? (
         <div className="empty-main-report">
-          <h1>Oops! There are no Disposal report available yet</h1>
+          <h1> There are no Disposal report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
@@ -175,7 +175,7 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
               })}
             {/* <tfoot className="total-container">
               <tr>
-                <th id="total" className="total" colspan="1">
+                <th id="total" className="total" colSpan="1">
                   Total :
                 </th>
                 <td className="total"></td>

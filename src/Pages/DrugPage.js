@@ -39,7 +39,7 @@ export const DrugPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
+      const activeCreditors = await fetch("api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -57,7 +57,7 @@ export const DrugPage = () => {
   // getting drug purchase start-----------------------------------------------------
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
+      const allDrugPurchase = await fetch("api/all-drug-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -75,7 +75,7 @@ export const DrugPage = () => {
   // getting drug consumed start-----------------------------------------------------
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
+      const allDrugConsumed = await fetch("api/all-drug-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -184,7 +184,7 @@ export const DrugPage = () => {
     <div className="drug">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
       {/* {(isDrugConsumedForm || isDrugPurchaseForm || isFullReport) && ( */}
-      <div
+      {/* <div
         className={`${
           isDrugConsumedForm || isDrugPurchaseForm
             ? "form-background"
@@ -199,7 +199,7 @@ export const DrugPage = () => {
             setAnimState(true);
           }, 1000);
         }}
-      ></div>
+      ></div> */}
       {/* )} */}
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}

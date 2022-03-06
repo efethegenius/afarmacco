@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Loading } from "../Loading";
 
-export const DrugPurchaseTable = React.forwardRef((props, ref) => {
-  const [returnedDrugPurchase, setReturnedDrugPurchase] = useState([]);
+export const PolLayerTable = React.forwardRef((props, ref) => {
+  const [returnedPolLayers, setReturnedPolLayers] = useState([]);
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
-  const [drugFilter, setDrugFilter] = useState("");
+  const [birdFilter, setBirdFilter] = useState("");
+  const [search, setSearch] = useState("");
   const [isDate, setIsDate] = useState(false);
   const [isPmt, setIsPmt] = useState(false);
-  const [isDrugFilter, setIsDrugFilter] = useState(false);
+  const [isBirdFilter, setIsBirdFilter] = useState(false);
 
-  // getting drug purchase start-----------------------------------------------------
-  const getAllDrugPurchase = async () => {
+  const getAllPolLayers = async () => {
     try {
-      const allDrugPurchase = await fetch("api/all-drug-purchase", {
+      const allPolLayers = await fetch("api/all-pol-layers", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -22,56 +22,57 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
           accessToken: localStorage.getItem("accessToken"),
         },
       }).then((res) => res.json());
-      setReturnedDrugPurchase(allDrugPurchase);
+      setReturnedPolLayers(allPolLayers);
     } catch (error) {
       console.log(error);
     }
   };
-  // getting drug purchase end-----------------------------------------------------
+
   useEffect(() => {
-    getAllDrugPurchase();
+    getAllPolLayers();
   }, []);
-
-  let allDrugPurchase = returnedDrugPurchase.name;
-
-  const sortDrugPurchase =
-    returnedDrugPurchase.name && fromDate && toDate
-      ? returnedDrugPurchase.name.filter(
-          (sortedDrugPurchase) =>
-            sortedDrugPurchase.PurchaseDate <= toDate &&
-            sortedDrugPurchase.PurchaseDate >= fromDate
-        )
-      : returnedDrugPurchase.name && filter
-      ? returnedDrugPurchase.name.filter(
-          (sortedDrugPurchase) => sortedDrugPurchase.PmtType === filter
-        )
-      : returnedDrugPurchase.name && drugFilter
-      ? returnedDrugPurchase.name.filter(
-          (sortedDrugPurchase) => sortedDrugPurchase.DrugName === drugFilter
-        )
-      : allDrugPurchase;
-
-  // calculating totals-----------------------------------------------------------------
-  let totalAmount;
-  if (returnedDrugPurchase.name) {
-    totalAmount = sortDrugPurchase.reduce((a, v) => (a = a + v.Amount), 0);
-  }
-  let totalQty;
-  if (returnedDrugPurchase.name) {
-    totalQty = sortDrugPurchase.reduce((a, v) => (a = a + v.Qty), 0);
-  }
-  let totalBagWeight;
-  if (returnedDrugPurchase.name) {
-    totalBagWeight = sortDrugPurchase.reduce(
-      (a, v) => (a = a + v.BagWeight),
-      0
-    );
-  }
-  // calculating totals-----------------------------------------------------------------
 
   const formatMoney = (n) => {
     return (Math.round(n * 100) / 100).toLocaleString();
   };
+
+  let allPolLayers = returnedPolLayers.name;
+
+  // const sortBirdSales =
+  //   returnedBirdSales.name && search
+  //     ? returnedBirdSales.name.filter(
+  //         (sortedBird) =>
+  //           sortedBird.Reference.toLowerCase() === search.toLowerCase() ||
+  //           sortedBird.BirdName.toLowerCase() === search.toLowerCase()
+  //       )
+  //     : allBirdSales;
+  const sortPolLayers =
+    returnedPolLayers.name && fromDate && toDate
+      ? returnedPolLayers.name.filter(
+          (sortedPolLayer) =>
+            sortedPolLayer.TxnDate <= toDate &&
+            sortedPolLayer.TxnDate >= fromDate
+        )
+      : returnedPolLayers.name && filter
+      ? returnedPolLayers.name.filter(
+          (sortedPolLayer) => sortedPolLayer.PmtType === filter
+        )
+      : //   : returnedPolLayers.name && birdFilter
+        //   ? returnedPolLayers.name.filter(
+        //       (sortedPolLayer) => sortedPolLayer.BirdName === birdFilter
+        //     )
+        allPolLayers;
+
+  // calculating totals-----------------------------------------------------------------
+  let totalAmount;
+  if (returnedPolLayers.name) {
+    totalAmount = sortPolLayers.reduce((a, v) => (a = a + v.Amount), 0);
+  }
+  let totalQty;
+  if (returnedPolLayers.name) {
+    totalQty = sortPolLayers.reduce((a, v) => (a = a + v.Qty), 0);
+  }
+  // calculating totals-----------------------------------------------------------------
 
   return (
     <>
@@ -81,11 +82,11 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
           onClick={() => {
             setIsDate(!isDate);
             setIsPmt(false);
-            setIsDrugFilter(false);
+            setIsBirdFilter(false);
             setToDate("");
             setFromDate("");
             setFilter("");
-            setDrugFilter("");
+            setBirdFilter("");
           }}
         >
           Date
@@ -94,28 +95,28 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
           onClick={() => {
             setIsPmt(!isPmt);
             setIsDate(false);
-            setIsDrugFilter(false);
+            setIsBirdFilter(false);
             setToDate("");
             setFromDate("");
             setFilter("");
-            setDrugFilter("");
+            setBirdFilter("");
           }}
         >
           Payment method
         </button>
-        <button
+        {/* <button
           onClick={() => {
-            setIsDrugFilter(!isDrugFilter);
+            setIsBirdFilter(!isBirdFilter);
             setIsDate(false);
             setIsPmt(false);
             setToDate("");
             setFromDate("");
             setFilter("");
-            setDrugFilter("");
+            setBirdFilter("");
           }}
         >
-          Drug Type
-        </button>
+          Bird Type
+        </button> */}
       </div>
       <div className="sort-report">
         {isDate && (
@@ -156,45 +157,47 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
             </select>
           </div>
         )}
-        {isDrugFilter && (
-          <div className="drug-filter">
-            <label htmlFor="drugfilter">Drug:</label>
+        {/* {isBirdFilter && (
+          <div className="bird-filter">
+            <label htmlFor="birdfilter">Bird:</label>
             <select
-              name="drugfilter"
-              id="drugfilter"
-              value={drugFilter}
-              onChange={(e) => setDrugFilter(e.target.value)}
+              name="birdfilter"
+              id="birdfilter"
+              value={birdFilter}
+              onChange={(e) => setBirdFilter(e.target.value)}
             >
               <option></option>
-              <option>Antibiotics</option>
-              <option>Anticoccidiosis</option>
-              <option>Antiviral</option>
-              <option>Coryza</option>
-              <option>Deworm</option>
-              <option>Multivitamin</option>
-              <option>Vaccine</option>
+              <option>Broiler</option>
+              <option>Layer</option>
+              <option>Cockerel</option>
+              <option>Noiler</option>
+              <option>Turkey</option>
             </select>
           </div>
-        )}
+        )} */}
+        {/* <input
+          type="text"
+          name="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        /> */}
       </div>
-      {sortDrugPurchase && sortDrugPurchase.length === 0 ? (
+      {sortPolLayers && sortPolLayers.length === 0 ? (
         <div className="empty-main-report">
-          <h1> There are no Drug purchase report available yet</h1>
+          <h1> There are no POL Layers report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
         </div>
-      ) : sortDrugPurchase ? (
+      ) : sortPolLayers ? (
         <div className="table-container" ref={ref}>
           <table id="table-to-xls">
-            <tbody>
+            <tbody className="table-head">
               <tr>
                 <th>Date</th>
                 <th>Invoice No</th>
-                <th>Lot No</th>
-                <th>Drug</th>
-                <th>Bag Weight (Kg)</th>
-                <th>Quantity</th>
+                <th>Batch</th>
+                <th>Quantity (Purchased)</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
                 <th>Payment Type</th>
@@ -202,33 +205,27 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                 <th>Supplier</th>
               </tr>
             </tbody>
-            {returnedDrugPurchase.name &&
-              sortDrugPurchase.map((drugPurchase) => {
+            {returnedPolLayers.name &&
+              sortPolLayers.map((polLayer) => {
                 const {
-                  DrugPurchaseId,
-                  PurchaseDate,
+                  PolConvertId,
+                  TxnDate,
                   InvoiceNo,
-                  LotNo,
-                  DrugName,
-                  BagWeight,
+                  Batch,
                   Qty,
                   UnitPrice,
                   Amount,
                   PmtType,
                   BankName,
                   SupplierName,
-                } = drugPurchase;
-                const newDate = `${new Date(
-                  PurchaseDate
-                ).toLocaleDateString()}`;
+                } = polLayer;
+                const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
                 return (
-                  <tbody key={DrugPurchaseId}>
+                  <tbody key={PolConvertId}>
                     <tr>
                       <td>{newDate}</td>
                       <td>{InvoiceNo}</td>
-                      <td>{LotNo}</td>
-                      <td>{DrugName}</td>
-                      <td>{formatMoney(BagWeight)}</td>
+                      <td>{Batch}</td>
                       <td>{formatMoney(Qty)}</td>
                       <td>{formatMoney(UnitPrice)}.00</td>
                       <td>{formatMoney(Amount)}.00</td>
@@ -246,8 +243,6 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                 </th>
                 <td className="total"></td>
                 <td className="total"></td>
-                <td className="total"></td>
-                <td className="total">{formatMoney(totalBagWeight)}</td>
                 <td className="total">{formatMoney(totalQty)}</td>
                 <td className="total"></td>
                 <td className="total">{formatMoney(totalAmount)}.00</td>

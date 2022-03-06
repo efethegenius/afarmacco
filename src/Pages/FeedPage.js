@@ -38,7 +38,7 @@ export const FeedPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
+      const activeCreditors = await fetch("api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -55,7 +55,7 @@ export const FeedPage = () => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
+      const allFeedPurchase = await fetch("api/all-feed-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -73,7 +73,7 @@ export const FeedPage = () => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
+      const allFeedConsumed = await fetch("api/all-feed-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -191,7 +191,7 @@ export const FeedPage = () => {
     <div className="feed">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
       {/* {(isFeedConsumedForm || isFeedPurchaseForm || isFullReport) && ( */}
-      <div
+      {/* <div
         className={`${
           isFeedConsumedForm || isFeedPurchaseForm
             ? "form-background"
@@ -206,7 +206,7 @@ export const FeedPage = () => {
             setAnimState(true);
           }, 1000);
         }}
-      ></div>
+      ></div> */}
       {/* )} */}
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}

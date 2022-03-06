@@ -14,6 +14,7 @@ export const Expense = ({
   animState,
   setAnimState,
   getActiveCreditors,
+  getDeprDate,
 }) => {
   const [returnedData, setReturnedData] = useState();
   const [returnedDepr, setReturnedDepr] = useState();
@@ -21,7 +22,8 @@ export const Expense = ({
   const { returnedMethods } = FetchMethods();
   const { returnedExpenseTypes } = FetchExpenseTypes();
   const { returnedBanks } = FetchBanks();
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setExpenseTxn, expenseTxn, deprTxn, setDeprTxn } =
+    useContext(AuthContext);
 
   const [expense, setExpense] = useState({
     ExpenseDate: 0,
@@ -37,7 +39,7 @@ export const Expense = ({
   });
 
   const newExpense = async () => {
-    const newData = await fetch("/create/expense", {
+    const newData = await fetch("create/expense", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -50,10 +52,14 @@ export const Expense = ({
     }).then((res) => res.json());
     console.log(newData);
     setReturnedData(newData[0]);
+    setExpenseTxn(true);
+    setTimeout(() => {
+      setExpenseTxn(false);
+    }, 4000);
   };
 
   const newDepr = async () => {
-    const newData = await fetch("/create/depr", {
+    const newData = await fetch("create/depr", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -66,6 +72,10 @@ export const Expense = ({
     }).then((res) => res.json());
     setReturnedDepr(newData[0]);
     console.log(newData);
+    setDeprTxn(true);
+    setTimeout(() => {
+      setDeprTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
@@ -90,7 +100,6 @@ export const Expense = ({
   };
 
   const handleSubmit = () => {
-    // e.preventDefault();
     newExpense();
     setTimeout(() => {
       getActiveCreditors();
@@ -102,6 +111,7 @@ export const Expense = ({
     newDepr();
     setTimeout(() => {
       getAllExpenses();
+      getDeprDate();
     }, 1500);
   };
 

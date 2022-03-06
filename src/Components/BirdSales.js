@@ -21,11 +21,11 @@ export const BirdSales = ({
   const [fieldErr, setFieldErr] = useState(false);
   const { returnedMethods } = FetchMethods();
   const [pmtErr, setPmtErr] = useState(false);
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
 
   const [sales, setSales] = useState({
-    SalesDate: 0,
-    Reference: 0,
+    TxnDate: 0,
+    InvoiceNo: 0,
     BirdType: "",
     Batch: 0,
     Qty: 0,
@@ -43,7 +43,7 @@ export const BirdSales = ({
       !sales.BirdType ||
       !sales.PmtMethod ||
       !sales.Qty ||
-      !sales.SalesDate ||
+      !sales.TxnDate ||
       !sales.UnitPrice
     ) {
       setFieldErr(true);
@@ -52,7 +52,12 @@ export const BirdSales = ({
       }, 4000);
       return;
     }
-    if (!sales.BankName && !sales.Debtor && sales.PmtMethod !== "Cash") {
+    if (
+      !sales.BankName &&
+      !sales.Debtor &&
+      sales.PmtMethod !== "Cash" &&
+      sales.PmtMethod !== "Other"
+    ) {
       setPmtErr(true);
       setTimeout(function () {
         setPmtErr(false);
@@ -60,7 +65,7 @@ export const BirdSales = ({
       return;
     }
 
-    const newData = await fetch("/create/bird_sales", {
+    const newData = await fetch("create/bird_sales", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -77,13 +82,17 @@ export const BirdSales = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log(value);
     if (
-      name === "Reference" ||
+      name === "InvoiceNo" ||
       name === "Batch" ||
       name === "Qty" ||
       name === "UnitPrice" ||
@@ -155,23 +164,25 @@ export const BirdSales = ({
             All required fields must be filled
           </p>
         )}
-        <div className="input">
-          <label htmlFor="SalesDate"> Date</label>
-          <input
-            type="date"
-            name="SalesDate"
-            id="SalesDate"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input">
-          <label htmlFor="Reference">Reference</label>
-          <input
-            type="number"
-            name="Reference"
-            id="Reference"
-            onChange={handleChange}
-          />
+        <div className="double-input">
+          <div className="input">
+            <label htmlFor="TxnDate"> Date</label>
+            <input
+              type="date"
+              name="TxnDate"
+              id="TxnDate"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="input">
+            <label htmlFor="InvoiceNo">InvoiceNo</label>
+            <input
+              type="number"
+              name="InvoiceNo"
+              id="InvoiceNo"
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div className="bird-type-container">
           <div className="input">

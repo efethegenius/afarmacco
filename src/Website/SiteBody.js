@@ -19,7 +19,7 @@ export const SiteBody = () => {
   return (
     <div className="site-body-container">
       {/* <div>
-        <h3>Afarmacco: Poultry Management App</h3>
+        <h3>afarmacco&reg;: Poultry Management App</h3>
         <p>Simple, easy to use, efficient...</p>
       </div> */}
 

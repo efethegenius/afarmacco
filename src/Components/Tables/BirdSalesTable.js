@@ -14,7 +14,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
+      const allBirdSales = await fetch("api/all-bird-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -42,7 +42,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
   //   returnedBirdSales.name && search
   //     ? returnedBirdSales.name.filter(
   //         (sortedBird) =>
-  //           sortedBird.Reference.toLowerCase() === search.toLowerCase() ||
+  //           sortedBird.InvoiceNo.toLowerCase() === search.toLowerCase() ||
   //           sortedBird.BirdName.toLowerCase() === search.toLowerCase()
   //       )
   //     : allBirdSales;
@@ -50,7 +50,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
     returnedBirdSales.name && fromDate && toDate
       ? returnedBirdSales.name.filter(
           (sortedBird) =>
-            sortedBird.SalesDate <= toDate && sortedBird.SalesDate >= fromDate
+            sortedBird.TxnDate <= toDate && sortedBird.TxnDate >= fromDate
         )
       : returnedBirdSales.name && filter
       ? returnedBirdSales.name.filter(
@@ -183,7 +183,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
       </div>
       {sortBirdSales && sortBirdSales.length === 0 ? (
         <div className="empty-main-report">
-          <h1>Oops! There are no Bird Sale report available yet</h1>
+          <h1> There are no Bird Sale report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
@@ -209,8 +209,8 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
               sortBirdSales.map((birdSale) => {
                 const {
                   SalesId,
-                  SalesDate,
-                  Reference,
+                  TxnDate,
+                  InvoiceNo,
                   BirdName,
                   Batch,
                   Qty,
@@ -220,12 +220,12 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
                   BankName,
                   CustomerName,
                 } = birdSale;
-                const newDate = `${new Date(SalesDate).toLocaleDateString()}`;
+                const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
                 return (
                   <tbody key={SalesId}>
                     <tr>
                       <td>{newDate}</td>
-                      <td>{Reference}</td>
+                      <td>{InvoiceNo}</td>
                       <td>{BirdName}</td>
                       <td>{Batch}</td>
                       <td>{formatMoney(Qty)}</td>
@@ -240,7 +240,7 @@ export const BirdSalesTable = React.forwardRef((props, ref) => {
               })}
             <tfoot className="total-container">
               <tr>
-                <th id="total" className="total" colspan="1">
+                <th id="total" className="total" colSpan="1">
                   Total :
                 </th>
                 <td className="total"></td>

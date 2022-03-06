@@ -1,32 +1,28 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  FetchBanks,
-  FetchOtherItems,
-  FetchMethods,
-} from "../FetchOptions/FetchOptions";
+import { FetchBanks, FetchMethods } from "../FetchOptions/FetchOptions";
 import { AuthContext } from "../helpers/AuthContext";
+import "animate.css";
 
-export const OtherSales = ({
-  isOtherForm,
-  getAllOtherSales,
-  setIsOtherForm,
-  getActiveDebtors,
+export const PolEgg = ({
+  isPolEggForm,
+  setIsPolEggForm,
+  getAllPolEggs,
   animState,
   setAnimState,
+  getActiveDebtors,
 }) => {
-  const [returnedData, setReturnedData] = useState();
-  const { returnedBanks } = FetchBanks();
-  const { returnedMethods } = FetchMethods();
-  const { returnedOtherItems } = FetchOtherItems();
-  const { upd, setUpd, capexTxn, setCapexTxn } = useContext(AuthContext);
-  const [fieldErr, setFieldErr] = useState(false);
+  const [returnedData, setReturnedData] = useState([]);
   const [pmtErr, setPmtErr] = useState(false);
+  const [fieldErr, setFieldErr] = useState(false);
+  const { returnedMethods } = FetchMethods();
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
+  const { returnedBanks } = FetchBanks();
 
   const [sales, setSales] = useState({
-    ItemDate: 0,
-    Reference: 0,
-    Item: "",
-    Qty: 0,
+    TxnDate: 0,
+    InvoiceNo: 0,
+    CrateQty: 0,
+    Batch: 0,
     UnitPrice: 0,
     PmtMethod: "",
     Debtor: "",
@@ -37,11 +33,11 @@ export const OtherSales = ({
 
   const newSales = async () => {
     if (
-      !sales.Item ||
-      !sales.ItemDate ||
-      !sales.Qty ||
-      !sales.UnitPrice ||
-      !sales.PmtMethod
+      !sales.Batch ||
+      !sales.PmtMethod ||
+      !sales.CrateQty ||
+      !sales.TxnDate ||
+      !sales.UnitPrice
     ) {
       setFieldErr(true);
       setTimeout(function () {
@@ -49,7 +45,6 @@ export const OtherSales = ({
       }, 4000);
       return;
     }
-
     if (
       !sales.BankName &&
       !sales.Debtor &&
@@ -62,7 +57,8 @@ export const OtherSales = ({
       }, 4000);
       return;
     }
-    const newData = await fetch("/create/other_sales", {
+
+    const newData = await fetch("create/pol_egg", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -74,31 +70,23 @@ export const OtherSales = ({
       }),
     }).then((res) => res.json());
     setReturnedData(newData[0]);
-    setIsOtherForm(false);
+    setIsPolEggForm(false);
     setAnimState(false);
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
-    setCapexTxn(true);
+    setOpexTxn(true);
     setTimeout(() => {
-      setCapexTxn(false);
+      setOpexTxn(false);
     }, 4000);
-  };
-
-  const handleSubmit = () => {
-    newSales();
-    setTimeout(() => {
-      getAllOtherSales();
-      getActiveDebtors();
-    }, 1500);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value);
     if (
-      name === "Reference" ||
-      name === "Qty" ||
+      name === "InvoiceNo" ||
+      name === "Batch" ||
+      name === "CrateQty" ||
       name === "UnitPrice" ||
       name === "UpdType" ||
       name === "RecId"
@@ -115,15 +103,13 @@ export const OtherSales = ({
     }));
   };
 
-  useEffect(() => {
-    if (upd) {
-      //changing the value of the action when the button is clicked
-      setSales((prevState) => ({
-        ...prevState,
-        UpdType: 1,
-      }));
-    }
-  }, []);
+  const handleSubmit = () => {
+    newSales();
+    setTimeout(() => {
+      getAllPolEggs();
+      getActiveDebtors();
+    }, 1500);
+  };
 
   let bankNames;
   if (returnedBanks.name) {
@@ -137,63 +123,68 @@ export const OtherSales = ({
       return <option key={method.PmtMethodId}>{method.PmtType}</option>;
     });
   }
-  let otherItems;
-  if (returnedOtherItems.name) {
-    otherItems = returnedOtherItems.name.map((otherItem) => {
-      return <option key={otherItem.ItemId}>{otherItem.ItemName}</option>;
-    });
-  }
+  useEffect(() => {
+    if (upd) {
+      setSales((prevState) => ({
+        ...prevState,
+        UpdType: 1,
+      }));
+    }
+  }, []);
 
   return (
     <div
       className={`${
-        isOtherForm && animState
-          ? "other-sales animate__animated animate__fadeInDown"
-          : !isOtherForm && animState
-          ? "hide-other-sales"
-          : "other-sales animate__animated animate__fadeOutUp"
+        isPolEggForm && animState
+          ? "bird-sale animate__animated animate__fadeInDown"
+          : !isPolEggForm && animState
+          ? "hide-bird-sale"
+          : "bird-sale animate__animated animate__fadeOutUp"
       }`}
     >
-      <section className="form-other-sales">
-        <h2 className="form-head">Other Sale</h2>
+      <section className="form-bird-sale">
+        <h2 className="form-head">POL Egg Sale</h2>
         {fieldErr && (
           <p className="form-err animate__animated animate__shakeX">
             All required fields must be filled
           </p>
         )}
-        <div className="double-input">
-          <div className="input">
-            <label htmlFor="ItemDate">Date</label>
-            <input
-              type="date"
-              name="ItemDate"
-              id="ItemDate"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <label htmlFor="Reference">Invoice No</label>
-            <input
-              type="number"
-              name="Reference"
-              id="Reference"
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
         <div className="input">
-          <label htmlFor="Item">Item</label>
-          <select name="Item" id="Item" onChange={handleChange}>
-            <option></option>
-            {otherItems}
-          </select>
+          <label htmlFor="TxnDate"> Date</label>
+          <input
+            type="date"
+            name="TxnDate"
+            id="TxnDate"
+            onChange={handleChange}
+          />
         </div>
-
+        <div className="input">
+          <label htmlFor="InvoiceNo">Invoice No</label>
+          <input
+            type="number"
+            name="InvoiceNo"
+            id="InvoiceNo"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="input">
+          <label htmlFor="Batch">Batch</label>
+          <input
+            type="number"
+            name="Batch"
+            id="Batch"
+            onChange={handleChange}
+          />
+        </div>
         <div className="sale-qty-container">
           <div className="input">
-            <label htmlFor="Qty">Quantity</label>
-            <input type="number" name="Qty" id="Qty" onChange={handleChange} />
+            <label htmlFor="CrateQty">Crate Qty</label>
+            <input
+              type="number"
+              name="CrateQty"
+              id="Qty"
+              onChange={handleChange}
+            />
           </div>
           <div className="input">
             <label htmlFor="UnitPrice">Unit Price</label>
@@ -228,7 +219,6 @@ export const OtherSales = ({
             />
           </div>
         )}
-
         {sales.PmtMethod === "Bank" && (
           <div className="input">
             <label htmlFor="BankName">Bank</label>
@@ -270,7 +260,7 @@ export const OtherSales = ({
         <button
           className="btn-discard"
           onClick={() => {
-            setIsOtherForm(false);
+            setIsPolEggForm(false);
             setAnimState(false);
             setTimeout(() => {
               setAnimState(true);

@@ -162,6 +162,24 @@ const createDocMortality = async (mortality) => {
   }
 };
 // DOC MORTALITY END
+// POL MORTALITY START
+const createPolMortality = async (mortality) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request
+      .input("UserId", sql.Int, user.id)
+      .input("TxnDate", sql.Date, mortality.TxnDate)
+      .input("Batch", sql.Int, mortality.Batch)
+      .input("Qty", sql.Int, mortality.Qty)
+      .input("UpdType", sql.Int, mortality.UpdType)
+      .input("RecId", sql.Int, mortality.RecId)
+      .execute("sp_PolMortality");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// POL MORTALITY END
 
 // DRUG PURCHASE START
 const createDrugPurchase = async (purchase) => {
@@ -246,7 +264,6 @@ const createDepr = async (depr) => {
       .input("ExpenseDate", sql.Date, depr.ExpenseDate)
       .input("ExpenseType", sql.NVarChar, depr.ExpenseType)
       .input("ExpenseHead", sql.NVarChar, depr.ExpenseHead)
-      .output("Message", sql.NVarChar)
       .execute("sp_Depr");
   } catch (error) {
     console.log(error);
@@ -254,14 +271,58 @@ const createDepr = async (depr) => {
 };
 // EXPENSE END
 
+// Pol Egg START
+const createPolEgg = async (sales) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("UserId", sql.Int, user.id);
+    request.input("TxnDate", sql.Date, sales.TxnDate);
+    request.input("InvoiceNo", sql.Int, sales.InvoiceNo);
+    request.input("CrateQty", sql.Int, sales.CrateQty);
+    request.input("Batch", sql.Int, sales.Batch);
+    request.input("UnitPrice", sql.Money, sales.UnitPrice);
+    request.input("PmtMethod", sql.NVarChar, sales.PmtMethod);
+    request.input("Debtor", sql.NVarChar, sales.Debtor);
+    request.input("BankName", sql.NVarChar, sales.BankName);
+    request.input("UpdType", sql.Int, sales.UpdType);
+    request.input("RecId", sql.Int, sales.RecId);
+    request.execute("sp_PolEgg");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// Pol Egg END
+// Pol Layer START
+const createPolLayer = async (convert) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("UserId", sql.Int, user.id);
+    request.input("TxnDate", sql.Date, convert.TxnDate);
+    request.input("InvoiceNo", sql.Int, convert.InvoiceNo);
+    request.input("Batch", sql.Int, convert.Batch);
+    request.input("Qty", sql.Int, convert.Qty);
+    request.input("UnitPrice", sql.Money, convert.UnitPrice);
+    request.input("PmtMethod", sql.NVarChar, convert.PmtMethod);
+    request.input("Creditor", sql.NVarChar, convert.Creditor);
+    request.input("BankName", sql.NVarChar, convert.BankName);
+    request.input("UpdType", sql.Int, convert.UpdType);
+    request.input("RecId", sql.Int, convert.RecId);
+    request.execute("sp_Pol_Convert");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// Pol Layer END
 // BIRD SALES START
 const createBirdSales = async (sales) => {
   try {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("UserId", sql.Int, user.id);
-    request.input("SalesDate", sql.Date, sales.SalesDate);
-    request.input("Reference", sql.Int, sales.Reference);
+    request.input("TxnDate", sql.Date, sales.TxnDate);
+    request.input("InvoiceNo", sql.Int, sales.InvoiceNo);
     request.input("BirdType", sql.NVarChar, sales.BirdType);
     request.input("Batch", sql.Int, sales.Batch);
     request.input("Qty", sql.Int, sales.Qty);
@@ -277,6 +338,28 @@ const createBirdSales = async (sales) => {
   }
 };
 // BIRD SALES END
+// POL SALES START
+const createPolSales = async (sales) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("UserId", sql.Int, user.id);
+    request.input("TxnDate", sql.Date, sales.TxnDate);
+    request.input("InvoiceNo", sql.Int, sales.InvoiceNo);
+    request.input("Batch", sql.Int, sales.Batch);
+    request.input("Qty", sql.Int, sales.Qty);
+    request.input("UnitPrice", sql.Money, sales.UnitPrice);
+    request.input("PmtMethod", sql.NVarChar, sales.PmtMethod);
+    request.input("Debtor", sql.NVarChar, sales.Debtor);
+    request.input("BankName", sql.NVarChar, sales.BankName);
+    request.input("UpdType", sql.Int, sales.UpdType);
+    request.input("RecId", sql.Int, sales.RecId);
+    request.execute("sp_PolSales");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// POL SALES END
 
 // OTHER SALES START
 const createOtherSales = async (sales) => {
@@ -524,6 +607,62 @@ const getAllExpenses = async () => {
     console.log(error);
   }
 };
+const getAllPolEggs = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let polEggs = await pool
+      .request()
+      .query(
+        `select * from vw_PolEgg Where UserId = ${user.id} Order by PolEggId desc`
+      );
+    return polEggs;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllPolLayers = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let polLayers = await pool
+      .request()
+      .query(
+        `select * from vw_PolConvert Where UserId = ${user.id} Order by PolConvertId desc`
+      );
+    return polLayers;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllPolMortality = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let polMortality = await pool
+      .request()
+      .query(
+        `select * from vw_PolMortality Where UserId = ${user.id} Order by MortalityId desc`
+      );
+    return polMortality;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllPolSales = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let polSales = await pool
+      .request()
+      .query(
+        `select * from vw_PolSales Where UserId = ${user.id} Order by SalesId desc`
+      );
+    return polSales;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllBirdSales = async () => {
   try {
     let pool = await sql.connect(config);
@@ -628,9 +767,24 @@ const getAllFeedConsumed = async () => {
     console.log(error);
   }
 };
+const getReports = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let reports = await pool
+      .request()
+      .query(
+        `select * from vw_Reports  Where UserId = ${user.id} Order by ReportId desc`
+      );
+    return reports;
+  } catch (error) {
+    console.log(error);
+  }
+};
 // GET REQUESTS END
 
 module.exports = {
+  createPolEgg,
+  createPolLayer,
   createBirdSales,
   createCapex,
   createDocMortality,
@@ -642,6 +796,8 @@ module.exports = {
   createFeedConsumed,
   createFeedPurchase,
   createOtherSales,
+  createPolMortality,
+  createPolSales,
   createUserValidation,
   getCapexs,
   getAllDocMortality,
@@ -653,8 +809,10 @@ module.exports = {
   getAllFeedPurchase,
   getAllBirdSales,
   getAllOtherSales,
+  getAllPolLayers,
   getActiveCreditors,
   getActiveDebtors,
+  getAllPolEggs,
   getBanks,
   getBirdTypes,
   getDocPurchases,
@@ -667,8 +825,11 @@ module.exports = {
   getPmtMethod,
   getUser,
   getAssetType,
+  getAllPolSales,
+  getAllPolMortality,
   getTxnType,
   getDeprDate,
+  getReports,
   debtorPay,
   creditorPay,
 };

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Loading } from "../Loading";
 
-export const DocPurchaseTable = React.forwardRef((props, ref) => {
+export const ReportsTable = React.forwardRef((props, ref) => {
+  const [returnedReports, setReturnedReports] = useState([]);
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
   const [birdFilter, setBirdFilter] = useState("");
-  const [returnedDocPurchase, setReturnedDocPurchase] = useState([]);
+  const [search, setSearch] = useState("");
   const [isDate, setIsDate] = useState(false);
   const [isPmt, setIsPmt] = useState(false);
   const [isBirdFilter, setIsBirdFilter] = useState(false);
 
-  // getting doc purchase start-----------------------------------------------------
-  const getAllDocPurchase = async () => {
+  const getReports = async () => {
     try {
-      const allDocPurchase = await fetch("api/all-doc-purchase", {
+      const reports = await fetch("api/reports", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -22,50 +22,56 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
           accessToken: localStorage.getItem("accessToken"),
         },
       }).then((res) => res.json());
-      setReturnedDocPurchase(allDocPurchase);
+      setReturnedReports(reports);
     } catch (error) {
       console.log(error);
     }
   };
-  // getting doc purchase end-----------------------------------------------------
 
   useEffect(() => {
-    getAllDocPurchase();
+    getReports();
   }, []);
-
-  let allDocPurchase = returnedDocPurchase.name;
-
-  const sortDocPurchase =
-    returnedDocPurchase.name && fromDate && toDate
-      ? returnedDocPurchase.name.filter(
-          (sortedDocPurchase) =>
-            sortedDocPurchase.PurchaseDate <= toDate &&
-            sortedDocPurchase.PurchaseDate >= fromDate
-        )
-      : returnedDocPurchase.name && filter
-      ? returnedDocPurchase.name.filter(
-          (sortedDocPurchase) => sortedDocPurchase.PmtType === filter
-        )
-      : returnedDocPurchase.name && birdFilter
-      ? returnedDocPurchase.name.filter(
-          (sortedDocPurchase) => sortedDocPurchase.BirdName === birdFilter
-        )
-      : allDocPurchase;
-
-  // calculating totals-----------------------------------------------------------------
-  let totalAmount;
-  if (returnedDocPurchase.name) {
-    totalAmount = sortDocPurchase.reduce((a, v) => (a = a + v.Amount), 0);
-  }
-  let totalQty;
-  if (returnedDocPurchase.name) {
-    totalQty = sortDocPurchase.reduce((a, v) => (a = a + v.Qty), 0);
-  }
-  // calculating totals-----------------------------------------------------------------
 
   const formatMoney = (n) => {
     return (Math.round(n * 100) / 100).toLocaleString();
   };
+
+  let allReports = returnedReports.name;
+
+  // const sortBirdSales =
+  //   returnedBirdSales.name && search
+  //     ? returnedBirdSales.name.filter(
+  //         (sortedBird) =>
+  //           sortedBird.Reference.toLowerCase() === search.toLowerCase() ||
+  //           sortedBird.BirdName.toLowerCase() === search.toLowerCase()
+  //       )
+  //     : allBirdSales;
+  const sortReports =
+    returnedReports.name && fromDate && toDate
+      ? returnedReports.name.filter(
+          (sortedReport) =>
+            sortedReport.TxnDate <= toDate && sortedReport.TxnDate >= fromDate
+        )
+      : //   : returnedPolLayers.name && filter
+        //   ? returnedPolLayers.name.filter(
+        //       (sortedPolLayer) => sortedPolLayer.PmtType === filter
+        //     )
+        //   : returnedPolLayers.name && birdFilter
+        //   ? returnedPolLayers.name.filter(
+        //       (sortedPolLayer) => sortedPolLayer.BirdName === birdFilter
+        //     )
+        allReports;
+
+  // calculating totals-----------------------------------------------------------------
+  let totalAmount;
+  if (returnedReports.name) {
+    totalAmount = sortReports.reduce((a, v) => (a = a + v.Amount), 0);
+  }
+  //   let totalQty;
+  //   if (returnedPolLayers.name) {
+  //     totalQty = sortPolLayers.reduce((a, v) => (a = a + v.Qty), 0);
+  //   }
+  // calculating totals-----------------------------------------------------------------
 
   return (
     <>
@@ -84,7 +90,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
         >
           Date
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setIsPmt(!isPmt);
             setIsDate(false);
@@ -96,8 +102,8 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
           }}
         >
           Payment method
-        </button>
-        <button
+        </button> */}
+        {/* <button
           onClick={() => {
             setIsBirdFilter(!isBirdFilter);
             setIsDate(false);
@@ -109,12 +115,12 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
           }}
         >
           Bird Type
-        </button>
+        </button> */}
       </div>
       <div className="sort-report">
         {isDate && (
           <div className="sort-date">
-            <label htmlFor="fromDate">From: </label>
+            <label htmlFor="fromDate">From:</label>
             <input
               type="date"
               name="fromDate"
@@ -134,9 +140,9 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
             />
           </div>
         )}
-        {isPmt && (
+        {/* {isPmt && (
           <div className="pmt-filter">
-            <label htmlFor="filter">Payment Method</label>
+            <label htmlFor="filter">Payment Method:</label>
             <select
               name="filter"
               id="filter"
@@ -149,10 +155,10 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
               <option>Cash</option>
             </select>
           </div>
-        )}
-        {isBirdFilter && (
+        )} */}
+        {/* {isBirdFilter && (
           <div className="bird-filter">
-            <label htmlFor="birdfilter">Bird</label>
+            <label htmlFor="birdfilter">Bird:</label>
             <select
               name="birdfilter"
               id="birdfilter"
@@ -167,63 +173,45 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
               <option>Turkey</option>
             </select>
           </div>
-        )}
+        )} */}
+        {/* <input
+          type="text"
+          name="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        /> */}
       </div>
-      {sortDocPurchase && sortDocPurchase.length === 0 ? (
+      {sortReports && sortReports.length === 0 ? (
         <div className="empty-main-report">
-          <h1> There are no DOC purchase report available yet</h1>
+          <h1> There are no Financial reports available yet</h1>
           <p>
-            Create a new report by tapping the <span>NEW</span> button...
+            When you make transactions, Financial reports would be available
+            here
           </p>
         </div>
-      ) : sortDocPurchase ? (
-        <div className="table-container" ref={ref}>
+      ) : sortReports ? (
+        <div className="table-container report-table-container" ref={ref}>
           <table id="table-to-xls">
-            <tbody>
+            <tbody className="table-head">
               <tr>
                 <th>Date</th>
-                <th>Invoice No</th>
-                <th>Bird Type</th>
-                <th>Batch</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
+                <th>Details</th>
+                <th>Type</th>
                 <th>Amount</th>
-                <th>Payment Type</th>
-                <th>Bank</th>
-                <th>Customer</th>
               </tr>
             </tbody>
-            {returnedDocPurchase.name &&
-              sortDocPurchase.map((docPurchase) => {
-                const {
-                  DOCPurchaseId,
-                  PurchaseDate,
-                  InvoiceNo,
-                  BirdName,
-                  Batch,
-                  Qty,
-                  UnitPrice,
-                  Amount,
-                  PmtType,
-                  BankName,
-                  CustomerName,
-                } = docPurchase;
-                const newDate = `${new Date(
-                  PurchaseDate
-                ).toLocaleDateString()}`;
+            {returnedReports.name &&
+              sortReports.map((report) => {
+                const { ReportId, TxnDate, ReportDetails, ReportType, Amount } =
+                  report;
+                const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
                 return (
-                  <tbody key={DOCPurchaseId}>
+                  <tbody key={ReportId}>
                     <tr>
                       <td>{newDate}</td>
-                      <td>{InvoiceNo}</td>
-                      <td>{BirdName}</td>
-                      <td>{Batch}</td>
-                      <td>{formatMoney(Qty)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
+                      <td>{ReportDetails}</td>
+                      <td>{ReportType}</td>
                       <td>{formatMoney(Amount)}.00</td>
-                      <td>{PmtType}</td>
-                      <td>{BankName}</td>
-                      <td>{CustomerName}</td>
                     </tr>
                   </tbody>
                 );
@@ -231,17 +219,11 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
             <tfoot className="total-container">
               <tr>
                 <th id="total" className="total" colSpan="1">
-                  Total :
+                  Gross Profit :
                 </th>
                 <td className="total"></td>
                 <td className="total"></td>
-                <td className="total"></td>
-                <td className="total">{formatMoney(totalQty)}</td>
-                <td className="total"></td>
                 <td className="total">{formatMoney(totalAmount)}.00</td>
-                <td className="total"></td>
-                <td className="total"></td>
-                <td className="total"></td>
               </tr>
             </tfoot>
           </table>

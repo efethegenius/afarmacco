@@ -13,6 +13,9 @@ export const Dashboard = () => {
   const { authState, setAuthState } = useContext(AuthContext);
   const [returnedDocPurchase, setReturnedDocPurchase] = useState([]);
   const [returnedBirdSales, setReturnedBirdSales] = useState([]);
+  const [returnedPolSales, setReturnedPolSales] = useState([]);
+  const [returnedPolMortality, setReturnedPolMortality] = useState([]);
+  const [returnedPolLayers, setReturnedPolLayers] = useState([]);
   const [returnedDrugPurchase, setReturnedDrugPurchase] = useState([]);
   const [returnedDocMortality, setReturnedDocMortality] = useState([]);
   const [returnedDrugConsumed, setReturnedDrugConsumed] = useState([]);
@@ -25,7 +28,7 @@ export const Dashboard = () => {
 
   const getCurrentUser = async () => {
     try {
-      const currentUser = await fetch("/api/user", {
+      const currentUser = await fetch("api/user", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -56,9 +59,54 @@ export const Dashboard = () => {
   }/${current.getFullYear()}`;
 
   // getting Infos start-----------------------------------------------------
+  const getAllPolLayers = async () => {
+    try {
+      const allPolLayers = await fetch("api/all-pol-layers", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
+      setReturnedPolLayers(allPolLayers);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAllPolSales = async () => {
+    try {
+      const allPolSales = await fetch("api/all-pol-sales", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
+      setReturnedPolSales(allPolSales);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAllPolMortality = async () => {
+    try {
+      const allPolMortality = await fetch("api/all-pol-mortality", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }).then((res) => res.json());
+      setReturnedPolMortality(allPolMortality);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
+      const allDocPurchase = await fetch("api/all-doc-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -74,7 +122,7 @@ export const Dashboard = () => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
+      const allBirdSales = await fetch("api/all-bird-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -90,7 +138,7 @@ export const Dashboard = () => {
 
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
+      const allDocMortality = await fetch("api/all-doc-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -106,7 +154,7 @@ export const Dashboard = () => {
 
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
+      const allDrugPurchase = await fetch("api/all-drug-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -121,7 +169,7 @@ export const Dashboard = () => {
   };
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
+      const allDrugConsumed = await fetch("api/all-drug-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -136,7 +184,7 @@ export const Dashboard = () => {
   };
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
+      const allFeedPurchase = await fetch("api/all-feed-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -151,7 +199,7 @@ export const Dashboard = () => {
   };
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
+      const allFeedConsumed = await fetch("api/all-feed-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -174,9 +222,31 @@ export const Dashboard = () => {
     getAllDrugConsumed();
     getAllFeedPurchase();
     getAllFeedConsumed();
+    getAllPolLayers();
+    getAllPolSales();
+    getAllPolMortality();
   }, []);
 
   // Totals start---------------------------------------------------------------------
+  let totalPolLayers;
+  if (returnedPolLayers.name) {
+    totalPolLayers = returnedPolLayers.name.reduce(
+      (a, v) => (a = a + v.Qty),
+      0
+    );
+  }
+  let totalPolSales;
+  if (returnedPolSales.name) {
+    totalPolSales = returnedPolSales.name.reduce((a, v) => (a = a + v.Qty), 0);
+  }
+  let totalPolMortality;
+  if (returnedPolMortality.name) {
+    totalPolMortality = returnedPolMortality.name.reduce(
+      (a, v) => (a = a + v.Qty),
+      0
+    );
+  }
+
   let totalBirdPurchaseQty;
   if (returnedDocPurchase.name) {
     totalBirdPurchaseQty = returnedDocPurchase.name.reduce(
@@ -725,10 +795,10 @@ export const Dashboard = () => {
               returnedFeedPurchase.name &&
               returnedFeedConsumed.name.length === 0 &&
               returnedFeedPurchase.name.length === 0 ? (
-                <p>
-                  You do not have any stock in your inventory yet. When you do,
-                  they would appear here
-                </p>
+                <div className="empty-main-report">
+                  <h1>You do not have any stock in your inventory yet.</h1>
+                  <p>When you do, they would appear here</p>
+                </div>
               ) : (
                 <>
                   <div className="dash-bird-container dash">
@@ -761,7 +831,7 @@ export const Dashboard = () => {
                               <th>Bird</th>
                               <th>Purchased</th>
                               <th>Sold</th>
-                              <th>Died</th>
+                              <th>Mortality</th>
                               <th>Balance</th>
                             </tr>
                             <tr>
@@ -805,7 +875,7 @@ export const Dashboard = () => {
                               </td>
                             </tr>
                             <tr>
-                              <td>Layer</td>
+                              <td>Layer (DOC)</td>
                               <td>{layerPurchaseQty}</td>
                               <td>{layerSaleQty}</td>
                               <td>{layerMortalityQty}</td>
@@ -814,27 +884,40 @@ export const Dashboard = () => {
                                   (layerMortalityQty + layerSaleQty)}
                               </td>
                             </tr>
+                            <tr>
+                              <td>Layer (POL)</td>
+                              <td>{totalPolLayers}</td>
+                              <td>{totalPolSales}</td>
+                              <td>{totalPolMortality}</td>
+                              <td>
+                                {totalPolLayers -
+                                  (totalPolSales + totalPolMortality)}
+                              </td>
+                            </tr>
                             <tfoot className="total-container">
                               <tr>
                                 <th
                                   id="total"
                                   className="total dashboard-total"
-                                  colspan="1"
+                                  colSpan="1"
                                 >
                                   Total :
                                 </th>
                                 <td className="total dashboard-total">
-                                  {totalBirdPurchaseQty}
+                                  {totalBirdPurchaseQty + totalPolLayers}
                                 </td>
                                 <td className="total dashboard-total">
-                                  {totalBirdSaleQty}
+                                  {totalBirdSaleQty + totalPolSales}
                                 </td>
                                 <td className="total dashboard-total">
-                                  {totalBirdDiedQty}
+                                  {totalBirdDiedQty + totalPolMortality}
                                 </td>
                                 <td className="total dashboard-total">
-                                  {totalBirdPurchaseQty -
-                                    (totalBirdSaleQty + totalBirdDiedQty)}
+                                  {totalBirdPurchaseQty +
+                                    totalPolLayers -
+                                    (totalBirdSaleQty +
+                                      totalPolSales +
+                                      (totalBirdDiedQty + totalPolMortality))}
                                 </td>
                               </tr>
                             </tfoot>
@@ -929,7 +1012,7 @@ export const Dashboard = () => {
                                 <th
                                   id="total"
                                   className="total dashboard-total"
-                                  colspan="1"
+                                  colSpan="1"
                                 >
                                   Total :
                                 </th>
@@ -1006,7 +1089,7 @@ export const Dashboard = () => {
                                 <th
                                   id="total"
                                   className="total dashboard-total"
-                                  colspan="1"
+                                  colSpan="1"
                                 >
                                   Total :
                                 </th>

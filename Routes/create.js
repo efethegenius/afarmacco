@@ -19,6 +19,10 @@ const {
   createDepr,
   debtorPay,
   creditorPay,
+  createPolEgg,
+  createPolLayer,
+  createPolSales,
+  createPolMortality,
 } = require("../Controllers/create");
 
 router.post("/doc_purchase", validateToken, createDocPurchase);
@@ -27,6 +31,10 @@ router.post("/drug_purchase", validateToken, createDrugPurchase);
 router.post("/drug_consumed", validateToken, createDrugConsumed);
 router.post("/expense", validateToken, createExpense);
 router.post("/bird_sales", validateToken, createBirdSales);
+router.post("/pol_egg", validateToken, createPolEgg);
+router.post("/pol_layer", validateToken, createPolLayer);
+router.post("/pol_sales", validateToken, createPolSales);
+router.post("/pol_mortality", validateToken, createPolMortality);
 router.post("/other_sales", validateToken, createOtherSales);
 router.post("/feed_purchase", validateToken, createFeedPurchase);
 router.post("/feed_consumed", validateToken, createFeedConsumed);

@@ -36,7 +36,7 @@ export const Income = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
+      const activeDebtors = await fetch("api/active-debtors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -54,7 +54,7 @@ export const Income = () => {
   // getting bird sales start-----------------------------------------------------
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
+      const allBirdSales = await fetch("api/all-bird-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -72,7 +72,7 @@ export const Income = () => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch("/api/all-other-sales", {
+      const allOtherSales = await fetch("api/all-other-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -97,8 +97,8 @@ export const Income = () => {
   if (returnedBirdSales.name) {
     {
       miniBirdList = returnedBirdSales.name.map((birdSale) => {
-        const { SalesId, SalesDate, BirdName, Qty, UnitPrice } = birdSale;
-        const newDate = `${new Date(SalesDate).toLocaleDateString()}`;
+        const { SalesId, TxnDate, BirdName, Qty, UnitPrice } = birdSale;
+        const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
         return (
           <tbody key={SalesId}>
             <tr>
@@ -218,7 +218,7 @@ export const Income = () => {
     <div className="income">
       <Navbar isNav={isNav} setIsNav={setIsNav} />
       {/* {(isBirdForm || isOtherForm || isFullReport) && ( */}
-      <div
+      {/* <div
         className={`${
           isBirdForm || isOtherForm ? "form-background" : "hide-background"
         }`}
@@ -231,7 +231,7 @@ export const Income = () => {
             setAnimState(true);
           }, 1000);
         }}
-      ></div>
+      ></div> */}
       {/* )} */}
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}

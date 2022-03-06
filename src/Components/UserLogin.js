@@ -5,7 +5,7 @@ import { TailSpin } from "react-loader-spinner";
 
 export const UserLogin = () => {
   const [returnedData, setReturnedData] = useState([]);
-  const { setAuthState } = useContext(AuthContext);
+  const { setAuthState, signIn, setSignIn } = useContext(AuthContext);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [fieldErr, setFieldErr] = useState(false);
   const [userLogin, setUserLogin] = useState({
@@ -27,7 +27,7 @@ export const UserLogin = () => {
 
   const newLogin = async () => {
     try {
-      const newData = await fetch("/get_login", {
+      const newData = await fetch("get_login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -49,6 +49,10 @@ export const UserLogin = () => {
         localStorage.setItem("accessToken", newData);
         setAuthState(true);
         history.push("/");
+        setSignIn(true);
+        setTimeout(() => {
+          setSignIn(false);
+        }, 3000);
       }
 
       console.log(newData);

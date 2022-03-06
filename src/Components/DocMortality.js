@@ -12,7 +12,7 @@ export const DocMortality = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedBirds } = FetchBirds();
   const [fieldErr, setFieldErr] = useState(false);
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
 
   const [mortality, setMortality] = useState({
     MortalityDate: 0,
@@ -53,6 +53,10 @@ export const DocMortality = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {

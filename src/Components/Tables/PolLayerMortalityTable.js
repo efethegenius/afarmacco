@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Loading } from "../Loading";
 
-export const ExpenseTable = React.forwardRef((props, ref) => {
-  const [returnedExpenses, setReturnedExpenses] = useState([]);
+export const PolLayerMortalityTable = React.forwardRef((props, ref) => {
+  const [returnedPolMortality, setReturnedPolMortality] = useState([]);
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [filter, setFilter] = useState("");
@@ -10,11 +10,11 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
   const [search, setSearch] = useState("");
   const [isDate, setIsDate] = useState(false);
   const [isPmt, setIsPmt] = useState(false);
+  const [isBirdFilter, setIsBirdFilter] = useState(false);
 
-  //getting the data from the database from the db-----------------------------------------
-  const getAllExpenses = async () => {
+  const getAllPolMortality = async () => {
     try {
-      const allExpenses = await fetch("api/all-expenses", {
+      const allPolMortality = await fetch("api/all-pol-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -22,22 +22,21 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
           accessToken: localStorage.getItem("accessToken"),
         },
       }).then((res) => res.json());
-      setReturnedExpenses(allExpenses);
+      setReturnedPolMortality(allPolMortality);
     } catch (error) {
       console.log(error);
     }
   };
-  //getting the data from the database from the db end-----------------------------------------
 
   useEffect(() => {
-    getAllExpenses();
+    getAllPolMortality();
   }, []);
 
   const formatMoney = (n) => {
     return (Math.round(n * 100) / 100).toLocaleString();
   };
 
-  let allExpenses = returnedExpenses.name;
+  let allPolMortality = returnedPolMortality.name;
 
   // const sortBirdSales =
   //   returnedBirdSales.name && search
@@ -47,27 +46,31 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
   //           sortedBird.BirdName.toLowerCase() === search.toLowerCase()
   //       )
   //     : allBirdSales;
-  const sortExpense =
-    returnedExpenses.name && fromDate && toDate
-      ? returnedExpenses.name.filter(
-          (sortedExpense) =>
-            sortedExpense.SalesDate <= toDate &&
-            sortedExpense.SalesDate >= fromDate
+  const sortPolMortality =
+    returnedPolMortality.name && fromDate && toDate
+      ? returnedPolMortality.name.filter(
+          (sortedPolMortality) =>
+            sortedPolMortality.TxnDate <= toDate &&
+            sortedPolMortality.TxnDate >= fromDate
         )
-      : returnedExpenses.name && filter
-      ? returnedExpenses.name.filter(
-          (sortedExpense) => sortedExpense.PmtType === filter
-        )
-      : //  : returnedExpenses.name && birdFilter
-        //  ? returnedExpenses.name.filter(
-        //      (sortedExpense) => sortedExpense.BirdName === birdFilter
-        //    )
-        allExpenses;
+      : //   : returnedPolMortality.name && filter
+        //   ? returnedPolMortality.name.filter(
+        //       (sortedPolMortality) => sortedPolMortality.PmtType === filter
+        //     )
+        //   : returnedPolLayers.name && birdFilter
+        //   ? returnedPolLayers.name.filter(
+        //       (sortedPolLayer) => sortedPolLayer.BirdName === birdFilter
+        //     )
+        allPolMortality;
 
   // calculating totals-----------------------------------------------------------------
-  let totalAmount;
-  if (returnedExpenses.name) {
-    totalAmount = sortExpense.reduce((a, v) => (a = a + v.Amount), 0);
+  //   let totalAmount;
+  //   if (returnedPolSales.name) {
+  //     totalAmount = sortPolSales.reduce((a, v) => (a = a + v.Amount), 0);
+  //   }
+  let totalQty;
+  if (returnedPolMortality.name) {
+    totalQty = sortPolMortality.reduce((a, v) => (a = a + v.Qty), 0);
   }
   // calculating totals-----------------------------------------------------------------
 
@@ -79,24 +82,41 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
           onClick={() => {
             setIsDate(!isDate);
             setIsPmt(false);
+            setIsBirdFilter(false);
             setToDate("");
             setFromDate("");
             setFilter("");
+            setBirdFilter("");
           }}
         >
           Date
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setIsPmt(!isPmt);
             setIsDate(false);
+            setIsBirdFilter(false);
             setToDate("");
             setFromDate("");
             setFilter("");
+            setBirdFilter("");
           }}
         >
           Payment method
-        </button>
+        </button> */}
+        {/* <button
+          onClick={() => {
+            setIsBirdFilter(!isBirdFilter);
+            setIsDate(false);
+            setIsPmt(false);
+            setToDate("");
+            setFromDate("");
+            setFilter("");
+            setBirdFilter("");
+          }}
+        >
+          Bird Type
+        </button> */}
       </div>
       <div className="sort-report">
         {isDate && (
@@ -121,7 +141,7 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
             />
           </div>
         )}
-        {isPmt && (
+        {/* {isPmt && (
           <div className="pmt-filter">
             <label htmlFor="filter">Payment Method:</label>
             <select
@@ -134,61 +154,75 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
               <option>Bank</option>
               <option>Credit</option>
               <option>Cash</option>
+              <option>Other</option>
             </select>
           </div>
-        )}
+        )} */}
+        {/* {isBirdFilter && (
+          <div className="bird-filter">
+            <label htmlFor="birdfilter">Bird:</label>
+            <select
+              name="birdfilter"
+              id="birdfilter"
+              value={birdFilter}
+              onChange={(e) => setBirdFilter(e.target.value)}
+            >
+              <option></option>
+              <option>Broiler</option>
+              <option>Layer</option>
+              <option>Cockerel</option>
+              <option>Noiler</option>
+              <option>Turkey</option>
+            </select>
+          </div>
+        )} */}
+        {/* <input
+          type="text"
+          name="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        /> */}
       </div>
-      {sortExpense && sortExpense.length === 0 ? (
+      {sortPolMortality && sortPolMortality.length === 0 ? (
         <div className="empty-main-report">
-          <h1> There are no Expense report available yet</h1>
+          <h1> There are no POL Mortality report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
         </div>
-      ) : sortExpense ? (
+      ) : sortPolMortality ? (
         <div className="table-container" ref={ref}>
           <table id="table-to-xls">
             <tbody className="table-head">
               <tr>
                 <th>Date</th>
-                <th>Invoice No</th>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Payment Type</th>
-                <th>Bank</th>
-                <th>Creditor</th>
-                <th>Amount</th>
+                <th>Batch</th>
+                <th>Quantity</th>
               </tr>
             </tbody>
-            {returnedExpenses.name &&
-              sortExpense.map((expense) => {
-                const {
-                  ExpenseId,
-                  ExpenseDate,
-                  InvoiceNo,
-                  ExpenseName,
-                  HeadName,
-                  PmtType,
-                  BankName,
-                  SupplierName,
-                  Amount,
-                } = expense;
-                const newDate = `${new Date(ExpenseDate).toLocaleDateString()}`;
+            {returnedPolMortality.name &&
+              sortPolMortality.map((polMortality) => {
+                const { MortalityId, TxnDate, Batch, Qty } = polMortality;
+                const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
                 return (
-                  <tbody key={ExpenseId}>
+                  <tbody key={MortalityId}>
                     <tr>
                       <td>{newDate}</td>
-                      <td>{InvoiceNo}</td>
-                      <td>{ExpenseName}</td>
-                      <td>{HeadName}</td>
-                      <td>{PmtType}</td>
-                      <td>{BankName}</td>
-                      <td>{SupplierName}</td>
-                      <td>{Amount}</td>
+                      <td>{Batch}</td>
+                      <td>{formatMoney(Qty)}</td>
                     </tr>
                   </tbody>
                 );
               })}
+            <tfoot className="total-container">
+              <tr>
+                <th id="total" className="total" colSpan="1">
+                  Total :
+                </th>
+                <td className="total"></td>
+                <td className="total">{formatMoney(totalQty)}</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       ) : (

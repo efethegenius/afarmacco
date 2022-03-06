@@ -14,7 +14,7 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
+      const allFeedPurchase = await fetch("api/all-feed-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -176,7 +176,7 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
       </div>
       {sortFeedPurchase && sortFeedPurchase.length === 0 ? (
         <div className="empty-main-report">
-          <h1>Oops! There are no Feed purchase report available yet</h1>
+          <h1> There are no Feed purchase report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
@@ -190,7 +190,7 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
                 <th>Lot No</th>
                 <th>Invoice No</th>
                 <th>Feed</th>
-                <th>Bag Weight</th>
+                <th>Bag Weight (Kg)</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
@@ -238,7 +238,7 @@ export const FeedPurchaseTable = React.forwardRef((props, ref) => {
               })}
             <tfoot className="total-container">
               <tr>
-                <th id="total" className="total" colspan="1">
+                <th id="total" className="total" colSpan="1">
                   Total :
                 </th>
                 <td className="total"></td>

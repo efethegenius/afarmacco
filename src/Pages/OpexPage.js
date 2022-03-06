@@ -38,12 +38,20 @@ export const OpexPage = () => {
                 <h2>Drugs</h2>
               </Link>
             </div>
-            <Link
-              to="/feed"
-              className="opex-opt feed-opt animate__animated animate__fadeInUp"
-            >
-              <h2>Feeds</h2>
-            </Link>
+            <div className="top-grid">
+              <Link
+                to="/pol"
+                className="opex-opt pol-opt animate__animated animate__fadeInLeft"
+              >
+                <h2>Layers (Point Of Lay)</h2>
+              </Link>
+              <Link
+                to="/feed"
+                className="opex-opt feed-opt animate__animated animate__fadeInRight"
+              >
+                <h2>Feeds</h2>
+              </Link>
+            </div>
           </div>
         </div>
       ) : (

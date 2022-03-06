@@ -13,7 +13,7 @@ export const DrugConsumed = ({
   const { returnedBirds } = FetchBirds();
   const { returnedDrugs } = FetchDrugs();
   const [fieldErr, setFieldErr] = useState(false);
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
 
   const [consumed, setConsumed] = useState({
     ConsumptionDate: 0,
@@ -58,6 +58,10 @@ export const DrugConsumed = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setOpexTxn(true);
+    setTimeout(() => {
+      setOpexTxn(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
@@ -123,7 +127,7 @@ export const DrugConsumed = ({
       }`}
     >
       <section className="form-drug-consumed">
-        <h2 className="form-head">New Drug Consumption</h2>
+        <h2 className="form-head">Drug Consumption</h2>
         {fieldErr && (
           <p className="form-err animate__animated animate__shakeX">
             All required fields must be filled
@@ -173,7 +177,7 @@ export const DrugConsumed = ({
           />
         </div>
         <div className="input">
-          <label htmlFor="SizeQtyUsed">Size (Quantity Used)</label>
+          <label htmlFor="SizeQtyUsed">size (Quantity used in kg)</label>
           <input
             type="number"
             name="SizeQtyUsed"

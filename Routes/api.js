@@ -26,7 +26,12 @@ const {
   getAllExpenses,
   getAllBirdSales,
   getAllOtherSales,
+  getAllPolEggs,
+  getAllPolLayers,
+  getAllPolSales,
+  getAllPolMortality,
   getDeprDate,
+  getReports,
 } = require("../Controllers/api");
 
 const dbOperation = require("../dbFiles/dbOperation");
@@ -61,6 +66,7 @@ router.get("/txn-types", getTxnType);
 
 router.get("/capexs", validateToken, getCapexs);
 router.get("/depr-date", validateToken, getDeprDate);
+router.get("/reports", validateToken, getReports);
 
 router.get(
   "/active-debtors",
@@ -71,6 +77,10 @@ router.get(
 router.get("/active-creditors", validateToken, getActiveCreditors);
 router.get("/user", validateToken, getUser);
 router.get("/all-expenses", validateToken, getAllExpenses);
+router.get("/all-pol-eggs", validateToken, getAllPolEggs);
+router.get("/all-pol-layers", validateToken, getAllPolLayers);
+router.get("/all-pol-sales", validateToken, getAllPolSales);
+router.get("/all-pol-mortality", validateToken, getAllPolMortality);
 router.get("/all-bird-sales", validateToken, getAllBirdSales);
 router.get("/all-other-sales", validateToken, getAllOtherSales);
 router.get("/all-doc-mortality", validateToken, getAllDocMortality);

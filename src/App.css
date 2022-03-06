@@ -27,6 +27,12 @@ body {
   color: red;
   font-size: 0.8rem;
 }
+
+.extra-pol-btn {
+  border-radius: unset !important;
+  width: 100%;
+}
+
 input,
 select {
   border-radius: 0;
@@ -711,6 +717,34 @@ select {
   color: #2070e7;
   margin-left: 4px;
   transition: all ease-in-out 0.3s;
+}
+
+.opex-alert {
+  background-color: #318826;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  width: 100%;
+  padding: 15px 10px;
+  position: absolute;
+  left: 0;
+  z-index: 60;
+  top: -66px;
+  transition: all ease-in-out 0.8s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.show-opex-alert {
+  top: 0;
+}
+
+.opex-alert p {
+  font-size: 0.8rem !important;
+  text-align: center;
 }
 
 .mini-table {

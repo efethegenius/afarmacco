@@ -24,6 +24,10 @@ const getFeeds = async (req, res) => {
   const result = await dbOperation.getFeeds();
   res.json({ name: result.recordset });
 };
+const getReports = async (req, res) => {
+  const result = await dbOperation.getReports();
+  res.json({ name: result.recordset });
+};
 const getOtherItems = async (req, res) => {
   const result = await dbOperation.getOtherItems();
   res.json({ name: result.recordset });
@@ -65,6 +69,14 @@ const getAllExpenses = async (req, res) => {
   const result = await dbOperation.getAllExpenses();
   res.json({ name: result.recordset });
 };
+const getAllPolEggs = async (req, res) => {
+  const result = await dbOperation.getAllPolEggs();
+  res.json({ name: result.recordset });
+};
+const getAllPolLayers = async (req, res) => {
+  const result = await dbOperation.getAllPolLayers();
+  res.json({ name: result.recordset });
+};
 const getAllBirdSales = async (req, res) => {
   const result = await dbOperation.getAllBirdSales();
   res.json({ name: result.recordset });
@@ -79,6 +91,14 @@ const getAllDocPurchase = async (req, res) => {
 };
 const getAllDocMortality = async (req, res) => {
   const result = await dbOperation.getAllDocMortality();
+  res.json({ name: result.recordset });
+};
+const getAllPolMortality = async (req, res) => {
+  const result = await dbOperation.getAllPolMortality();
+  res.json({ name: result.recordset });
+};
+const getAllPolSales = async (req, res) => {
+  const result = await dbOperation.getAllPolSales();
   res.json({ name: result.recordset });
 };
 const getAllDrugPurchase = async (req, res) => {
@@ -127,4 +147,9 @@ module.exports = {
   getAllExpenses,
   getAllBirdSales,
   getAllOtherSales,
+  getReports,
+  getAllPolEggs,
+  getAllPolLayers,
+  getAllPolSales,
+  getAllPolMortality,
 };

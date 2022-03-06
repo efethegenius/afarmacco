@@ -23,7 +23,7 @@ export const Capex = ({
   const [fieldErr, setFieldErr] = useState(false);
   const { returnedAssetTypes } = FetchAssetTypes();
   const { returnedTxnTypes } = FetchTxnTypes();
-  const { upd, setUpd } = useContext(AuthContext);
+  const { upd, setUpd, capexTxn, setCapexTxn } = useContext(AuthContext);
   const [capex, setCapex] = useState({
     TxnType: "",
     TxnDate: 0,
@@ -64,7 +64,7 @@ export const Capex = ({
 
   //Send data to the backend when submitted
   const newCapexTxn = async () => {
-    const newData = await fetch("/create/capex", {
+    const newData = await fetch("create/capex", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -81,6 +81,10 @@ export const Capex = ({
     setTimeout(() => {
       setAnimState(true);
     }, 1000);
+    setCapexTxn(true);
+    setTimeout(() => {
+      setCapexTxn(false);
+    }, 4000);
   };
 
   // submit function
@@ -145,21 +149,23 @@ export const Capex = ({
             All required fields must be filled
           </p>
         )}
-        <div className="input">
-          <label htmlFor="TxnType">Transaction Type</label>
-          <select name="TxnType" id="TxnType" onChange={handleChange}>
-            <option></option>
-            {txnTypes}
-          </select>
-        </div>
-        <div className="input">
-          <label htmlFor="TxnDate">Date</label>
-          <input
-            type="date"
-            name="TxnDate"
-            id="TxnDate"
-            onChange={handleChange}
-          />
+        <div className="double-input">
+          <div className="input">
+            <label htmlFor="TxnType">Transaction Type</label>
+            <select name="TxnType" id="TxnType" onChange={handleChange}>
+              <option></option>
+              {txnTypes}
+            </select>
+          </div>
+          <div className="input">
+            <label htmlFor="TxnDate">Date</label>
+            <input
+              type="date"
+              name="TxnDate"
+              id="TxnDate"
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div className="double-input">
           {capex.TxnType !== "Disposal" && (

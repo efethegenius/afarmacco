@@ -32,6 +32,22 @@ const createBirdSales = async (req, res) => {
   await dbOperation.createBirdSales(req.body);
   res.json({ code: 1, msg: "success" });
 };
+const createPolSales = async (req, res) => {
+  await dbOperation.createPolSales(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createPolMortality = async (req, res) => {
+  await dbOperation.createPolMortality(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createPolEgg = async (req, res) => {
+  await dbOperation.createPolEgg(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createPolLayer = async (req, res) => {
+  await dbOperation.createPolLayer(req.body);
+  res.json({ code: 1, msg: "success" });
+};
 
 const createOtherSales = async (req, res) => {
   await dbOperation.createOtherSales(req.body);
@@ -81,4 +97,8 @@ module.exports = {
   createUserValidation,
   debtorPay,
   creditorPay,
+  createPolEgg,
+  createPolLayer,
+  createPolSales,
+  createPolMortality,
 };

@@ -7,6 +7,13 @@ export const services = [
     topic: "Day Old Chicks Management",
   },
   {
+    id: 7,
+    description:
+      "afarmacco&reg; gives you the flexibility to convert your DOC layers to Point of Lay.  You can keep track of your POL layers activities, mortality and the number of layers you currently have in stock.",
+    img: "https://dl.airtable.com/.attachmentThumbnails/a36284f93479551150971828ac7b30fb/d8d194ce",
+    topic: "Point Of Lay Management",
+  },
+  {
     id: 2,
     description:
       "Helps you manage and keep track of the quantity of drugs purchased and used. Keeps track of the drug quantity left based on the drug type and either the bag weight or bag quantity.",
@@ -21,6 +28,12 @@ export const services = [
     topic: "Feed Management",
   },
   {
+    id: 8,
+    description: "Helps you keep track of your egg sales and profits.",
+    img: "https://dl.airtable.com/.attachmentThumbnails/60df0253a22fbb741882cff24be72078/db65e63e",
+    topic: "Egg Management",
+  },
+  {
     id: 4,
     description:
       "keep full records of your daily, weekly, monthly and annual financial transactions and focus on your profitability or otherwise.",
@@ -30,14 +43,14 @@ export const services = [
   {
     id: 5,
     description:
-      "Afarmacco helps you manage your poultry assets which includes the ability to perform depreciation on your assets on a monthly basis to keep track of their current value, purchase of assets and disposal, track profitablility or loss on your asset disposed.",
+      "afarmacco&reg; helps you manage your poultry assets which includes the ability to perform depreciation on your assets on a monthly basis to keep track of their current value, purchase of assets and disposal, track profitablility or loss on your asset disposed.",
     img: "https://dl.airtable.com/.attachmentThumbnails/355029b69fda391db62be3be0e085c81/7ff311c1",
     topic: "Poultry Assets Management",
   },
   {
     id: 6,
     description:
-      "Monitor and apply medications/vaccinations to secure your birds against chicken diseases with valid extension services.",
+      "Monitor and apply medications/vaccinations to secure your birds against chicken diseases.",
     img: "https://dl.airtable.com/.attachmentThumbnails/f1f0c0cd7bd3076dd3ea1d518a89e3bf/48da9fb2",
     topic: "Medications and Vaccinations",
   },

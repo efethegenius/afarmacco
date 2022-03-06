@@ -12,10 +12,16 @@ export const CockerelMeds = ({ setIsCockerelMed }) => {
         X
       </p>
       <p className="meds-title">Cockerel Medications</p>
-      <button onClick={() => setIsPeriod("Day")} className="period">
+      <button
+        onClick={() => setIsPeriod("Day")}
+        className={isPeriod === "Day" ? "period med-active" : "period"}
+      >
         Daily
       </button>
-      <button onClick={() => setIsPeriod("Week")} className="period">
+      <button
+        onClick={() => setIsPeriod("Week")}
+        className={isPeriod === "Week" ? "period med-active" : "period"}
+      >
         Weekly
       </button>
       {isPeriod === "Day" && (

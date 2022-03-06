@@ -8,7 +8,6 @@ import { Loading } from "../Components/Loading";
 
 export const Creditor = () => {
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
-
   const [name, setName] = useState("");
   const [returnedData, setReturnedData] = useState([]);
   const [item, setItem] = useState("");

@@ -15,14 +15,14 @@ import {
 } from "react-icons/ai";
 import { BiCapsule } from "react-icons/bi";
 import { GiGrain, GiChicken } from "react-icons/gi";
-
+import { GiChart } from "react-icons/gi";
 export const Navbar = ({ isNav, setIsNav }) => {
   const { activeNav, setActiveNav } = useContext(AuthContext);
   return (
     <section className={`${isNav ? "navbar show-nav" : "navbar"}`}>
       <div className="nav-head">
         <AiOutlineClose onClick={() => setIsNav(false)} className="nav-close" />
-        <h1 className="logo">Afarmacco</h1>
+        <h1 className="logo">afarmacco&reg;</h1>
       </div>
       <div className="nav-icons-container">
         <div className="nav-link">
@@ -74,7 +74,16 @@ export const Navbar = ({ isNav, setIsNav }) => {
           <NavLink exact={true} activeClassName="active-nav" to="/health">
             <RiHealthBookLine className="nav-icon" />
             <div className="concat">
-              <p className="link-desc">Health</p>
+              <p className="link-desc">Medication</p>
+              <AiFillCaretRight />
+            </div>
+          </NavLink>
+        </div>
+        <div className="nav-link">
+          <NavLink exact={true} activeClassName="active-nav" to="/reports">
+            <GiChart className="nav-icon" />
+            <div className="concat">
+              <p className="link-desc">Financial Report</p>
               <AiFillCaretRight />
             </div>
           </NavLink>

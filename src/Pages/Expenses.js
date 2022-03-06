@@ -41,7 +41,7 @@ export const Expenses = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch("/api/all-expenses", {
+      const allExpenses = await fetch("api/all-expenses", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -64,7 +64,7 @@ export const Expenses = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
+      const activeCreditors = await fetch("api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -81,7 +81,7 @@ export const Expenses = () => {
   //getting depr date-----------------------------------------
   const getDeprDate = async () => {
     try {
-      const deprDate = await fetch("/api/depr-date", {
+      const deprDate = await fetch("api/depr-date", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -158,7 +158,7 @@ export const Expenses = () => {
     >
       <Navbar isNav={isNav} setIsNav={setIsNav} />
 
-      <div
+      {/* <div
         className={`${isExpenseForm ? "form-background" : "hide-background"}`}
         onClick={() => {
           setAnimState(false);
@@ -167,7 +167,7 @@ export const Expenses = () => {
           }, 1000);
           setIsExpenseForm(false);
         }}
-      ></div>
+      ></div> */}
 
       <div
         className={`${isFullReport ? "form-background" : "hide-background"}`}
@@ -202,6 +202,7 @@ export const Expenses = () => {
                 animState={animState}
                 setAnimState={setAnimState}
                 getActiveCreditors={getActiveCreditors}
+                getDeprDate={getDeprDate}
               />
 
               {/* Start of new-------------------------------------------------------------------------------------- */}
@@ -222,7 +223,7 @@ export const Expenses = () => {
                           <div className="bird-mini-list">
                             <div className="mini-table">
                               <p className="title mini-title">
-                                {miniExpenseList === 0
+                                {miniExpenseList && miniExpenseList.length === 0
                                   ? "You do not have Expense report"
                                   : "Your most recent expenses:"}
                               </p>
@@ -255,23 +256,42 @@ export const Expenses = () => {
                             const { LastDeprDate } = deprDate;
                             let NextDeprDate = new Date(LastDeprDate);
                             NextDeprDate.setMonth(NextDeprDate.getMonth() + 1);
-                            console.log(NextDeprDate);
                             const newDate = `${new Date(
                               LastDeprDate
                             ).toDateString()}`;
+                            console.log(newDate);
                             return (
                               <div key={LastDeprDate}>
-                                <p>Last depreciation was run on {newDate}</p>
-                                <p>
-                                  Next depreciation to be run on{" "}
-                                  {NextDeprDate.toDateString()}{" "}
-                                  <AiOutlineQuestionCircle
-                                    className="depr-help"
-                                    onClick={() => {
-                                      setIsDeprMsg(!isDeprMsg);
-                                    }}
-                                  />
-                                </p>
+                                {newDate === "Thu Jan 01 1970" ? (
+                                  <>
+                                    <p>
+                                      Depreciation not calculated yet.{" "}
+                                      <AiOutlineQuestionCircle
+                                        className="depr-help"
+                                        onClick={() => {
+                                          setIsDeprMsg(!isDeprMsg);
+                                        }}
+                                      />
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <p>
+                                      {" "}
+                                      Last depreciation was run for {newDate}
+                                    </p>
+                                    <p>
+                                      Next depreciation to be run for{" "}
+                                      {NextDeprDate.toDateString()}{" "}
+                                      <AiOutlineQuestionCircle
+                                        className="depr-help"
+                                        onClick={() => {
+                                          setIsDeprMsg(!isDeprMsg);
+                                        }}
+                                      />
+                                    </p>
+                                  </>
+                                )}
                               </div>
                             );
                           })

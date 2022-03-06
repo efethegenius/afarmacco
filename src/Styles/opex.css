@@ -57,7 +57,12 @@
     url("../Photos/drug.jpg") center/cover no-repeat;
 }
 .feed-opt {
-  width: 40% !important;
+  /* width: 40% !important; */
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../Photos/feed.jpg") center/cover no-repeat;
+}
+
+.pol-opt {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/layer-farming.jpg") center/cover no-repeat;
 }
