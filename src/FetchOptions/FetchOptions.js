@@ -4,7 +4,7 @@ export const FetchBanks = () => {
   const [returnedBanks, setReturnedBanks] = useState([]);
   const getBanks = async () => {
     try {
-      const allBanks = await fetch("api/banks", {
+      const allBanks = await fetch("/api/banks", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -28,7 +28,7 @@ export const FetchOtherItems = () => {
   const [returnedOtherItems, setReturnedOtherItems] = useState([]);
   const getOtherItems = async () => {
     try {
-      const allOtherItems = await fetch("api/other-items", {
+      const allOtherItems = await fetch("/api/other-items", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -52,7 +52,7 @@ export const FetchBirds = () => {
   const [returnedBirds, setReturnedBirds] = useState([]);
   const getBirds = async () => {
     try {
-      const allBirds = await fetch("api/birds", {
+      const allBirds = await fetch("/api/birds", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -76,7 +76,7 @@ export const FetchMethods = (url) => {
   const [returnedMethods, setReturnedMethods] = useState([]);
   const getPmtMethod = async () => {
     try {
-      const allMethods = await fetch("api/payments", {
+      const allMethods = await fetch("/api/payments", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -99,7 +99,7 @@ export const FetchDrugs = () => {
   const [returnedDrugs, setReturnedDrugs] = useState([]);
   const getDrugs = async () => {
     try {
-      const allDrugs = await fetch("api/drugs", {
+      const allDrugs = await fetch("/api/drugs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -123,7 +123,7 @@ export const FetchFeeds = () => {
   const [returnedFeeds, setReturnedFeeds] = useState([]);
   const getFeeds = async () => {
     try {
-      const allFeeds = await fetch("api/feeds", {
+      const allFeeds = await fetch("/api/feeds", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -147,7 +147,7 @@ export const FetchExpenseTypes = () => {
   const [returnedExpenseTypes, setReturnedExpenseTypes] = useState([]);
   const getExpenseTypes = async () => {
     try {
-      const allExpenseTypes = await fetch("api/expense-types", {
+      const allExpenseTypes = await fetch("/api/expense-types", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -171,7 +171,7 @@ export const FetchExpenseHeads = () => {
   const [returnedExpenseHeads, setReturnedExpenseHeads] = useState([]);
   const getExpenseHeads = async () => {
     try {
-      const allExpenseHeads = await fetch("api/expense-heads", {
+      const allExpenseHeads = await fetch("/api/expense-heads", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -194,7 +194,7 @@ export const FetchAssetTypes = () => {
   const [returnedAssetTypes, setReturnedAssetTypes] = useState([]);
   const getAssetTypes = async () => {
     try {
-      const allAssetTypes = await fetch("api/asset-types", {
+      const allAssetTypes = await fetch("/api/asset-types", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -217,7 +217,7 @@ export const FetchTxnTypes = () => {
   const [returnedTxnTypes, setReturnedTxnTypes] = useState([]);
   const getTxnTypes = async () => {
     try {
-      const allTxnTypes = await fetch("api/txn-types", {
+      const allTxnTypes = await fetch("/api/txn-types", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -235,4 +235,27 @@ export const FetchTxnTypes = () => {
   }, []);
 
   return { returnedTxnTypes };
+};
+export const FetchStates = () => {
+  const [returnedStates, setReturnedStates] = useState([]);
+  const getStates = async () => {
+    try {
+      const allStates = await fetch("/api/states", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+      }).then((res) => res.json());
+      setReturnedStates(allStates);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getStates();
+  }, []);
+
+  return { returnedStates };
 };

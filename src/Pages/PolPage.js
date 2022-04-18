@@ -9,12 +9,14 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { AuthContext } from "../helpers/AuthContext";
+import { useHistory } from "react-router-dom";
 import { PolEggTable } from "../Components/Tables/PolEggTable";
 import { PolLayerTable } from "../Components/Tables/PolLayerTable";
 import {
   AiOutlineMenu,
   AiOutlineClose,
   AiOutlineQuestionCircle,
+  AiOutlineLeft,
 } from "react-icons/ai";
 import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
@@ -38,6 +40,7 @@ export const PolPage = () => {
   const [isFullReport, setIsFullReport] = useState(false);
   const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
+  const history = useHistory();
   const [showOptions, setShowOptions] = useState(false);
 
   const componentRef = useRef();
@@ -48,7 +51,7 @@ export const PolPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("api/active-debtors", {
+      const activeDebtors = await fetch("/api/active-debtors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -64,26 +67,9 @@ export const PolPage = () => {
   // getting active creditors end-----------------------------------------------------
 
   //getting the data from the database from the db-----------------------------------------
-  const getAllPolEggs = async () => {
-    try {
-      const allPolEggs = await fetch("api/all-pol-eggs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
-      setReturnedPolEggs(allPolEggs);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //getting the data from the database from the db end-----------------------------------------
-  //getting the data from the database from the db-----------------------------------------
   const getAllPolLayers = async () => {
     try {
-      const allPolLayers = await fetch("api/all-pol-layers", {
+      const allPolLayers = await fetch("/api/all-pol-layers", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -98,7 +84,6 @@ export const PolPage = () => {
   };
   //getting the data from the database from the db end-----------------------------------------
   useEffect(() => {
-    getAllPolEggs();
     getActiveDebtors();
     getAllPolLayers();
   }, []);
@@ -130,26 +115,6 @@ export const PolPage = () => {
   let totalDebt;
   if (returnedActiveDebtors.name) {
     totalDebt = activeDebtors.reduce((a, v) => (a = a + v.Amount), 0);
-  }
-
-  let miniPolEggList;
-  if (returnedPolEggs.name) {
-    {
-      miniPolEggList = returnedPolEggs.name.map((polEgg) => {
-        const { PolEggId, TxnDate, InvoiceNo, CrateQty, Amount } = polEgg;
-        const newDate = `${new Date(TxnDate).toLocaleDateString()}`;
-        return (
-          <tbody key={PolEggId}>
-            <tr>
-              <td>{newDate}</td>
-              <td>{InvoiceNo}</td>
-              <td>{CrateQty}</td>
-              <td>{Amount}</td>
-            </tr>
-          </tbody>
-        );
-      });
-    }
   }
   let miniPolLayerList;
   if (returnedPolLayers.name) {
@@ -183,8 +148,7 @@ export const PolPage = () => {
 
   return (
     <div className="doc">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
-
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* <div
         className={`${
           isPolEggForm || isPolLayerForm ? "form-background" : "hide-background"
@@ -210,42 +174,23 @@ export const PolPage = () => {
       {authState ? (
         <div className="doc-container">
           <div className="doc-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="doc-heading">
               <h1>Point Of Lay</h1>
             </div>
             <div
               className="new-btn"
-              onClick={() => setShowOptions(!showOptions)}
+              onClick={() => {
+                setIsPolLayerForm(!isPolLayerForm);
+                setIsPolEggForm(false);
+              }}
             >
               <div className="plus-circle">
                 <HiOutlinePlus />
               </div>
               <p>New</p>
-              <div
-                className={`${
-                  showOptions ? "new-options show-new-options" : "new-options"
-                }`}
-              >
-                <button
-                  className={`${isPolEggForm && "new-active"}`}
-                  onClick={() => {
-                    setIsPolEggForm(!isPolEggForm);
-                    setIsPolLayerForm(false);
-                  }}
-                >
-                  Egg Sale
-                </button>
-                <button
-                  className={`${isPolLayerForm && "new-active"}`}
-                  onClick={() => {
-                    setIsPolLayerForm(!isPolLayerForm);
-                    setIsPolEggForm(false);
-                  }}
-                >
-                  POL Layer
-                </button>
-              </div>
             </div>
           </div>
           {/* <div className="full-expense"> */}
@@ -253,7 +198,6 @@ export const PolPage = () => {
             <PolEgg
               isPolEggForm={isPolEggForm}
               setIsPolEggForm={setIsPolEggForm}
-              getAllPolEggs={getAllPolEggs}
               animState={animState}
               setAnimState={setAnimState}
               getActiveDebtors={getActiveDebtors}
@@ -269,10 +213,7 @@ export const PolPage = () => {
 
             {/* Start of new-------------------------------------------------------------------------------------- */}
             {!isFullReport &&
-              (miniPolEggList &&
-              miniPolLayerList &&
-              miniPolEggList.length === 0 &&
-              miniPolLayerList.length === 0 ? (
+              (miniPolLayerList && miniPolLayerList.length === 0 ? (
                 <div className="empty-main-report">
                   <h1>There are no Point Of Lay reports available yet</h1>
                   <p>
@@ -280,47 +221,17 @@ export const PolPage = () => {
                     button...
                   </p>
                 </div>
-              ) : miniPolEggList || miniPolLayerList ? (
+              ) : miniPolLayerList ? (
                 <div className="mini-list">
                   <div className="mini-list-container animate__animated animate__fadeIn">
                     <div className="all-mini-wrapper">
                       <div className="all-mini-list">
-                        <div className="bird-mini-list">
-                          <div className="mini-table">
-                            <p className="title mini-title">
-                              {miniPolEggList && miniPolEggList.length === 0
-                                ? "You do not have an Egg report yet"
-                                : "Your most recent Egg reports:"}
-                            </p>
-                            <table>
-                              <tbody>
-                                <tr>
-                                  <th>Date</th>
-                                  <th>Invoice</th>
-                                  <th>Crate Qty</th>
-                                  <th>Amount</th>
-                                </tr>
-                              </tbody>
-                              {returnedPolEggs.name &&
-                                miniPolEggList.slice(0, 5)}
-                            </table>
-                          </div>
-                          <button
-                            className="view-report"
-                            onClick={() => {
-                              setIsFullReport(!isFullReport);
-                              setIsPolToggle("Egg Sale");
-                            }}
-                          >
-                            View full report
-                          </button>
-                        </div>
                         <div className="other-mini-list">
                           <div className="mini-table">
                             <p className="title mini-title">
                               {miniPolLayerList && miniPolLayerList.length === 0
-                                ? "You do not have a Layer report yet"
-                                : "Your most recent Layer report:"}
+                                ? "You do not have a point of lay report yet"
+                                : "Your most recent point of lay report:"}
                             </p>
                             <table>
                               <tbody>
@@ -349,17 +260,31 @@ export const PolPage = () => {
                       </div>
                       <div className="income-info extra-info">
                         <div className="grid-1-extra">
+                          {/* <div className="extra">
+                            <button
+                              className="view-report extra-pol-btn"
+                              onClick={() => {
+                                setIsFullReport(!isFullReport);
+                                setIsPolToggle("Pol Sale");
+                              }}
+                            >
+                              View POL sale report
+                            </button>
+                          </div> */}
                           <div className="extra">
-                            <p className="head">Crates of eggs sold</p>
-                            <p>{formatMoney(totalQty)}</p>
-                          </div>
-                          <div className="extra">
-                            <p className="head">Total egg income </p>
-                            <p>{formatMoney(totalAmount)}</p>
+                            <button
+                              className="view-report extra-pol-btn"
+                              onClick={() => {
+                                setIsFullReport(!isFullReport);
+                                setIsPolToggle("Pol Sale");
+                              }}
+                            >
+                              View POL sale report
+                            </button>
                           </div>
                         </div>
                         <div className="extra">
-                          <button
+                          {/* <button
                             className="view-report extra-pol-btn"
                             onClick={() => {
                               setIsFullReport(!isFullReport);
@@ -367,7 +292,7 @@ export const PolPage = () => {
                             }}
                           >
                             View POL sale report
-                          </button>
+                          </button> */}
                           <button
                             className="view-report extra-pol-btn"
                             onClick={() => {
@@ -380,7 +305,7 @@ export const PolPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="debtors">
+                    {/* <div className="debtors">
                       <p className="title">Active Debtors and Amount</p>
                       <div className="debtor-list-container animate__animated animate__fadeIn">
                         {activeDebtors && activeDebtors.length !== 0 ? (
@@ -413,7 +338,7 @@ export const PolPage = () => {
                           {formatMoney(totalDebt)}.00
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ) : (

@@ -85,6 +85,19 @@ export const OtherSales = ({
     }, 4000);
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setSales((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleSubmit = () => {
     newSales();
     setTimeout(() => {
@@ -263,6 +276,9 @@ export const OtherSales = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -275,6 +291,7 @@ export const OtherSales = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

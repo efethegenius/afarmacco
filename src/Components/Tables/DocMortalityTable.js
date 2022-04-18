@@ -12,7 +12,7 @@ export const DocMortalityTable = React.forwardRef((props, ref) => {
   // getting doc mortality start-----------------------------------------------------
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("api/all-doc-mortality", {
+      const allDocMortality = await fetch("/api/all-doc-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",

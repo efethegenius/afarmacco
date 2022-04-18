@@ -5,24 +5,25 @@ import { Navbar } from "../Components/Navbar";
 import { HiOutlinePlus } from "react-icons/hi";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineLeft } from "react-icons/ai";
 import { BroilerMeds } from "../Components/BroilerMeds";
 import { NoilerMeds } from "../Components/NoilerMeds";
 import { CockerelMeds } from "../Components/CockerelMeds";
+import { useHistory } from "react-router-dom";
 import { LayerMeds } from "../Components/LayerMeds";
 
 export const Health = () => {
   const [isNav, setIsNav] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
   const { authState, setAuthState } = useContext(AuthContext);
   const [isBroilerMed, setIsBroilerMed] = useState(false);
   const [isNoilerMed, setIsNoilerMed] = useState(false);
   const [isCockerelMed, setIsCockerelMed] = useState(false);
   const [isLayerMed, setIsLayerMed] = useState(false);
+  const history = useHistory();
 
   return (
     <div className="drug">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {isBroilerMed && <BroilerMeds setIsBroilerMed={setIsBroilerMed} />}
       {isNoilerMed && <NoilerMeds setIsNoilerMed={setIsNoilerMed} />}
       {isCockerelMed && <CockerelMeds setIsCockerelMed={setIsCockerelMed} />}
@@ -43,7 +44,9 @@ export const Health = () => {
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="drug-heading">
               <h1>Medication & Vaccination</h1>
             </div>

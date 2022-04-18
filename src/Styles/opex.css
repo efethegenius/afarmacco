@@ -23,6 +23,15 @@
   align-items: center;
 }
 
+.bottom-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
 .opex-opt {
   /* background-color: blue; */
   width: 80%;
@@ -61,8 +70,22 @@
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../Photos/feed.jpg") center/cover no-repeat;
 }
+.egg-opt {
+  /* width: 40% !important; */
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/egg.jpg") center/cover no-repeat;
+}
+.frozen-opt {
+  /* width: 40% !important; */
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/frozen.jpg") center/cover no-repeat;
+}
 
 .pol-opt {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../Photos/layer-farming.jpg") center/cover no-repeat;
+}
+.ex-opt {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/Expenses-Resized.png") center/cover no-repeat;
 }

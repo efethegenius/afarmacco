@@ -14,7 +14,7 @@ export const PolLayerSaleTable = React.forwardRef((props, ref) => {
 
   const getAllPolSales = async () => {
     try {
-      const allPolSales = await fetch("api/all-pol-sales", {
+      const allPolSales = await fetch("/api/all-pol-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",

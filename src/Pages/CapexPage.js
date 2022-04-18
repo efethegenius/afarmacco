@@ -9,10 +9,11 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
 import { CapexPurchaseTable } from "../Components/Tables/CapexPurchaseTable";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 import { CapexDisposalTable } from "../Components/Tables/CapexDisposalTable";
 import { Link } from "react-router-dom";
 import { Loading } from "../Components/Loading";
+import { useHistory } from "react-router-dom";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export const CapexPage = () => {
@@ -26,6 +27,7 @@ export const CapexPage = () => {
   const [isNav, setIsNav] = useState(false);
   const [animState, setAnimState] = useState(true);
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
+  const history = useHistory();
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -35,7 +37,7 @@ export const CapexPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("api/active-creditors", {
+      const activeCreditors = await fetch("/api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -52,7 +54,7 @@ export const CapexPage = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("api/active-debtors", {
+      const activeDebtors = await fetch("/api/active-debtors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -70,7 +72,7 @@ export const CapexPage = () => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("api/capexs", {
+      const capexs = await fetch("/api/capexs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -98,7 +100,7 @@ export const CapexPage = () => {
             <td>{newDate}</td>
             <td>{FACode}</td>
             <td>{AssetTypeDesc}</td>
-            <td>{FACost}</td>
+            <td>{FACost.toFixed(2)}</td>
             <td>{StatusDesc}</td>
           </tr>
         </tbody>
@@ -126,8 +128,8 @@ export const CapexPage = () => {
             <td>{newDate}</td>
             <td>{newDate2}</td>
             <td>{FACode}</td>
-            <td>{FACost}</td>
-            <td>{SaleValue}</td>
+            <td>{FACost.toFixed(2)}</td>
+            <td>{SaleValue.toFixed(2)}</td>
           </tr>
         </tbody>
       );
@@ -164,7 +166,7 @@ export const CapexPage = () => {
   }
   return (
     <div className="drug">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* <div
         className={`${isCapexForm ? "form-background" : "hide-background"}`}
         onClick={() => {
@@ -185,7 +187,9 @@ export const CapexPage = () => {
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="drug-heading">
               <h1>Capex</h1>
               {/* <p>Manage all your drugs transactions here</p> */}

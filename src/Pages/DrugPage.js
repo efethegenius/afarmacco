@@ -12,9 +12,9 @@ import { LoggedOut } from "../Components/LoggedOut";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { DrugPurchaseTable } from "../Components/Tables/DrugPurchaseTable";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-
+import { AiOutlineMenu, AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 import { DrugConsumedTable } from "../Components/Tables/DrugConsumedTable";
+import { useHistory } from "react-router-dom";
 import { Loading } from "../Components/Loading";
 
 export const DrugPage = () => {
@@ -26,6 +26,7 @@ export const DrugPage = () => {
   const [isDrugConsumedForm, setIsDrugConsumedForm] = useState(false);
   const [isFullReport, setIsFullReport] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const history = useHistory();
   const [isNav, setIsNav] = useState(false);
 
   const { authState, setAuthState } = useContext(AuthContext);
@@ -39,7 +40,7 @@ export const DrugPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("api/active-creditors", {
+      const activeCreditors = await fetch("/api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -57,7 +58,7 @@ export const DrugPage = () => {
   // getting drug purchase start-----------------------------------------------------
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("api/all-drug-purchase", {
+      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -75,7 +76,7 @@ export const DrugPage = () => {
   // getting drug consumed start-----------------------------------------------------
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("api/all-drug-consumed", {
+      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -182,7 +183,7 @@ export const DrugPage = () => {
 
   return (
     <div className="drug">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* {(isDrugConsumedForm || isDrugPurchaseForm || isFullReport) && ( */}
       {/* <div
         className={`${
@@ -210,7 +211,9 @@ export const DrugPage = () => {
       {authState ? (
         <div className="drug-container">
           <div className="drug-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="drug-heading">
               <h1>Drugs</h1>
               {/* <p>Manage all your drugs transactions here</p> */}

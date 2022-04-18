@@ -14,7 +14,7 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
   // getting drug purchase start-----------------------------------------------------
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("api/all-drug-purchase", {
+      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -193,10 +193,13 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                 <th>Invoice No</th>
                 <th>Lot No</th>
                 <th>Drug</th>
-                <th>Bag Weight (Kg)</th>
+                <th>Weight</th>
+                <th>Unit</th>
+                <th>Drug Container</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
+                <th>Expense Type</th>
                 <th>Payment Type</th>
                 <th>Bank</th>
                 <th>Supplier</th>
@@ -211,9 +214,12 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                   LotNo,
                   DrugName,
                   BagWeight,
+                  Unit,
+                  DrugForm,
                   Qty,
                   UnitPrice,
                   Amount,
+                  ExpenseName,
                   PmtType,
                   BankName,
                   SupplierName,
@@ -229,9 +235,12 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                       <td>{LotNo}</td>
                       <td>{DrugName}</td>
                       <td>{formatMoney(BagWeight)}</td>
+                      <td>{Unit}</td>
+                      <td>{DrugForm}</td>
                       <td>{formatMoney(Qty)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
-                      <td>{formatMoney(Amount)}.00</td>
+                      <td>{UnitPrice.toFixed(2)}</td>
+                      <td>{Amount.toFixed(2)}</td>
+                      <td>{ExpenseName}</td>
                       <td>{PmtType}</td>
                       <td>{BankName}</td>
                       <td>{SupplierName}</td>
@@ -248,9 +257,12 @@ export const DrugPurchaseTable = React.forwardRef((props, ref) => {
                 <td className="total"></td>
                 <td className="total"></td>
                 <td className="total">{formatMoney(totalBagWeight)}</td>
+                <td className="total"></td>
+                <td className="total"></td>
                 <td className="total">{formatMoney(totalQty)}</td>
                 <td className="total"></td>
-                <td className="total">{formatMoney(totalAmount)}.00</td>
+                <td className="total">{totalAmount.toFixed(2)}</td>
+                <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>

@@ -17,6 +17,7 @@ export const PolEgg = ({
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
   const { returnedBanks } = FetchBanks();
+  const [others, setOthers] = useState("");
 
   const [sales, setSales] = useState({
     TxnDate: 0,
@@ -58,7 +59,7 @@ export const PolEgg = ({
       return;
     }
 
-    const newData = await fetch("create/pol_egg", {
+    const newData = await fetch("/create/pol_egg", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -100,6 +101,19 @@ export const PolEgg = ({
     setSales((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setSales((prevState) => ({
+      ...prevState,
     }));
   };
 
@@ -228,6 +242,16 @@ export const PolEgg = ({
             </select>
           </div>
         )}
+        {sales.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -253,6 +277,9 @@ export const PolEgg = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -265,6 +292,7 @@ export const PolEgg = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

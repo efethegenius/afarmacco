@@ -18,6 +18,10 @@ const createDrugConsumed = async (req, res) => {
   await dbOperation.createDrugConsumed(req.body);
   res.json({ code: 1, msg: "success" });
 };
+const createDocSales = async (req, res) => {
+  await dbOperation.createDocSales(req.body);
+  res.json({ code: 1, msg: "success" });
+};
 
 const createExpense = async (req, res) => {
   await dbOperation.createExpense(req.body);
@@ -30,6 +34,10 @@ const createDepr = async (req, res) => {
 
 const createBirdSales = async (req, res) => {
   await dbOperation.createBirdSales(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createFrozenChickenSales = async (req, res) => {
+  await dbOperation.createFrozenChickenSales(req.body);
   res.json({ code: 1, msg: "success" });
 };
 const createPolSales = async (req, res) => {
@@ -82,9 +90,71 @@ const createUserValidation = async (req, res) => {
   res.json({ code: 1, msg: "success" });
 };
 
+const createFarmHands = async (req, res) => {
+  await dbOperation.createFarmHands(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createSupplyPipeline = async (req, res) => {
+  await dbOperation.createSupplyPipeline(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createFeedMart = async (req, res) => {
+  await dbOperation.createFeedMart(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createMultivitamin = async (req, res) => {
+  await dbOperation.createMultivitamin(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createAntibiotics = async (req, res) => {
+  await dbOperation.createAntibiotics(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createAnticoccidiosis = async (req, res) => {
+  await dbOperation.createAnticoccidiosis(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createAntiviral = async (req, res) => {
+  await dbOperation.createAntiviral(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createLasota = async (req, res) => {
+  await dbOperation.createLasota(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createGumboro = async (req, res) => {
+  await dbOperation.createGumboro(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createDeworm = async (req, res) => {
+  await dbOperation.createDeworm(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createCoryza = async (req, res) => {
+  await dbOperation.createCoryza(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createFarmgate = async (req, res) => {
+  await dbOperation.createFarmgate(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+
 module.exports = {
+  createFarmgate,
+  createCoryza,
+  createGumboro,
+  createDeworm,
+  createLasota,
+  createAntiviral,
+  createAnticoccidiosis,
+  createAntibiotics,
+  createMultivitamin,
+  createFeedMart,
+  createSupplyPipeline,
   createBirdSales,
+  createFrozenChickenSales,
   createCapex,
+  createFarmHands,
   createDepr,
   createDocMortality,
   createDocPurchase,
@@ -101,4 +171,5 @@ module.exports = {
   createPolLayer,
   createPolSales,
   createPolMortality,
+  createDocSales,
 };

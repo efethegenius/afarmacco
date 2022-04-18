@@ -7,11 +7,12 @@ import { Navbar } from "../Components/Navbar";
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 import {
-  AiOutlineMenu,
   AiOutlineClose,
   AiOutlineQuestionCircle,
+  AiOutlineLeft,
 } from "react-icons/ai";
 import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
@@ -31,6 +32,7 @@ export const Expenses = () => {
   const [isFullReport, setIsFullReport] = useState(false);
   const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
+  const history = useHistory();
   const [isDeprMsg, setIsDeprMsg] = useState(false);
 
   const componentRef = useRef();
@@ -41,7 +43,7 @@ export const Expenses = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch("api/all-expenses", {
+      const allExpenses = await fetch("/api/all-expenses", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -64,7 +66,7 @@ export const Expenses = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("api/active-creditors", {
+      const activeCreditors = await fetch("/api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -81,7 +83,7 @@ export const Expenses = () => {
   //getting depr date-----------------------------------------
   const getDeprDate = async () => {
     try {
-      const deprDate = await fetch("api/depr-date", {
+      const deprDate = await fetch("/api/depr-date", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -139,7 +141,7 @@ export const Expenses = () => {
               <td>{newDate}</td>
               <td>{ExpenseName}</td>
               <td>{HeadName}</td>
-              <td>{Amount}</td>
+              <td>{Amount.toFixed(2)}</td>
             </tr>
           </tbody>
         );
@@ -156,8 +158,7 @@ export const Expenses = () => {
         }
       }}
     >
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
-
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* <div
         className={`${isExpenseForm ? "form-background" : "hide-background"}`}
         onClick={() => {
@@ -179,7 +180,9 @@ export const Expenses = () => {
       {authState ? (
         <div className="expense-container">
           <div className="expense-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="expense-heading">
               <h1>Expenses</h1>
             </div>

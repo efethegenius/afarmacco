@@ -10,7 +10,7 @@ export const SiteApp = () => {
     <div className="site-app">
       <Hero />
       <SiteBody />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

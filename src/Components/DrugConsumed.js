@@ -23,6 +23,8 @@ export const DrugConsumed = ({
     Batch: 0,
     SizeQtyUsed: 0,
     SatchetQtyUsed: 0,
+    Unit: "",
+    DrugForm: "",
     Updtype: 1,
     RecId: 0,
   });
@@ -62,6 +64,19 @@ export const DrugConsumed = ({
     setTimeout(() => {
       setOpexTxn(false);
     }, 4000);
+  };
+
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setConsumed((prevState) => ({
+      ...prevState,
+    }));
   };
 
   const handleChange = (e) => {
@@ -176,17 +191,45 @@ export const DrugConsumed = ({
             onChange={handleChange}
           />
         </div>
-        <div className="input">
-          <label htmlFor="SizeQtyUsed">size (Quantity used in kg)</label>
-          <input
-            type="number"
-            name="SizeQtyUsed"
-            id="SizeQtyUsed"
-            onChange={handleChange}
-          />
+        <div className="double-input">
+          <div className="input">
+            <label htmlFor="SizeQtyUsed">Size (Quantity used)</label>
+            <input
+              type="number"
+              name="SizeQtyUsed"
+              id="SizeQtyUsed"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="input">
+            <label htmlFor="Unit">Unit</label>
+            <select type="text" name="Unit" id="Unit" onChange={handleChange}>
+              <option></option>
+              <option>Kg</option>
+              <option>Grams</option>
+              <option>Milligrams</option>
+              <option>Litres</option>
+              <option>Centilitres</option>
+              <option>Millilitres</option>
+            </select>
+          </div>
         </div>
         <div className="input">
-          <label htmlFor="SatchetQtyUsed">Satchet (Quantity Used)</label>
+          <label htmlFor="DrugForm">Drug Type (Sachet, Bag, Bottle)</label>
+          <select
+            type="text"
+            name="DrugForm"
+            id="DrugForm"
+            onChange={handleChange}
+          >
+            <option></option>
+            <option>Satchet</option>
+            <option>Bag</option>
+            <option>Bottle</option>
+          </select>
+        </div>
+        <div className="input">
+          <label htmlFor="SatchetQtyUsed">Quantity Used</label>
           <input
             type="number"
             name="SatchetQtyUsed"
@@ -219,6 +262,9 @@ export const DrugConsumed = ({
           type="submit"
           onClick={(e) => {
             handleSubmit(e);
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -231,6 +277,7 @@ export const DrugConsumed = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

@@ -9,6 +9,10 @@ const getBanks = async (req, res) => {
   const result = await dbOperation.getBanks();
   res.json({ name: result.recordset });
 };
+const getStates = async (req, res) => {
+  const result = await dbOperation.getStates();
+  res.json({ name: result.recordset });
+};
 
 const getPmtMethod = async (req, res) => {
   const result = await dbOperation.getPmtMethod();
@@ -34,6 +38,10 @@ const getOtherItems = async (req, res) => {
 };
 const getExpenseType = async (req, res) => {
   const result = await dbOperation.getExpenseType();
+  res.json({ name: result.recordset });
+};
+const getSupplyPipeline = async (req, res) => {
+  const result = await dbOperation.getSupplyPipeline();
   res.json({ name: result.recordset });
 };
 const getExpenseHead = async (req, res) => {
@@ -81,6 +89,10 @@ const getAllBirdSales = async (req, res) => {
   const result = await dbOperation.getAllBirdSales();
   res.json({ name: result.recordset });
 };
+const getAllFrozenChickenSales = async (req, res) => {
+  const result = await dbOperation.getAllFrozenChickenSales();
+  res.json({ name: result.recordset });
+};
 const getAllOtherSales = async (req, res) => {
   const result = await dbOperation.getAllOtherSales();
   res.json({ name: result.recordset });
@@ -121,12 +133,78 @@ const getDeprDate = async (req, res) => {
   const result = await dbOperation.getDeprDate();
   res.json({ name: result.recordset });
 };
+const getFarmHands = async (req, res) => {
+  const result = await dbOperation.getFarmHands();
+  res.json({ name: result.recordset });
+};
+const getDocSales = async (req, res) => {
+  const result = await dbOperation.getDocSales();
+  res.json({ name: result.recordset });
+};
+const getFeedMart = async (req, res) => {
+  const result = await dbOperation.getFeedMart();
+  res.json({ name: result.recordset });
+};
+const getMultivitamins = async (req, res) => {
+  const result = await dbOperation.getMultivitamins();
+  res.json({ name: result.recordset });
+};
+const getAntibiotics = async (req, res) => {
+  const result = await dbOperation.getAntibiotics();
+  res.json({ name: result.recordset });
+};
+const getAnticoccidiosis = async (req, res) => {
+  const result = await dbOperation.getAnticoccidiosis();
+  res.json({ name: result.recordset });
+};
+const getAntiviral = async (req, res) => {
+  const result = await dbOperation.getAntiviral();
+  res.json({ name: result.recordset });
+};
+const getLasota = async (req, res) => {
+  const result = await dbOperation.getLasota();
+  res.json({ name: result.recordset });
+};
+const getGumboro = async (req, res) => {
+  const result = await dbOperation.getGumboro();
+  res.json({ name: result.recordset });
+};
+const getDeworm = async (req, res) => {
+  const result = await dbOperation.getDeworm();
+  res.json({ name: result.recordset });
+};
+const getCoryza = async (req, res) => {
+  const result = await dbOperation.getCoryza();
+  res.json({ name: result.recordset });
+};
+const getFarmgate = async (req, res) => {
+  const result = await dbOperation.getFarmgate();
+  res.json({ name: result.recordset });
+};
+const getOperatingExpense = async (req, res) => {
+  const result = await dbOperation.getOperatingExpense();
+  res.json({ name: result.recordset });
+};
 
 module.exports = {
+  getOperatingExpense,
+  getFarmgate,
+  getDeworm,
+  getCoryza,
+  getGumboro,
+  getAntiviral,
+  getLasota,
+  getAnticoccidiosis,
+  getMultivitamins,
+  getAntibiotics,
+  getFeedMart,
+  getDocSales,
+  getFarmHands,
   getActiveDebtors,
   getActiveCreditors,
   getBirdTypes,
   getBanks,
+  getStates,
   getAssetType,
   getTxnType,
   getPmtMethod,
@@ -138,6 +216,7 @@ module.exports = {
   getDeprDate,
   getOtherItems,
   getCapexs,
+  getSupplyPipeline,
   getAllDocMortality,
   getAllDocPurchase,
   getAllDrugConsumed,
@@ -146,6 +225,7 @@ module.exports = {
   getAllFeedPurchase,
   getAllExpenses,
   getAllBirdSales,
+  getAllFrozenChickenSales,
   getAllOtherSales,
   getReports,
   getAllPolEggs,

@@ -14,7 +14,7 @@ export const PolEggTable = React.forwardRef((props, ref) => {
 
   const getAllPolEggs = async () => {
     try {
-      const allPolEggs = await fetch("api/all-pol-eggs", {
+      const allPolEggs = await fetch("/api/all-pol-eggs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -226,8 +226,8 @@ export const PolEggTable = React.forwardRef((props, ref) => {
                       <td>{InvoiceNo}</td>
                       <td>{Batch}</td>
                       <td>{formatMoney(CrateQty)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
-                      <td>{formatMoney(Amount)}.00</td>
+                      <td>{UnitPrice.toFixed(2)}</td>
+                      <td>{Amount.toFixed(2)}</td>
                       <td>{PmtType}</td>
                       <td>{BankName}</td>
                       <td>{CustomerName}</td>
@@ -244,7 +244,7 @@ export const PolEggTable = React.forwardRef((props, ref) => {
                 <td className="total"></td>
                 <td className="total">{formatMoney(totalQty)}</td>
                 <td className="total"></td>
-                <td className="total">{formatMoney(totalAmount)}.00</td>
+                <td className="total">{totalAmount.toFixed(2)}</td>
                 <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>

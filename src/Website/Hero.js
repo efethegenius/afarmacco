@@ -23,7 +23,9 @@ export const Hero = () => {
     <div className="hero-container">
       <Fade top>
         <div className="hero-header">
-          <h4 className={navActive && "logo-active"}>AFARMACCO&reg;</h4>
+          <h1 className="hero-logo">
+            afarmacco<span>&reg;</span>
+          </h1>
           {!isNavMenu && (
             <AiOutlineMenu
               className="hero-menu"
@@ -44,7 +46,7 @@ export const Hero = () => {
       </Fade>
       <div className="hero-details">
         <h1 className="animate__animated animate__fadeInDown">
-          POULTRY MANAGEMENT SOLUTION
+          POULTRY FARM MANAGEMENT SOLUTION
         </h1>
         {/* <p>The new most efficient way to manage your poultry!</p> */}
         <Typewriter
@@ -76,7 +78,7 @@ export const Hero = () => {
         </Links>
       </div>
       <Fade top>
-        <div
+        {/* <div
           className={
             isNavMenu
               ? "nav-menu show-nav-menu"
@@ -157,7 +159,7 @@ export const Hero = () => {
           >
             GET STARTED
           </Links>
-        </div>
+        </div> */}
       </Fade>
       <Fade bottom delay={2000}>
         <div className="mouse-container">

@@ -24,6 +24,7 @@ export const Capex = ({
   const { returnedAssetTypes } = FetchAssetTypes();
   const { returnedTxnTypes } = FetchTxnTypes();
   const { upd, setUpd, capexTxn, setCapexTxn } = useContext(AuthContext);
+  const [others, setOthers] = useState("");
   const [capex, setCapex] = useState({
     TxnType: "",
     TxnDate: 0,
@@ -62,9 +63,22 @@ export const Capex = ({
     }));
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setCapex((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   //Send data to the backend when submitted
   const newCapexTxn = async () => {
-    const newData = await fetch("create/capex", {
+    const newData = await fetch("/create/capex", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -236,6 +250,16 @@ export const Capex = ({
             </select>
           </div>
         )}
+        {capex.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         {capex.TxnType === "Disposal" && capex.PmtMethod === "Credit" && (
           <div className="input">
             <label htmlFor="Debtor">Debtor</label>
@@ -283,6 +307,9 @@ export const Capex = ({
           type="submit"
           onClick={(e) => {
             handleSubmit(e);
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -295,6 +322,7 @@ export const Capex = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

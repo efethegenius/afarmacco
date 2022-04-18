@@ -9,6 +9,9 @@ import { BiLogOut } from "react-icons/bi";
 import { BsDownload } from "react-icons/bs";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Loading } from "../Components/Loading";
+import { useHistory } from "react-router-dom";
+import { AiOutlineLeft } from "react-icons/ai";
+
 export const Dashboard = () => {
   const { authState, setAuthState } = useContext(AuthContext);
   const [returnedDocPurchase, setReturnedDocPurchase] = useState([]);
@@ -21,14 +24,17 @@ export const Dashboard = () => {
   const [returnedDrugConsumed, setReturnedDrugConsumed] = useState([]);
   const [returnedFeedPurchase, setReturnedFeedPurchase] = useState([]);
   const [returnedFeedConsumed, setReturnedFeedConsumed] = useState([]);
-  const [isConfirm, setIsConfirm] = useState(false);
+  const [search, setSearch] = useState("");
+  const [unit, setUnit] = useState("");
+  const history = useHistory();
+
   const [isNav, setIsNav] = useState(false);
 
   const [returnedUser, setReturnedUser] = useState([]);
 
   const getCurrentUser = async () => {
     try {
-      const currentUser = await fetch("api/user", {
+      const currentUser = await fetch("/api/user", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -61,7 +67,7 @@ export const Dashboard = () => {
   // getting Infos start-----------------------------------------------------
   const getAllPolLayers = async () => {
     try {
-      const allPolLayers = await fetch("api/all-pol-layers", {
+      const allPolLayers = await fetch("/api/all-pol-layers", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -76,7 +82,7 @@ export const Dashboard = () => {
   };
   const getAllPolSales = async () => {
     try {
-      const allPolSales = await fetch("api/all-pol-sales", {
+      const allPolSales = await fetch("/api/all-pol-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -91,7 +97,7 @@ export const Dashboard = () => {
   };
   const getAllPolMortality = async () => {
     try {
-      const allPolMortality = await fetch("api/all-pol-mortality", {
+      const allPolMortality = await fetch("/api/all-pol-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -106,7 +112,7 @@ export const Dashboard = () => {
   };
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("api/all-doc-purchase", {
+      const allDocPurchase = await fetch("/api/all-doc-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -122,7 +128,7 @@ export const Dashboard = () => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("api/all-bird-sales", {
+      const allBirdSales = await fetch("/api/all-bird-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -138,7 +144,7 @@ export const Dashboard = () => {
 
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("api/all-doc-mortality", {
+      const allDocMortality = await fetch("/api/all-doc-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -154,7 +160,7 @@ export const Dashboard = () => {
 
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("api/all-drug-purchase", {
+      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -169,7 +175,7 @@ export const Dashboard = () => {
   };
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("api/all-drug-consumed", {
+      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -184,7 +190,7 @@ export const Dashboard = () => {
   };
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("api/all-feed-purchase", {
+      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -199,7 +205,7 @@ export const Dashboard = () => {
   };
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("api/all-feed-consumed", {
+      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -270,20 +276,7 @@ export const Dashboard = () => {
       0
     );
   }
-  let totalDrugPurchaseQty;
-  if (returnedDrugPurchase.name) {
-    totalDrugPurchaseQty = returnedDrugPurchase.name.reduce(
-      (a, v) => (a = a + v.Qty),
-      0
-    );
-  }
-  let totalDrugSatchetUsed;
-  if (returnedDrugConsumed.name) {
-    totalDrugSatchetUsed = returnedDrugConsumed.name.reduce(
-      (a, v) => (a = a + v.SatchetQtyUsed),
-      0
-    );
-  }
+
   let totalFeedPurchaseQty;
   if (returnedFeedPurchase.name) {
     totalFeedPurchaseQty = returnedFeedPurchase.name.reduce(
@@ -476,13 +469,19 @@ export const Dashboard = () => {
   let antibioticsPurchase;
   if (returnedDrugPurchase.name) {
     antibioticsPurchase = returnedDrugPurchase.name.filter(
-      (antibiotic) => antibiotic.DrugName === "Antibiotics"
+      (antibiotic) =>
+        antibiotic.DrugName === "Antibiotics" &&
+        antibiotic.DrugForm === search &&
+        antibiotic.Unit === unit
     );
   }
   let antibioticsUsed;
   if (returnedDrugConsumed.name) {
     antibioticsUsed = returnedDrugConsumed.name.filter(
-      (antibiotic) => antibiotic.DrugName === "Antibiotics"
+      (antibiotic) =>
+        antibiotic.DrugName === "Antibiotics" &&
+        antibiotic.DrugForm === search &&
+        antibiotic.Unit === unit
     );
   }
 
@@ -505,13 +504,19 @@ export const Dashboard = () => {
   let anticoccidiosisPurchase;
   if (returnedDrugPurchase.name) {
     anticoccidiosisPurchase = returnedDrugPurchase.name.filter(
-      (anticoccidiosis) => anticoccidiosis.DrugName === "Anticoccidiosis"
+      (anticoccidiosis) =>
+        anticoccidiosis.DrugName === "Anticoccidiosis" &&
+        anticoccidiosis.DrugForm === search &&
+        anticoccidiosis.Unit === unit
     );
   }
   let anticoccidiosisUsed;
   if (returnedDrugConsumed.name) {
     anticoccidiosisUsed = returnedDrugConsumed.name.filter(
-      (anticoccidiosis) => anticoccidiosis.DrugName === "Anticoccidiosis"
+      (anticoccidiosis) =>
+        anticoccidiosis.DrugName === "Anticoccidiosis" &&
+        anticoccidiosis.DrugForm === search &&
+        anticoccidiosis.Unit === unit
     );
   }
 
@@ -534,13 +539,19 @@ export const Dashboard = () => {
   let antiviralPurchase;
   if (returnedDrugPurchase.name) {
     antiviralPurchase = returnedDrugPurchase.name.filter(
-      (antiviral) => antiviral.DrugName === "Antiviral"
+      (antiviral) =>
+        antiviral.DrugName === "Antiviral" &&
+        antiviral.DrugForm === search &&
+        antiviral.Unit === unit
     );
   }
   let antiviralUsed;
   if (returnedDrugConsumed.name) {
     antiviralUsed = returnedDrugConsumed.name.filter(
-      (antiviral) => antiviral.DrugName === "Antiviral"
+      (antiviral) =>
+        antiviral.DrugName === "Antiviral" &&
+        antiviral.DrugForm === search &&
+        antiviral.Unit === unit
     );
   }
 
@@ -563,13 +574,19 @@ export const Dashboard = () => {
   let coryzaPurchase;
   if (returnedDrugPurchase.name) {
     coryzaPurchase = returnedDrugPurchase.name.filter(
-      (coryza) => coryza.DrugName === "Coryza"
+      (coryza) =>
+        coryza.DrugName === "Coryza" &&
+        coryza.DrugForm === search &&
+        coryza.Unit === unit
     );
   }
   let coryzaUsed;
   if (returnedDrugConsumed.name) {
     coryzaUsed = returnedDrugConsumed.name.filter(
-      (coryza) => coryza.DrugName === "Coryza"
+      (coryza) =>
+        coryza.DrugName === "Coryza" &&
+        coryza.DrugForm === search &&
+        coryza.Unit === unit
     );
   }
 
@@ -586,13 +603,19 @@ export const Dashboard = () => {
   let dewormPurchase;
   if (returnedDrugPurchase.name) {
     dewormPurchase = returnedDrugPurchase.name.filter(
-      (deworm) => deworm.DrugName === "Deworm"
+      (deworm) =>
+        deworm.DrugName === "Deworm" &&
+        deworm.DrugForm === search &&
+        deworm.Unit === unit
     );
   }
   let dewormUsed;
   if (returnedDrugConsumed.name) {
     dewormUsed = returnedDrugConsumed.name.filter(
-      (deworm) => deworm.DrugName === "Deworm"
+      (deworm) =>
+        deworm.DrugName === "Deworm" &&
+        deworm.DrugForm === search &&
+        deworm.Unit === unit
     );
   }
 
@@ -609,13 +632,19 @@ export const Dashboard = () => {
   let multivitaminPurchase;
   if (returnedDrugPurchase.name) {
     multivitaminPurchase = returnedDrugPurchase.name.filter(
-      (multivitamin) => multivitamin.DrugName === "Multivitamin"
+      (multivitamin) =>
+        multivitamin.DrugName === "Multivitamin" &&
+        multivitamin.DrugForm === search &&
+        multivitamin.Unit === unit
     );
   }
   let multivitaminUsed;
   if (returnedDrugConsumed.name) {
     multivitaminUsed = returnedDrugConsumed.name.filter(
-      (multivitamin) => multivitamin.DrugName === "Multivitamin"
+      (multivitamin) =>
+        multivitamin.DrugName === "Multivitamin" &&
+        multivitamin.DrugForm === search &&
+        multivitamin.Unit === unit
     );
   }
 
@@ -638,13 +667,19 @@ export const Dashboard = () => {
   let vaccinePurchase;
   if (returnedDrugPurchase.name) {
     vaccinePurchase = returnedDrugPurchase.name.filter(
-      (vaccine) => vaccine.DrugName === "Vaccine"
+      (vaccine) =>
+        vaccine.DrugName === "Vaccine" &&
+        vaccine.DrugForm === search &&
+        vaccine.Unit === unit
     );
   }
   let vaccineUsed;
   if (returnedDrugConsumed.name) {
     vaccineUsed = returnedDrugConsumed.name.filter(
-      (vaccine) => vaccine.DrugName === "Vaccine"
+      (vaccine) =>
+        vaccine.DrugName === "Vaccine" &&
+        vaccine.DrugForm === search &&
+        vaccine.Unit === unit
     );
   }
 
@@ -660,6 +695,39 @@ export const Dashboard = () => {
     );
   }
   // vaccine start-------------------------------------------------------------------------
+
+  let totalDrugPurchaseQty;
+  if (returnedDrugPurchase.name) {
+    totalDrugPurchaseQty =
+      antibioticsPurchaseQty +
+      anticoccidiosisPurchaseQty +
+      antiviralPurchaseQty +
+      coryzaPurchaseQty +
+      dewormPurchaseQty +
+      multivitaminPurchaseQty +
+      vaccinePurchaseQty;
+  }
+
+    let totalDrugSatchetUsed;
+    if (returnedDrugConsumed.name) {
+      totalDrugSatchetUsed =
+        antibioticsUsedQty +
+        anticoccidiosisUsedQty +
+        antiviralUsedQty +
+        coryzaUsedQty +
+        dewormUsedQty +
+        multivitaminUsedQty +
+        vaccineUsedQty;
+    }
+
+  const allDrugPurchaseQty =
+    antibioticsUsedQty +
+    anticoccidiosisUsedQty +
+    antiviralUsedQty +
+    coryzaUsedQty +
+    dewormUsedQty +
+    multivitaminUsedQty +
+    vaccineUsedQty;
 
   // finisher start------------------------------------------------------------------------------
   let finisherPurchase;
@@ -734,45 +802,19 @@ export const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
-      <div
-        className={`${isConfirm ? "form-background" : "hide-background"}`}
-        onClick={() => {
-          setIsConfirm(false);
-        }}
-      >
-        <div className="pay-confirm">
-          <p>Are you sure you want log out?</p>
-          <div className="btn-pay-confirm">
-            <button
-              className="btn-order"
-              onClick={() => {
-                setAuthState(false);
-                localStorage.clear("accessToken");
-              }}
-            >
-              Confirm
-            </button>
-            <button className="btn-discard">Discard</button>
-          </div>
-        </div>
-      </div>
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
+
       {authState ? (
         <div className="dashboard-container">
           <div className="dash-header">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="welcome">
-              <h1>Welcome, {userFirstName}</h1>
+              <h1>Inventory</h1>
               <p>Today, {current.toDateString()}</p>
             </div>
-            <button
-              className="btn-logout"
-              onClick={() => {
-                setIsConfirm(true);
-              }}
-            >
-              <BiLogOut className="logout-icon" /> Log out
-            </button>
+            <p> </p>
           </div>
           {returnedBirdSales.name &&
           returnedDocPurchase.name &&
@@ -941,6 +983,40 @@ export const Dashboard = () => {
                       <>
                         <div className="inv-title">
                           <h3 className="gray">Drugs Inventory</h3>
+                          <div>
+                            <p>Container: </p>
+                            <select
+                              name="search"
+                              id="search"
+                              value={search}
+                              placeholder="Search"
+                              onChange={(e) => setSearch(e.target.value)}
+                            >
+                              <option></option>
+                              <option>Satchet</option>
+                              <option>Bag</option>
+                              <option>Bottle</option>
+                            </select>
+                          </div>
+                          <div>
+                            <p>Unit: </p>
+                            <select
+                              name="unit"
+                              id="unit"
+                              className="unit"
+                              value={unit}
+                              placeholder="Unit"
+                              onChange={(e) => setUnit(e.target.value)}
+                            >
+                              <option></option>
+                              <option>Kg</option>
+                              <option>Grams</option>
+                              <option>Milligrams</option>
+                              <option>Litres</option>
+                              <option>Centilitres</option>
+                              <option>Millilitres</option>
+                            </select>
+                          </div>
                           <ReactHTMLTableToExcel
                             id="test-table-xls-button"
                             className="xls-download"
@@ -954,9 +1030,9 @@ export const Dashboard = () => {
                           <table id="drugs-inventory">
                             <tr>
                               <th>Drug</th>
-                              <th>Purchased</th>
-                              <th>Cosumed</th>
-                              <th>Balance</th>
+                              <th>Purchased (Kg)</th>
+                              <th>Cosumed (Kg)</th>
+                              <th>Balance (Kg)</th>
                             </tr>
                             <tr>
                               <td>Antibiotics</td>
@@ -1062,9 +1138,9 @@ export const Dashboard = () => {
                           <table id="feeds-inventory">
                             <tr>
                               <th>Feed</th>
-                              <th>Purchased</th>
-                              <th>Consumed</th>
-                              <th>Balance</th>
+                              <th>Purchased (Kg)</th>
+                              <th>Consumed (Kg)</th>
+                              <th>Balance (Kg)</th>
                             </tr>
                             <tr>
                               <td>Starter</td>

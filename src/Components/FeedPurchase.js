@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
+  FetchExpenseTypes,
   FetchFeeds,
   FetchBanks,
   FetchMethods,
@@ -17,15 +18,18 @@ export const FeedPurchase = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedFeeds } = FetchFeeds();
   const { returnedBanks } = FetchBanks();
+  const { returnedExpenseTypes } = FetchExpenseTypes();
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
   const [fieldErr, setFieldErr] = useState(false);
   const [pmtErr, setPmtErr] = useState(false);
+  const [others, setOthers] = useState("");
 
   const [purchase, setPurchase] = useState({
     LotNo: 0,
     PurchaseDate: 0,
     InvoiceNo: 0,
+    ExpenseType: "",
     FeedType: "",
     BagWeight: 0,
     Qty: 0,
@@ -53,6 +57,16 @@ export const FeedPurchase = ({
   if (returnedMethods.name) {
     methods = returnedMethods.name.map((method) => {
       return <option key={method.PmtMethodId}>{method.PmtType}</option>;
+    });
+  }
+  let expenseTypes;
+  if (returnedExpenseTypes.name) {
+    expenseTypes = returnedExpenseTypes.name.map((expenseType) => {
+      return (
+        <option key={expenseType.ExpenseTypeId}>
+          {expenseType.ExpenseName}
+        </option>
+      );
     });
   }
 
@@ -130,6 +144,19 @@ export const FeedPurchase = ({
     }));
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setPurchase((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleSubmit = () => {
     newPurchase();
     setTimeout(() => {
@@ -194,6 +221,13 @@ export const FeedPurchase = ({
           </div>
         </div>
         <div className="input">
+          <label htmlFor="ExpenseType">Expense Type</label>
+          <select name="ExpenseType" id="ExpenseType" onChange={handleChange}>
+            <option></option>
+            {expenseTypes}
+          </select>
+        </div>
+        <div className="input">
           <label htmlFor="FeedType">Feed</label>
           <select name="FeedType" id="FeedType" onChange={handleChange}>
             <option></option>
@@ -256,6 +290,17 @@ export const FeedPurchase = ({
             </select>
           </div>
         )}
+
+        {purchase.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -281,6 +326,9 @@ export const FeedPurchase = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -293,6 +341,7 @@ export const FeedPurchase = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

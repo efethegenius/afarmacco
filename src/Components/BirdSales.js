@@ -22,6 +22,7 @@ export const BirdSales = ({
   const { returnedMethods } = FetchMethods();
   const [pmtErr, setPmtErr] = useState(false);
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
+  const [others, setOthers] = useState("");
 
   const [sales, setSales] = useState({
     TxnDate: 0,
@@ -65,7 +66,7 @@ export const BirdSales = ({
       return;
     }
 
-    const newData = await fetch("create/bird_sales", {
+    const newData = await fetch("/create/bird_sales", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -117,6 +118,19 @@ export const BirdSales = ({
       getAllBirdSales();
       getActiveDebtors();
     }, 1500);
+  };
+
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setSales((prevState) => ({
+      ...prevState,
+    }));
   };
 
   useEffect(() => {
@@ -249,6 +263,16 @@ export const BirdSales = ({
             </select>
           </div>
         )}
+        {sales.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -274,6 +298,9 @@ export const BirdSales = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -286,6 +313,7 @@ export const BirdSales = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

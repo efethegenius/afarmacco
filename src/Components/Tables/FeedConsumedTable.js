@@ -14,7 +14,7 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("api/all-feed-consumed", {
+      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -222,8 +222,8 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
                       <td>{Batch}</td>
                       <td>{formatMoney(BagQtyUsed)}</td>
                       <td>{formatMoney(SizeQtyUsed)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
-                      <td>{formatMoney(ValueUsed)}.00</td>
+                      <td>{UnitPrice.toFixed(2)}</td>
+                      <td>{ValueUsed.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 );
@@ -240,7 +240,7 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
                 <td className="total">{formatMoney(totalBag)}</td>
                 <td className="total">{formatMoney(totalSize)}</td>
                 <td className="total"></td>
-                <td className="total">{formatMoney(totalAmount)}.00</td>
+                <td className="total">{totalAmount.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>

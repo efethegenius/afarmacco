@@ -14,7 +14,7 @@ export const PolLayerMortalityTable = React.forwardRef((props, ref) => {
 
   const getAllPolMortality = async () => {
     try {
-      const allPolMortality = await fetch("api/all-pol-mortality", {
+      const allPolMortality = await fetch("/api/all-pol-mortality", {
         method: "GET",
         headers: {
           "content-type": "application/json",

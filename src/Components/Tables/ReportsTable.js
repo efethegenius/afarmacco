@@ -14,7 +14,7 @@ export const ReportsTable = React.forwardRef((props, ref) => {
 
   const getReports = async () => {
     try {
-      const reports = await fetch("api/reports", {
+      const reports = await fetch("/api/reports", {
         method: "GET",
         headers: {
           "content-type": "application/json",

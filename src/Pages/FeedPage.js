@@ -12,8 +12,9 @@ import { FeedPurchaseTable } from "../Components/Tables/FeedPurchaseTable";
 import { FeedConsumedTable } from "../Components/Tables/FeedConsumedTable";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 import { Loading } from "../Components/Loading";
+import { useHistory } from "react-router-dom";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export const FeedPage = () => {
@@ -26,6 +27,7 @@ export const FeedPage = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [isFullReport, setIsFullReport] = useState(false);
   const { authState, setAuthState } = useContext(AuthContext);
+  const history = useHistory();
   const [isNav, setIsNav] = useState(false);
 
   const [animState, setAnimState] = useState(true);
@@ -38,7 +40,7 @@ export const FeedPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("api/active-creditors", {
+      const activeCreditors = await fetch("/api/active-creditors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -55,7 +57,7 @@ export const FeedPage = () => {
   // getting feed purchase start-----------------------------------------------------
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("api/all-feed-purchase", {
+      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -73,7 +75,7 @@ export const FeedPage = () => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("api/all-feed-consumed", {
+      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -189,7 +191,7 @@ export const FeedPage = () => {
 
   return (
     <div className="feed">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* {(isFeedConsumedForm || isFeedPurchaseForm || isFullReport) && ( */}
       {/* <div
         className={`${
@@ -217,7 +219,9 @@ export const FeedPage = () => {
       {authState ? (
         <div className="feed-container">
           <div className="feed-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="feed-heading">
               <h1>Feeds</h1>
               {/* <p>Manage all your feeds transactions here</p> */}

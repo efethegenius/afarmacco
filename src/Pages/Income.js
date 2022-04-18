@@ -11,8 +11,9 @@ import { OtherSalesTable } from "../Components/Tables/OtherSalesTable";
 import { AuthContext } from "../helpers/AuthContext";
 import { LoggedOut } from "../Components/LoggedOut";
 import { Link } from "react-router-dom";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { useHistory } from "react-router-dom";
 import { Loading } from "../Components/Loading";
 
 export const Income = () => {
@@ -26,6 +27,7 @@ export const Income = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [isNav, setIsNav] = useState(false);
   const [isFullReport, setIsFullReport] = useState(false);
+  const history = useHistory();
   const { authState, setAuthState } = useContext(AuthContext);
 
   const componentRef = useRef();
@@ -36,7 +38,7 @@ export const Income = () => {
   // getting active debtors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("api/active-debtors", {
+      const activeDebtors = await fetch("/api/active-debtors", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -54,7 +56,7 @@ export const Income = () => {
   // getting bird sales start-----------------------------------------------------
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("api/all-bird-sales", {
+      const allBirdSales = await fetch("/api/all-bird-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -72,7 +74,7 @@ export const Income = () => {
   // getting other sales start-----------------------------------------------------
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch("api/all-other-sales", {
+      const allOtherSales = await fetch("/api/all-other-sales", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -105,7 +107,7 @@ export const Income = () => {
               <td>{newDate}</td>
               <td>{BirdName}</td>
               <td>{Qty}</td>
-              <td>{UnitPrice}</td>
+              <td>{UnitPrice.toFixed(2)}</td>
             </tr>
           </tbody>
         );
@@ -123,7 +125,7 @@ export const Income = () => {
             <td>{newDate}</td>
             <td>{ItemName}</td>
             <td className="qty">{Qty}</td>
-            <td>{UnitPrice}</td>
+            <td>{UnitPrice.toFixed(2)}</td>
           </tr>
         </tbody>
       );
@@ -202,10 +204,8 @@ export const Income = () => {
   if (returnedActiveDebtors.name) {
     activeDebtors = returnedActiveDebtors.name.filter(
       (activeDebtor) =>
-        (activeDebtor.PurchaseType === "Bird Sale" &&
-          activeDebtor.Status === "UNPAID") ||
-        (activeDebtor.PurchaseType === "Other Sale" &&
-          activeDebtor.Status === "UNPAID")
+        activeDebtor.PurchaseType === "Bird Sale" &&
+        activeDebtor.Status === "UNPAID"
     );
   }
 
@@ -216,7 +216,7 @@ export const Income = () => {
 
   return (
     <div className="income">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {/* {(isBirdForm || isOtherForm || isFullReport) && ( */}
       {/* <div
         className={`${
@@ -242,42 +242,17 @@ export const Income = () => {
       {authState ? (
         <div className="income-container">
           <div className="income-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="income-heading">
-              <h1>Income</h1>
+              <h1>Bird Sales</h1>
             </div>
-            <div
-              className="new-btn"
-              onClick={() => setShowOptions(!showOptions)}
-            >
+            <div className="new-btn" onClick={() => setIsBirdForm(!isBirdForm)}>
               <div className="plus-circle">
                 <HiOutlinePlus />
               </div>
               <p>New</p>
-              <div
-                className={`${
-                  showOptions ? "new-options show-new-options" : "new-options"
-                }`}
-              >
-                <button
-                  className={`${isBirdForm && "new-active"}`}
-                  onClick={() => {
-                    setIsBirdForm(!isBirdForm);
-                    setIsOtherForm(false);
-                  }}
-                >
-                  Bird Sale
-                </button>
-                <button
-                  className={`${isOtherForm && "new-active"}`}
-                  onClick={() => {
-                    setIsOtherForm(!isOtherForm);
-                    setIsBirdForm(false);
-                  }}
-                >
-                  Other Sale
-                </button>
-              </div>
             </div>
           </div>
           <div className="all-income">
@@ -285,7 +260,6 @@ export const Income = () => {
               isBirdForm={isBirdForm}
               setIsBirdForm={setIsBirdForm}
               getAllBirdSales={getAllBirdSales}
-              setIsBirdForm={setIsBirdForm}
               getActiveDebtors={getActiveDebtors}
               animState={animState}
               setAnimState={setAnimState}
@@ -347,7 +321,7 @@ export const Income = () => {
                             View full report
                           </button>
                         </div>
-                        <div className="other-mini-list">
+                        {/* <div className="other-mini-list">
                           <div className="mini-table">
                             <p className="title mini-title">
                               {miniOtherList && miniOtherList.length === 0
@@ -376,7 +350,7 @@ export const Income = () => {
                           >
                             View full report
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="income-info bird-sale-info">
                         <div className="total-bird">
@@ -414,7 +388,7 @@ export const Income = () => {
                       </div>
                     </div>
                     <div className="debtors">
-                      <p className="title">Active debtors and Amount</p>
+                      <p className="title">Bird Sales Debtors and Amount</p>
                       <div className="debtor-list-container animate__animated animate__fadeIn">
                         {activeDebtors && activeDebtors.length !== 0 ? (
                           activeDebtors.map((activeDebtor) => {

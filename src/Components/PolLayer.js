@@ -1,5 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { FetchBanks, FetchMethods } from "../FetchOptions/FetchOptions";
+import {
+  FetchBanks,
+  FetchMethods,
+  FetchExpenseTypes,
+} from "../FetchOptions/FetchOptions";
 import { AuthContext } from "../helpers/AuthContext";
 import "animate.css";
 
@@ -15,16 +19,19 @@ export const PolLayer = ({
   const [returnedSalesData, setReturnedSalesData] = useState([]);
   const [returnedPolSales, setReturnedPolSales] = useState([]);
   const [returnedPolMortality, setReturnedPolMortality] = useState([]);
+  const { returnedExpenseTypes } = FetchExpenseTypes();
   const [pmtErr, setPmtErr] = useState(false);
   const [fieldErr, setFieldErr] = useState(false);
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
   const { returnedBanks } = FetchBanks();
   const [txnType, setTxnType] = useState("");
+  const [others, setOthers] = useState("");
 
   const [convert, setConvert] = useState({
     TxnDate: 0,
     InvoiceNo: 0,
+    ExpenseType: "",
     Batch: 0,
     Qty: 0,
     UnitPrice: 0,
@@ -97,7 +104,7 @@ export const PolLayer = ({
     //   return;
     // }
 
-    const newData = await fetch("create/pol_layer", {
+    const newData = await fetch("/create/pol_layer", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -272,6 +279,28 @@ export const PolLayer = ({
     }, 4000);
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setConvert((prevState) => ({
+      ...prevState,
+    }));
+    setSales((prevState) => ({
+      ...prevState,
+    }));
+    setPolSales((prevState) => ({
+      ...prevState,
+    }));
+    setPolMortality((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(value);
@@ -356,6 +385,18 @@ export const PolLayer = ({
       return <option key={method.PmtMethodId}>{method.PmtType}</option>;
     });
   }
+
+  let expenseTypes;
+  if (returnedExpenseTypes.name) {
+    expenseTypes = returnedExpenseTypes.name.map((expenseType) => {
+      return (
+        <option key={expenseType.ExpenseTypeId}>
+          {expenseType.ExpenseName}
+        </option>
+      );
+    });
+  }
+
   useEffect(() => {
     if (upd) {
       setConvert((prevState) => ({
@@ -419,6 +460,17 @@ export const PolLayer = ({
               />
             </div>
             <div className="input">
+              <label htmlFor="ExpenseType">Expense Type</label>
+              <select
+                name="ExpenseType"
+                id="ExpenseType"
+                onChange={handleChange}
+              >
+                <option></option>
+                {expenseTypes}
+              </select>
+            </div>
+            <div className="input">
               <label htmlFor="Batch">Batch</label>
               <input
                 type="number"
@@ -477,6 +529,16 @@ export const PolLayer = ({
                   <option></option>
                   {bankNames}
                 </select>
+              </div>
+            )}
+            {convert.PmtMethod === "Other" && (
+              <div className="input">
+                <label htmlFor="Other">Specify other method</label>
+                <input
+                  name="Other"
+                  id="Other"
+                  onChange={(e) => setOthers(e.target.value)}
+                />
               </div>
             )}
           </>
@@ -565,6 +627,16 @@ export const PolLayer = ({
                 </select>
               </div>
             )}
+            {convert.PmtMethod === "Other" && (
+              <div className="input">
+                <label htmlFor="Other">Specify other method</label>
+                <input
+                  name="Other"
+                  id="Other"
+                  onChange={(e) => setOthers(e.target.value)}
+                />
+              </div>
+            )}
           </>
         )}
         {/* mortality----------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
@@ -636,6 +708,9 @@ export const PolLayer = ({
               handlePolMortality();
               return;
             }
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -648,6 +723,7 @@ export const PolLayer = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

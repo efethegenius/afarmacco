@@ -88,6 +88,19 @@ export const FeedConsumed = ({
     }));
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setConsumed((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleSubmit = () => {
     newConsumed();
     setTimeout(() => {
@@ -220,6 +233,10 @@ export const FeedConsumed = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -232,6 +249,7 @@ export const FeedConsumed = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

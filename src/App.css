@@ -16,11 +16,78 @@ body {
   font-family: var(--Nunito);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.pulsate {
+  -webkit-animation: pulsate 3s ease-out;
+  /* -webkit-animation-iteration-count: infinite; */
+  animation: pulsate 3s infinite ease-out;
+  opacity: 0.2;
+}
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+@keyframes pulsate {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
 .App {
   display: grid;
   justify-content: center;
   align-content: center;
   text-align: center;
+}
+
+.coming {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.coming h1 {
+  font-size: 3rem;
+}
+
+.coming a {
+  background-color: brown;
+  border: none;
+  width: 200px;
+  height: 40px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-decoration: none;
 }
 
 .form-err {
@@ -71,6 +138,9 @@ select {
   justify-content: center;
   flex-direction: row;
   cursor: pointer;
+  right: 10px;
+  bottom: 0;
+  position: absolute;
   transition: all ease-in-out 0.5s;
 }
 
@@ -362,6 +432,21 @@ select {
   height: 100%;
 }
 
+.all-creditors,
+.all-debtors {
+  width: 80%;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .debtor-list {
   /* background-color: red; */
   display: flex;
@@ -375,6 +460,11 @@ select {
   border-bottom: 1px solid rgba(0, 0, 0, 0.164);
   font-size: 0.8rem;
   text-decoration: none;
+  transition: all ease-in-out 0.5s;
+}
+
+.debtor-list:hover {
+  transform: scale(1.002);
 }
 
 .d-name {

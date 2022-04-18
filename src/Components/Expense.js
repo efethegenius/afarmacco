@@ -22,6 +22,7 @@ export const Expense = ({
   const { returnedMethods } = FetchMethods();
   const { returnedExpenseTypes } = FetchExpenseTypes();
   const { returnedBanks } = FetchBanks();
+  const [others, setOthers] = useState("");
   const { upd, setUpd, setExpenseTxn, expenseTxn, deprTxn, setDeprTxn } =
     useContext(AuthContext);
 
@@ -39,7 +40,7 @@ export const Expense = ({
   });
 
   const newExpense = async () => {
-    const newData = await fetch("create/expense", {
+    const newData = await fetch("/create/expense", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -59,7 +60,7 @@ export const Expense = ({
   };
 
   const newDepr = async () => {
-    const newData = await fetch("create/depr", {
+    const newData = await fetch("/create/depr", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -76,6 +77,19 @@ export const Expense = ({
     setTimeout(() => {
       setDeprTxn(false);
     }, 4000);
+  };
+
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setExpense((prevState) => ({
+      ...prevState,
+    }));
   };
 
   const handleChange = (e) => {
@@ -245,6 +259,16 @@ export const Expense = ({
                 </select>
               </div>
             )}
+            {expense.PmtMethod === "Other" && (
+              <div className="input">
+                <label htmlFor="Other">Specify other method</label>
+                <input
+                  name="Other"
+                  id="Other"
+                  onChange={(e) => setOthers(e.target.value)}
+                />
+              </div>
+            )}
             <div className="input upd-type">
               <label htmlFor="UpdType">Upd Type</label>
               <input
@@ -282,6 +306,9 @@ export const Expense = ({
               return;
             }
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -294,6 +321,7 @@ export const Expense = ({
               setAnimState(true);
             }, 1000);
             setIsExpenseForm(false);
+            handleReset();
           }}
         >
           Discard

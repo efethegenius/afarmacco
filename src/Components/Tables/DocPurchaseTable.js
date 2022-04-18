@@ -14,7 +14,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
   // getting doc purchase start-----------------------------------------------------
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("api/all-doc-purchase", {
+      const allDocPurchase = await fetch("/api/all-doc-purchase", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -185,6 +185,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
                 <th>Invoice No</th>
                 <th>Bird Type</th>
                 <th>Batch</th>
+                <th>Expense Type</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
@@ -201,6 +202,7 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
                   InvoiceNo,
                   BirdName,
                   Batch,
+                  ExpenseName,
                   Qty,
                   UnitPrice,
                   Amount,
@@ -218,9 +220,10 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
                       <td>{InvoiceNo}</td>
                       <td>{BirdName}</td>
                       <td>{Batch}</td>
+                      <td>{ExpenseName}</td>
                       <td>{formatMoney(Qty)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
-                      <td>{formatMoney(Amount)}.00</td>
+                      <td>{UnitPrice.toFixed(2)}</td>
+                      <td>{Amount.toFixed(2)}</td>
                       <td>{PmtType}</td>
                       <td>{BankName}</td>
                       <td>{CustomerName}</td>
@@ -238,7 +241,8 @@ export const DocPurchaseTable = React.forwardRef((props, ref) => {
                 <td className="total"></td>
                 <td className="total">{formatMoney(totalQty)}</td>
                 <td className="total"></td>
-                <td className="total">{formatMoney(totalAmount)}.00</td>
+                <td className="total">{totalAmount.toFixed(2)}</td>
+                <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>

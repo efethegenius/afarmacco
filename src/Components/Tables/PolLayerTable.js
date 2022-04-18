@@ -14,7 +14,7 @@ export const PolLayerTable = React.forwardRef((props, ref) => {
 
   const getAllPolLayers = async () => {
     try {
-      const allPolLayers = await fetch("api/all-pol-layers", {
+      const allPolLayers = await fetch("/api/all-pol-layers", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -200,6 +200,7 @@ export const PolLayerTable = React.forwardRef((props, ref) => {
                 <th>Quantity (Purchased)</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
+                <th>Expense Type</th>
                 <th>Payment Type</th>
                 <th>Bank</th>
                 <th>Supplier</th>
@@ -215,6 +216,7 @@ export const PolLayerTable = React.forwardRef((props, ref) => {
                   Qty,
                   UnitPrice,
                   Amount,
+                  ExpenseName,
                   PmtType,
                   BankName,
                   SupplierName,
@@ -227,8 +229,9 @@ export const PolLayerTable = React.forwardRef((props, ref) => {
                       <td>{InvoiceNo}</td>
                       <td>{Batch}</td>
                       <td>{formatMoney(Qty)}</td>
-                      <td>{formatMoney(UnitPrice)}.00</td>
-                      <td>{formatMoney(Amount)}.00</td>
+                      <td>{UnitPrice.toFixed(2)}</td>
+                      <td>{Amount.toFixed(2)}</td>
+                      <td>{ExpenseName}</td>
                       <td>{PmtType}</td>
                       <td>{BankName}</td>
                       <td>{SupplierName}</td>
@@ -245,7 +248,8 @@ export const PolLayerTable = React.forwardRef((props, ref) => {
                 <td className="total"></td>
                 <td className="total">{formatMoney(totalQty)}</td>
                 <td className="total"></td>
-                <td className="total">{formatMoney(totalAmount)}.00</td>
+                <td className="total">{totalAmount.toFixed(2)}</td>
+                <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>
                 <td className="total"></td>

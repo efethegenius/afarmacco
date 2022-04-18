@@ -62,7 +62,7 @@ export const UserValidation = () => {
       }, 4000);
       return;
     }
-    const newData = await fetch("create/validation", {
+    const newData = await fetch("/create/validation", {
       method: "POST",
       headers: {
         "content-type": "application/json",

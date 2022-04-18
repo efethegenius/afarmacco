@@ -27,7 +27,7 @@ export const UserLogin = () => {
 
   const newLogin = async () => {
     try {
-      const newData = await fetch("get_login", {
+      const newData = await fetch("/get_login", {
         method: "POST",
         headers: {
           "content-type": "application/json",

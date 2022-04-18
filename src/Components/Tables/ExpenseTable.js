@@ -14,7 +14,7 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
   //getting the data from the database from the db-----------------------------------------
   const getAllExpenses = async () => {
     try {
-      const allExpenses = await fetch("api/all-expenses", {
+      const allExpenses = await fetch("/api/all-expenses", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -184,7 +184,7 @@ export const ExpenseTable = React.forwardRef((props, ref) => {
                       <td>{PmtType}</td>
                       <td>{BankName}</td>
                       <td>{SupplierName}</td>
-                      <td>{Amount}</td>
+                      <td>{Amount.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 );

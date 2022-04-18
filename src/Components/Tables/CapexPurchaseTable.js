@@ -12,7 +12,7 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("api/capexs", {
+      const capexs = await fetch("/api/capexs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -181,18 +181,10 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
                       <td>{FACode}</td>
                       <td>{AssetTypeDesc}</td>
                       <td>{Lifespan}</td>
-                      <td>{FACost}</td>
-                      <td>
-                        {formatMoney(
-                          (Math.round(DeprAmount * 100) / 100).toFixed(2)
-                        )}
-                      </td>
-                      <td>
-                        {formatMoney(
-                          (Math.round(AccumDepr * 100) / 100).toFixed(2)
-                        )}
-                      </td>
-                      <td>{FACost - AccumDepr}</td>
+                      <td>{FACost.toFixed(2)}</td>
+                      <td>{(Math.round(DeprAmount * 100) / 100).toFixed(2)}</td>
+                      <td>{(Math.round(AccumDepr * 100) / 100).toFixed(2)}</td>
+                      <td>{(FACost - AccumDepr).toFixed(2)}</td>
                       <td>{StatusDesc}</td>
                     </tr>
                   </tbody>

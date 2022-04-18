@@ -8,10 +8,12 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { AuthContext } from "../helpers/AuthContext";
+import { useHistory } from "react-router-dom";
 import {
   AiOutlineMenu,
   AiOutlineClose,
   AiOutlineQuestionCircle,
+  AiOutlineLeft,
 } from "react-icons/ai";
 import { FaFilter } from "react-icons/fa";
 import { LoggedOut } from "../Components/LoggedOut";
@@ -29,6 +31,8 @@ export const ReportsPage = () => {
   const [isNav, setIsNav] = useState(false);
   const [isDateFilter, setIsDateFilter] = useState(false);
   const [animState, setAnimState] = useState(true);
+  const history = useHistory();
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -37,7 +41,7 @@ export const ReportsPage = () => {
 
   const getReports = async () => {
     try {
-      const reports = await fetch("api/reports", {
+      const reports = await fetch("/api/reports", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -100,11 +104,13 @@ export const ReportsPage = () => {
 
   return (
     <div className="main-report">
-      <Navbar isNav={isNav} setIsNav={setIsNav} />
+      {/* <Navbar isNav={isNav} setIsNav={setIsNav} /> */}
       {authState ? (
         <div className="reports-container">
           <div className="expense-head">
-            <AiOutlineMenu className="ham" onClick={() => setIsNav(!isNav)} />
+            <button className="back-btn" onClick={() => history.goBack()}>
+              <AiOutlineLeft /> Go back
+            </button>
             <div className="expense-heading">
               <h1>Reports</h1>
             </div>

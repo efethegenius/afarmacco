@@ -59,6 +59,19 @@ export const DocMortality = ({
     }, 4000);
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setMortality((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(value);
@@ -174,6 +187,9 @@ export const DocMortality = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -186,6 +202,7 @@ export const DocMortality = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

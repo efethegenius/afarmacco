@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 
 import {
+  FetchExpenseTypes,
   FetchDrugs,
   FetchBanks,
   FetchMethods,
@@ -20,19 +21,24 @@ export const DrugPurchase = ({
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
+  const { returnedExpenseTypes } = FetchExpenseTypes();
   const [fieldErr, setFieldErr] = useState(false);
   const [pmtErr, setPmtErr] = useState(false);
+  const [others, setOthers] = useState("");
 
   const [purchase, setPurchase] = useState({
     LotNo: 0,
     PurchaseDate: 0,
     InvoiceNo: 0,
     DrugName: "",
+    ExpenseType: "",
     BagWeight: 0,
     Qty: 0,
     UnitPrice: 0,
     PmtMethod: "",
     Creditor: "",
+    Unit: "",
+    DrugForm: "",
     BankName: "",
     Updtype: 1,
     RecId: 0,
@@ -54,6 +60,17 @@ export const DrugPurchase = ({
   if (returnedMethods.name) {
     methods = returnedMethods.name.map((method) => {
       return <option key={method.PmtMethodId}>{method.PmtType}</option>;
+    });
+  }
+
+  let expenseTypes;
+  if (returnedExpenseTypes.name) {
+    expenseTypes = returnedExpenseTypes.name.map((expenseType) => {
+      return (
+        <option key={expenseType.ExpenseTypeId}>
+          {expenseType.ExpenseName}
+        </option>
+      );
     });
   }
 
@@ -143,6 +160,19 @@ export const DrugPurchase = ({
     }));
   };
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setPurchase((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleSubmit = () => {
     newPurchase();
     setTimeout(() => {
@@ -207,20 +237,55 @@ export const DrugPurchase = ({
           </div>
         </div>
         <div className="input">
+          <label htmlFor="ExpenseType">Expense Type</label>
+          <select name="ExpenseType" id="ExpenseType" onChange={handleChange}>
+            <option></option>
+            {expenseTypes}
+          </select>
+        </div>
+        <div className="input">
           <label htmlFor="DrugName">Drug</label>
           <select name="DrugName" id="DrugName" onChange={handleChange}>
             <option></option>
             {drugTypes}
           </select>
         </div>
+        <div className="double-input">
+          <div className="input">
+            <label htmlFor="BagWeight">Weight</label>
+            <input
+              type="number"
+              name="BagWeight"
+              id="BagWeight"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="input">
+            <label htmlFor="Unit">Unit</label>
+            <select type="text" name="Unit" id="Unit" onChange={handleChange}>
+              <option></option>
+              <option>Kg</option>
+              <option>Grams</option>
+              <option>Milligrams</option>
+              <option>Litres</option>
+              <option>Centilitres</option>
+              <option>Millilitres</option>
+            </select>
+          </div>
+        </div>
         <div className="input">
-          <label htmlFor="BagWeight">Bag Weight (Kg)</label>
-          <input
-            type="number"
-            name="BagWeight"
-            id="BagWeight"
+          <label htmlFor="DrugForm">Drug Type (Sachet, Bag, Bottle)</label>
+          <select
+            type="text"
+            name="DrugForm"
+            id="DrugForm"
             onChange={handleChange}
-          />
+          >
+            <option></option>
+            <option>Satchet</option>
+            <option>Bag</option>
+            <option>Bottle</option>
+          </select>
         </div>
         <div className="qty-container">
           <div className="input">
@@ -269,6 +334,17 @@ export const DrugPurchase = ({
             </select>
           </div>
         )}
+        {purchase.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
+
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -294,6 +370,9 @@ export const DrugPurchase = ({
           type="submit"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -306,6 +385,7 @@ export const DrugPurchase = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

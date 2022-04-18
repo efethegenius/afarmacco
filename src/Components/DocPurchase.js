@@ -1,5 +1,6 @@
 import react, { useState, useContext, useEffect } from "react";
 import {
+  FetchExpenseTypes,
   FetchBanks,
   FetchBirds,
   FetchMethods,
@@ -19,14 +20,17 @@ export const DocPurchase = ({
   const [returnedData, setReturnedData] = useState();
   const { returnedBanks } = FetchBanks();
   const { returnedMethods } = FetchMethods();
+  const { returnedExpenseTypes } = FetchExpenseTypes();
   const { returnedBirds } = FetchBirds();
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
+  const [others, setOthers] = useState("");
 
   const [purchase, setPurchase] = useState({
     PurchaseDate: 0,
     InvoiceNo: 0,
     BirdType: "",
     Batch: 0,
+    ExpenseType: "",
     Qty: 0,
     UnitPrice: 0,
     PmtMethod: "",
@@ -59,6 +63,17 @@ export const DocPurchase = ({
       return <option key={method.PmtMethodId}>{method.PmtType}</option>;
     });
   }
+  let expenseTypes;
+  if (returnedExpenseTypes.name) {
+    expenseTypes = returnedExpenseTypes.name.map((expenseType) => {
+      return (
+        <option key={expenseType.ExpenseTypeId}>
+          {expenseType.ExpenseName}
+        </option>
+      );
+    });
+  }
+
   //Importing the dropdowns---------------------------------------
 
   const handleChange = (e) => {
@@ -81,6 +96,19 @@ export const DocPurchase = ({
     setPurchase((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    Array.from(document.querySelectorAll("select")).forEach(
+      (select) => (select.value = "")
+    );
+
+    setPurchase((prevState) => ({
+      ...prevState,
     }));
   };
 
@@ -211,6 +239,13 @@ export const DocPurchase = ({
             onChange={handleChange}
           />
         </div>
+        <div className="input">
+          <label htmlFor="ExpenseType">Expense Type</label>
+          <select name="ExpenseType" id="ExpenseType" onChange={handleChange}>
+            <option></option>
+            {expenseTypes}
+          </select>
+        </div>
         <div className="bird-type-container">
           <div className="input">
             <label htmlFor="BirdType">Bird</label>
@@ -276,6 +311,16 @@ export const DocPurchase = ({
             </select>
           </div>
         )}
+        {purchase.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -300,6 +345,9 @@ export const DocPurchase = ({
           className="btn-order"
           onClick={() => {
             handleSubmit();
+            setTimeout(() => {
+              handleReset();
+            }, 1000);
           }}
         >
           Create
@@ -312,6 +360,7 @@ export const DocPurchase = ({
             setTimeout(() => {
               setAnimState(true);
             }, 1000);
+            handleReset();
           }}
         >
           Discard

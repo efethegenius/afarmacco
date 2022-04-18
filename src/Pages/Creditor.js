@@ -104,7 +104,7 @@ export const Creditor = () => {
           </div>
         </div>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="income-container">
         {returnedActiveCreditors.name ? (
@@ -143,14 +143,14 @@ export const Creditor = () => {
                   <tr>
                     <td>{item}</td>
                     <td>{qty}</td>
-                    <td>{cost}</td>
-                    <td>{amount}</td>
+                    <td>{cost.toFixed(2)}</td>
+                    <td>{amount.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>
               <div className="debtor-total">
                 <p>Amount Due</p>
-                <h2>{amount}</h2>
+                <h2>{amount.toFixed(2)}</h2>
               </div>
             </div>
             <button

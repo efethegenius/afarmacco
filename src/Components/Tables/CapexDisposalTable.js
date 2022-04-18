@@ -11,7 +11,7 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("api/capexs", {
+      const capexs = await fetch("/api/capexs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -164,10 +164,10 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
                       <td>{newDate}</td>
                       <td>{newDate2}</td>
                       <td>{AccumDepr}</td>
-                      <td>{FACost}</td>
-                      <td>{FACost - AccumDepr}</td>
-                      <td>{SaleValue}</td>
-                      <td>{SaleValue - (FACost - AccumDepr)}</td>
+                      <td>{FACost.toFixed(2)}</td>
+                      <td>{(FACost - AccumDepr).toFixed(2)}</td>
+                      <td>{SaleValue.toFixed(2)}</td>
+                      <td>{(SaleValue - (FACost - AccumDepr)).toFixed(2)}</td>
                       <td>{StatusDesc}</td>
                     </tr>
                   </tbody>
