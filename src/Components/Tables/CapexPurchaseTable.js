@@ -149,7 +149,7 @@ export const CapexPurchaseTable = React.forwardRef((props, ref) => {
               <tr>
                 <th>Date Purchased</th>
                 <th>Asset Code</th>
-                <th>Asset Type</th>
+                <th>Asset Class</th>
                 <th>Lifespan(years)</th>
                 <th>Cost</th>
                 <th>Monthly Depreciation</th>

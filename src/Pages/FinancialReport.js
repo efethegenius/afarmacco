@@ -306,7 +306,7 @@ export const FinancialReport = () => {
           <div className="farm-hands-container">
             {returnedBirdSales.name ? (
               <div className="all-farm-hands">
-                <table>
+                <table className="pricing-table">
                   <tbody>
                     <tr>
                       <th>Turnover</th>

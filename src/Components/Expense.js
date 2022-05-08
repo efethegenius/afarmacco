@@ -177,10 +177,10 @@ export const Expense = ({
     <div
       className={`${
         isExpenseForm && animState
-          ? "expense animate__animated animate__fadeInDown"
+          ? "bird-sale animate__animated animate__fadeInDown"
           : !isExpenseForm && animState
           ? "hide-expense"
-          : "expense animate__animated animate__fadeOutUp"
+          : "bird-sale animate__animated animate__fadeOutUp"
       }`}
     >
       <section className="form-expense">
@@ -289,44 +289,45 @@ export const Expense = ({
             </div>
           </>
         )}
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={(e) => {
-            setIsExpenseForm(false);
-            // {
-            //   expense.ExpenseHead === "Depreciation"
-            //     ? handleDepr()
-            //     : handleSubmit;
-            // }
-            if (expense.ExpenseHead === "Depreciation") {
-              handleDepr();
-              return;
-            }
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={(e) => {
+              setIsExpenseForm(false);
+              // {
+              //   expense.ExpenseHead === "Depreciation"
+              //     ? handleDepr()
+              //     : handleSubmit;
+              // }
+              if (expense.ExpenseHead === "Depreciation") {
+                handleDepr();
+                return;
+              }
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
+              setIsExpenseForm(false);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            setIsExpenseForm(false);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

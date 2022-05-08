@@ -699,7 +699,26 @@ const createFarmgate = async (farmgate) => {
     console.log(error);
   }
 };
-// CORYZA END
+// FARMGATE END
+// FARMGATE START
+const createFarmgateEggs = async (farmgate) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request
+      .input("UserId", sql.Int, user.id)
+      .input("LastUpdated", sql.Date, farmgate.LastUpdated)
+      .input("Farm", sql.NVarChar, farmgate.Farm)
+      .input("BCrate", sql.Int, farmgate.BCrate)
+      .input("NCrate", sql.Int, farmgate.NCrate)
+      .input("CCrate", sql.Int, farmgate.CCrate)
+      .input("LCrate", sql.Int, farmgate.LCrate)
+      .execute("sp_FarmgateEggs");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// FARMGATE END
 // SUPPLY PIPELINE START
 const createSupplyPipeline = async (supply) => {
   try {
@@ -733,6 +752,30 @@ const createSupplyPipeline = async (supply) => {
   }
 };
 // SUPPLY PIPELINE END
+// CASHBOOK START
+const createCashbook = async (cash) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request
+      .input("UserId", sql.Int, user.id)
+      .input("TxnDate", sql.Date, cash.TxnDate)
+      .input("TxnRef", sql.NVarChar, cash.TxnRef)
+      .input("TxnDesc", sql.NVarChar, cash.TxnDesc)
+      .input("TxnType", sql.NVarChar, cash.TxnType)
+      .input("Cash", sql.Money, cash.Cash)
+      .input("Bank1", sql.Money, cash.Bank1)
+      .input("Bank2", sql.Money, cash.Bank2)
+      .input("Bank3", sql.Money, cash.Bank3)
+      .input("Debtor", sql.NVarChar, cash.Debtor)
+      .input("Creditor", sql.NVarChar, cash.Creditor)
+      .input("AccountType", sql.NVarChar, cash.AccountType)
+      .execute("sp_CashBook");
+  } catch (error) {
+    console.log(error);
+  }
+};
+// CASHBOOK END
 
 // GET REQUESTS START
 const getDeprDate = async () => {
@@ -744,6 +787,19 @@ const getDeprDate = async () => {
         `select max(TxnDate) as LastDeprDate FROM tbl_FA_Transaction where TxnTypeId = 3 and userId = ${user.id}`
       );
     return deprDate;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getCashBook = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let cashBook = await pool
+      .request()
+      .query(
+        `select * FROM vw_CashBook where userId = ${user.id} order by CashBookId desc`
+      );
+    return cashBook;
   } catch (error) {
     console.log(error);
   }
@@ -1230,6 +1286,17 @@ const getFarmgate = async () => {
     console.log(error);
   }
 };
+const getFarmgateEggs = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let farmgateEggs = await pool
+      .request()
+      .query(`select * from vw_FarmgateEggs`);
+    return farmgateEggs;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const getOperatingExpense = async () => {
   try {
     let pool = await sql.connect(config);
@@ -1244,6 +1311,7 @@ const getOperatingExpense = async () => {
 // GET REQUESTS END
 
 module.exports = {
+  createCashbook,
   createCoryza,
   createGumboro,
   createAntiviral,
@@ -1274,6 +1342,7 @@ module.exports = {
   createDocSales,
   createUserValidation,
   createFarmgate,
+  createFarmgateEggs,
   getDeworm,
   getCapexs,
   getAllDocMortality,
@@ -1290,6 +1359,7 @@ module.exports = {
   getAllOtherSales,
   getAntiviral,
   getFarmgate,
+  getFarmgateEggs,
   getLasota,
   getFeedMart,
   getAllPolLayers,
@@ -1319,6 +1389,7 @@ module.exports = {
   getTxnType,
   getDeprDate,
   getFarmHands,
+  getCashBook,
   getReports,
   getDocSales,
   debtorPay,

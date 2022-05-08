@@ -36,7 +36,9 @@ const {
   createDeworm,
   createCoryza,
   createFarmgate,
+  createFarmgateEggs,
   createFrozenChickenSales,
+  createCashbook,
 } = require("../Controllers/create");
 
 router.post("/doc_purchase", validateToken, createDocPurchase);
@@ -59,7 +61,7 @@ router.post("/capex", validateToken, createCapex);
 router.post("/validation", createUserValidation);
 router.post("/debtor-pay", validateToken, debtorPay);
 router.post("/creditor-pay", validateToken, creditorPay);
-router.post("/farm-hand", validateToken, createFarmHands);
+router.post("/farm-hand", createFarmHands);
 router.post("/supply_pipeline", validateToken, createSupplyPipeline);
 router.post("/feed_mart", validateToken, createFeedMart);
 router.post("/multivitamin", validateToken, createMultivitamin);
@@ -71,5 +73,7 @@ router.post("/gumboro", validateToken, createGumboro);
 router.post("/deworm", validateToken, createDeworm);
 router.post("/coryza", validateToken, createCoryza);
 router.post("/farmgate", validateToken, createFarmgate);
+router.post("/farmgate-eggs", validateToken, createFarmgateEggs);
+router.post("/cash-book", validateToken, createCashbook);
 
 module.exports = router;

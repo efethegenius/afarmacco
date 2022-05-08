@@ -432,14 +432,14 @@ export const PolLayer = ({
             onChange={(e) => setTxnType(e.target.value)}
           >
             <option></option>
-            <option>DOC layer to POL</option>
-            <option>POL Sales</option>
+            <option>POL for Eggs</option>
+            {/* <option>POL Sales</option> */}
             <option>POL Mortality</option>
           </select>
         </div>
         {/* General----------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-        {txnType === "DOC layer to POL" && (
+        {txnType === "POL for Eggs" && (
           <>
             <div className="input">
               <label htmlFor="TxnDate"> Date</label>
@@ -690,45 +690,46 @@ export const PolLayer = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={() => {
-            if (txnType === "DOC layer to POL") {
-              handleSubmit();
-              return;
-            }
-            if (txnType === "POL Sales") {
-              handlePolSales();
-              return;
-            }
-            if (txnType === "POL Mortality") {
-              handlePolMortality();
-              return;
-            }
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={() => {
+              if (txnType === "POL for Eggs") {
+                handleSubmit();
+                return;
+              }
+              if (txnType === "POL Sales") {
+                handlePolSales();
+                return;
+              }
+              if (txnType === "POL Mortality") {
+                handlePolMortality();
+                return;
+              }
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsPolLayerForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsPolLayerForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

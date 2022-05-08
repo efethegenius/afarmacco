@@ -59,6 +59,10 @@
 
 .doc-opt {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../Photos/noiler.jpeg") center/cover no-repeat;
+}
+.baby-opt {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../Photos/doc.jpg") center/cover no-repeat;
 }
 .drug-opt {

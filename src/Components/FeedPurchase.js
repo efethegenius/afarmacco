@@ -319,34 +319,35 @@ export const FeedPurchase = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={() => {
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={() => {
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsFeedPurchaseForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsFeedPurchaseForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

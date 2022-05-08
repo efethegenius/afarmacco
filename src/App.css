@@ -31,6 +31,7 @@ input[type="number"] {
   /* -webkit-animation-iteration-count: infinite; */
   animation: pulsate 3s infinite ease-out;
   opacity: 0.2;
+  width: 200px;
 }
 @-webkit-keyframes pulsate {
   0% {
@@ -663,6 +664,14 @@ select {
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+  margin: 20px 0;
+}
+.btn-farm-confirm {
+  justify-content: center !important;
+  flex-direction: column !important;
+  width: 50%;
+  display: flex;
+  align-items: center;
   margin: 20px 0;
 }
 .btn-pay {

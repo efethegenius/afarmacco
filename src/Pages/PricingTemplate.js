@@ -180,7 +180,7 @@ export const PricingTemplate = () => {
             <p> </p>
           </div>
           <div className="pricing-container">
-            <table>
+            <table className="pricing-table">
               <tbody>
                 <tr>
                   <td>Batch No</td>

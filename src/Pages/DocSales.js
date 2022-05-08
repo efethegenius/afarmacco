@@ -147,88 +147,91 @@ export const DocSales = () => {
       {authState ? (
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
-            <h2>Day Old Chick Sale</h2>
-            <div className="trade-input">
-              <label htmlFor="lastupdated">Last Updated</label>
-              <input
-                id="lastupdated"
-                type="date"
-                name="LastUpdated"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="hatchery">Hatchery</label>
-              <input
-                id="hatchery"
-                type="text"
-                name="Hatchery"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="broiler">Broiler Price</label>
-              <input
-                id="broiler"
-                type="number"
-                name="Broiler"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="noiler">Noiler Price</label>
-              <input
-                id="noiler"
-                type="number"
-                name="Noiler"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="cockerel">Cockerel Price</label>
-              <input
-                id="cockerel"
-                type="number"
-                name="Cockerel"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="layer">Layer Price</label>
-              <input
-                id="layer"
-                type="number"
-                name="Layer"
-                onChange={handleChange}
-              />
-            </div>
+            <div className="form-wrapper">
+              <h2>Day Old Chick Sale</h2>
+              <div className="trade-input">
+                <label htmlFor="lastupdated">Last Updated</label>
+                <input
+                  id="lastupdated"
+                  type="date"
+                  name="LastUpdated"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="hatchery">Hatchery</label>
+                <input
+                  id="hatchery"
+                  type="text"
+                  name="Hatchery"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="broiler">Broiler Price</label>
+                <input
+                  id="broiler"
+                  type="number"
+                  name="Broiler"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="noiler">Noiler Price</label>
+                <input
+                  id="noiler"
+                  type="number"
+                  name="Noiler"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="cockerel">Cockerel Price</label>
+                <input
+                  id="cockerel"
+                  type="number"
+                  name="Cockerel"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="layer">Layer Price</label>
+                <input
+                  id="layer"
+                  type="number"
+                  name="Layer"
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="new-order-wrapper">
-              <button
-                onClick={() => {
-                  setIsDocForm(false);
-                  handleReset();
-                }}
-                className="btn-discard"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => {
-                  newDocSale();
-                  setIsDocForm(false);
-                  setTimeout(() => {
-                    getDocSales();
-                  }, 1500);
-                  setTimeout(() => {
+              <div className="new-order-wrapper">
+                <button
+                  onClick={() => {
+                    setIsDocForm(false);
                     handleReset();
-                  }, 1000);
-                }}
-                className="btn-order"
-              >
-                Submit
-              </button>
+                  }}
+                  className="btn-discard"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => {
+                    newDocSale();
+                    setIsDocForm(false);
+                    setTimeout(() => {
+                      getDocSales();
+                    }, 1500);
+                    setTimeout(() => {
+                      handleReset();
+                    }, 1000);
+                  }}
+                  className="btn-order"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
+            <div className="advert">Place Adverts Here</div>
           </div>
           <div className="expense-head">
             <button className="back-btn" onClick={() => history.goBack()}>

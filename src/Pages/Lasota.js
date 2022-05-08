@@ -142,87 +142,90 @@ export const Lasota = () => {
       {authState ? (
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
-            <h2>Lasota</h2>
-            <div className="trade-input">
-              <label htmlFor="lastupdated">Last Updated</label>
-              <input
-                id="lastupdated"
-                type="date"
-                name="LastUpdated"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="producer">Producer</label>
-              <input
-                id="producer"
-                type="text"
-                name="Producer"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="brand">Brand</label>
-              <input
-                id="brand"
-                type="text"
-                name="Brand"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="mediums">Medium</label>
-              <input
-                id="mediums"
-                type="text"
-                name="Mediums"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="kgperml">KG/ML</label>
-              <input
-                id="kgperml"
-                type="text"
-                name="KgPerMl"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="price">Price</label>
-              <input
-                id="price"
-                type="number"
-                name="Price"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="new-order-wrapper">
-              <button
-                onClick={() => {
-                  setIsDocForm(false);
-                  handleReset();
-                }}
-                className="btn-discard"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => {
-                  newLasota();
-                  setIsDocForm(false);
-                  setTimeout(() => {
-                    getLasota();
-                  }, 1500);
-                  setTimeout(() => {
+            <div className="form-wrapper">
+              <h2>Lasota</h2>
+              <div className="trade-input">
+                <label htmlFor="lastupdated">Last Updated</label>
+                <input
+                  id="lastupdated"
+                  type="date"
+                  name="LastUpdated"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="producer">Producer</label>
+                <input
+                  id="producer"
+                  type="text"
+                  name="Producer"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="brand">Brand</label>
+                <input
+                  id="brand"
+                  type="text"
+                  name="Brand"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="mediums">Medium</label>
+                <input
+                  id="mediums"
+                  type="text"
+                  name="Mediums"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="kgperml">KG/ML</label>
+                <input
+                  id="kgperml"
+                  type="text"
+                  name="KgPerMl"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="price">Price</label>
+                <input
+                  id="price"
+                  type="number"
+                  name="Price"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="new-order-wrapper">
+                <button
+                  onClick={() => {
+                    setIsDocForm(false);
                     handleReset();
-                  }, 1000);
-                }}
-                className="btn-order"
-              >
-                Submit
-              </button>
+                  }}
+                  className="btn-discard"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => {
+                    newLasota();
+                    setIsDocForm(false);
+                    setTimeout(() => {
+                      getLasota();
+                    }, 1500);
+                    setTimeout(() => {
+                      handleReset();
+                    }, 1000);
+                  }}
+                  className="btn-order"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
+            <div className="advert">Place Adverts Here</div>
           </div>
           <div className="expense-head">
             <button className="back-btn" onClick={() => history.goBack()}>

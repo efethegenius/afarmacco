@@ -106,8 +106,8 @@ export const Landing = () => {
                       <Link to="/debtors">
                         <button>Debtors</button>
                       </Link>
-                      <Link to="coming-soon">
-                        <button>Cash/Bank</button>
+                      <Link to="cash-book">
+                        <button>Cash Book</button>
                       </Link>
                     </div>
                   </div>
@@ -116,7 +116,7 @@ export const Landing = () => {
                       <h5>Liabilities</h5>
                     </div>
                     <div className="actual-module-btn-container">
-                      <Link to="/coming-soon">
+                      <Link to="/capital">
                         <button>Capital</button>
                       </Link>
                       <Link to="/creditors">

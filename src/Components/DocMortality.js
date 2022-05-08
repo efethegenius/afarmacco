@@ -13,10 +13,13 @@ export const DocMortality = ({
   const { returnedBirds } = FetchBirds();
   const [fieldErr, setFieldErr] = useState(false);
   const { upd, setUpd, setOpexTxn, opexTxn } = useContext(AuthContext);
+  const [others, setOthers] = useState("");
 
   const [mortality, setMortality] = useState({
     MortalityDate: 0,
     BirdType: "",
+    MortalityCause: "",
+    CauseDesc: "",
     Batch: 0,
     Qty: 0,
     Updtype: 1,
@@ -162,6 +165,23 @@ export const DocMortality = ({
           <label htmlFor="Qty">Quantity Died</label>
           <input type="number" name="Qty" id="Qty" onChange={handleChange} />
         </div>
+        <div className="input">
+          <label htmlFor="MortalityCause">Cause of Mortality</label>
+          <select name="MortalityCause" id="AssetType" onChange={handleChange}>
+            <option></option>
+            <option>Disease</option>
+            <option>Others</option>
+          </select>
+        </div>
+        <div className="input">
+          <label htmlFor="CauseDesc">Cause of Mortality Description</label>
+          <input
+            type="text"
+            name="CauseDesc"
+            id="AssetType"
+            onChange={handleChange}
+          />
+        </div>
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -180,34 +200,35 @@ export const DocMortality = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={() => {
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={() => {
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsMortalityForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsMortalityForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

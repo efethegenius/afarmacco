@@ -64,6 +64,11 @@
   padding-right: 40px;
 }
 
+.pricing-table td,
+.pricing-table th {
+  font-size: 0.8rem !important;
+}
+
 .dateFilter {
   display: none;
 }

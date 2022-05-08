@@ -28,6 +28,7 @@ export const BirdSales = ({
     TxnDate: 0,
     InvoiceNo: 0,
     BirdType: "",
+    PolType: "",
     Batch: 0,
     Qty: 0,
     UnitPrice: 0,
@@ -216,6 +217,16 @@ export const BirdSales = ({
             />
           </div>
         </div>
+        {sales.BirdType === "Layer" && (
+          <div className="input">
+            <label htmlFor="PolType">Layer Type</label>
+            <select name="PolType" id="BirdType" onChange={handleChange}>
+              <option></option>
+              <option>POL Layer</option>
+              <option>Old Layer</option>
+            </select>
+          </div>
+        )}
         <div className="sale-qty-container">
           <div className="input">
             <label htmlFor="Qty">Quantity</label>
@@ -230,6 +241,15 @@ export const BirdSales = ({
               onChange={handleChange}
             />
           </div>
+        </div>
+        <div className="input">
+          <label htmlFor="Weight">Weight (KG)</label>
+          <input
+            type="number"
+            name="Weight"
+            id="Weight"
+            onChange={handleChange}
+          />
         </div>
         <div className="input">
           <label htmlFor="PmtMethod">Payment Method</label>
@@ -291,34 +311,35 @@ export const BirdSales = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={() => {
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={() => {
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsBirdForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsBirdForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

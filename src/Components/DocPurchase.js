@@ -339,40 +339,34 @@ export const DocPurchase = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          onClick={() => {
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            onClick={() => {
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsDocPurchaseForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsDocPurchaseForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
-
-      {/* working test for mapping through a returned array (step 3) */}
-      {/* mapping through the array: */}
-      {/* {testData.map((thisData) => {
-        const { BankName, Qty } = thisData;
-        return <p>{Qty}</p>;
-      })} */}
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

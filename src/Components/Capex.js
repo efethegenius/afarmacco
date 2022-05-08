@@ -172,7 +172,13 @@ export const Capex = ({
             </select>
           </div>
           <div className="input">
-            <label htmlFor="TxnDate">Date</label>
+            <label htmlFor="TxnDate">
+              {capex.TxnType === "Purchase"
+                ? "Purchase Date"
+                : capex.TxnType === "Disposal"
+                ? "Disposal Date"
+                : "Purchase/Disposal Date"}
+            </label>
             <input
               type="date"
               name="TxnDate"
@@ -184,7 +190,7 @@ export const Capex = ({
         <div className="double-input">
           {capex.TxnType !== "Disposal" && (
             <div className="input">
-              <label htmlFor="AssetType">Asset Type</label>
+              <label htmlFor="AssetType">Asset Class</label>
               <select name="AssetType" id="AssetType" onChange={handleChange}>
                 <option></option>
                 {assets}
@@ -300,34 +306,35 @@ export const Capex = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={(e) => {
-            handleSubmit(e);
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={(e) => {
+              handleSubmit(e);
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsCapexForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsCapexForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

@@ -167,222 +167,229 @@ export const SupplyPipeline = () => {
       {authState ? (
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
-            <h2>Supply Pipeline</h2>
-            <div className="trade-input">
-              <label htmlFor="lastupdated">Last Updated:</label>
-              <input
-                id="lastupdated"
-                type="date"
-                name="LastUpdated"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="farm">Farm:</label>
-              <input
-                id="farm"
-                type="text"
-                name="Farm"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="broileremd">
-                Broiler Expected Maturity Date:
-              </label>
-              <input
-                id="broileremd"
-                type="date"
-                name="BroilerEmd"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="noileremd">Noiler Expected Maturity Date:</label>
-              <input
-                id="noileremd"
-                type="date"
-                name="NoilerEmd"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="cockerelemd">
-                Cockerel Expected Maturity Date:
-              </label>
-              <input
-                id="cockerelemd"
-                type="date"
-                name="CockerelEmd"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="layeremd">Layer Expected Maturity Date:</label>
-              <input
-                id="layeremd"
-                type="date"
-                name="LayerEmd"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="polemd">Pol Expected Maturity Date:</label>
-              <input
-                id="polemd"
-                type="date"
-                name="PolEmd"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="broilereq">Broiler Expected Quantity:</label>
-              <input
-                id="broilereq"
-                type="number"
-                name="BroilerEq"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="noilereq">Noiler Expected Quantity:</label>
-              <input
-                id="noilereq"
-                type="number"
-                name="NoilerEq"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="cockereleq">Cockerel Expected Quantity:</label>
-              <input
-                id="cockereleq"
-                type="number"
-                name="CockerelEq"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="layereq">Layer Expected Quantity:</label>
-              <input
-                id="layereq"
-                type="number"
-                name="LayerEq"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="poleq">Pol Expected Quantity:</label>
-              <input
-                id="poleq"
-                type="number"
-                name="PolEq"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="broilerew">
-                Broiler Expected Weight(Kg/Bird):
-              </label>
-              <input
-                id="broilerew"
-                type="number"
-                name="BroilerEw"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="noilerew">Noiler Expected Weight(Kg/Bird):</label>
-              <input
-                id="noilerew"
-                type="number"
-                name="NoilerEw"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="cockerelew">
-                Cockerel Expected Weight(Kg/Bird):
-              </label>
-              <input
-                id="cockerelew"
-                type="number"
-                name="CockerelEw"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="layerew">Layer Expected Weight(Kg/Bird):</label>
-              <input
-                id="layerew"
-                type="number"
-                name="LayerEw"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="polew">Pol Expected Weight(Kg/Bird):</label>
-              <input
-                id="polew"
-                type="number"
-                name="PolEw"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="name">Name</label>
-              <input
-                id="name"
-                type="text"
-                name="Name"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="phone">Phone</label>
-              <input
-                id="phone"
-                type="number"
-                name="Phone"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="address">Address</label>
-              <input
-                id="address"
-                type="text"
-                name="Address"
-                onChange={handleChange}
-              />
-            </div>
+            <div className="form-wrapper">
+              <h2>Supply Pipeline</h2>
+              <div className="trade-input">
+                <label htmlFor="lastupdated">Last Updated:</label>
+                <input
+                  id="lastupdated"
+                  type="date"
+                  name="LastUpdated"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="farm">Farm:</label>
+                <input
+                  id="farm"
+                  type="text"
+                  name="Farm"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="broileremd">
+                  Broiler Expected Maturity Date:
+                </label>
+                <input
+                  id="broileremd"
+                  type="date"
+                  name="BroilerEmd"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="noileremd">
+                  Noiler Expected Maturity Date:
+                </label>
+                <input
+                  id="noileremd"
+                  type="date"
+                  name="NoilerEmd"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="cockerelemd">
+                  Cockerel Expected Maturity Date:
+                </label>
+                <input
+                  id="cockerelemd"
+                  type="date"
+                  name="CockerelEmd"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="layeremd">Layer Expected Maturity Date:</label>
+                <input
+                  id="layeremd"
+                  type="date"
+                  name="LayerEmd"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="polemd">Pol Expected Maturity Date:</label>
+                <input
+                  id="polemd"
+                  type="date"
+                  name="PolEmd"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="broilereq">Broiler Expected Quantity:</label>
+                <input
+                  id="broilereq"
+                  type="number"
+                  name="BroilerEq"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="noilereq">Noiler Expected Quantity:</label>
+                <input
+                  id="noilereq"
+                  type="number"
+                  name="NoilerEq"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="cockereleq">Cockerel Expected Quantity:</label>
+                <input
+                  id="cockereleq"
+                  type="number"
+                  name="CockerelEq"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="layereq">Layer Expected Quantity:</label>
+                <input
+                  id="layereq"
+                  type="number"
+                  name="LayerEq"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="poleq">Pol Expected Quantity:</label>
+                <input
+                  id="poleq"
+                  type="number"
+                  name="PolEq"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="broilerew">
+                  Broiler Expected Weight(Kg/Bird):
+                </label>
+                <input
+                  id="broilerew"
+                  type="number"
+                  name="BroilerEw"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="noilerew">
+                  Noiler Expected Weight(Kg/Bird):
+                </label>
+                <input
+                  id="noilerew"
+                  type="number"
+                  name="NoilerEw"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="cockerelew">
+                  Cockerel Expected Weight(Kg/Bird):
+                </label>
+                <input
+                  id="cockerelew"
+                  type="number"
+                  name="CockerelEw"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="layerew">Layer Expected Weight(Kg/Bird):</label>
+                <input
+                  id="layerew"
+                  type="number"
+                  name="LayerEw"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="polew">Pol Expected Weight(Kg/Bird):</label>
+                <input
+                  id="polew"
+                  type="number"
+                  name="PolEw"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  name="Name"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  id="phone"
+                  type="number"
+                  name="Phone"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="address">Address</label>
+                <input
+                  id="address"
+                  type="text"
+                  name="Address"
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="new-order-wrapper">
-              <button
-                onClick={() => {
-                  setIsDocForm(false);
-                  handleReset();
-                }}
-                className="btn-discard"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => {
-                  newDocSale();
-                  setIsDocForm(false);
-                  setTimeout(() => {
-                    getSupplyPipeline();
-                  }, 1500);
-                  setTimeout(() => {
+              <div className="new-order-wrapper">
+                <button
+                  onClick={() => {
+                    setIsDocForm(false);
                     handleReset();
-                  }, 1000);
-                }}
-                className="btn-order"
-              >
-                Submit
-              </button>
+                  }}
+                  className="btn-discard"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => {
+                    newDocSale();
+                    setIsDocForm(false);
+                    setTimeout(() => {
+                      getSupplyPipeline();
+                    }, 1500);
+                    setTimeout(() => {
+                      handleReset();
+                    }, 1000);
+                  }}
+                  className="btn-order"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
+            <div className="advert">Place Adverts Here</div>
           </div>
           <div className="expense-head">
             <button className="back-btn" onClick={() => history.goBack()}>

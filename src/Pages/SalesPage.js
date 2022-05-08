@@ -33,7 +33,7 @@ export const SalesPage = () => {
                 className="opex-opt doc-opt animate__animated animate__fadeInLeft"
                 to="/income"
               >
-                <h2>Bird Sales</h2>
+                <h2>Live Bird Sales</h2>
               </Link>
               <Link
                 className="opex-opt egg-opt animate__animated animate__fadeInRight"

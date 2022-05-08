@@ -80,22 +80,24 @@
 .capexs,
 .expense {
   background-color: white;
-  /* border-radius: 10px; */
   position: absolute;
   top: 0;
   width: 100%;
-  /* height: 100vh; */
   z-index: 10;
   padding: 20px;
-  /* transition: all ease-in-out 0.4s; */
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   height: 100%;
   left: 0;
-
-  /* border: 1px solid black; */
+}
+.advert {
+  background-color: rgb(247, 247, 247);
+  border: 0.5px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100% !important;
 }
 
 /* .expense {
@@ -126,16 +128,12 @@
 .form-feed-consumption,
 .form-expense,
 .form-capex {
-  /* background-color: red; */
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   flex-direction: column;
   width: 100%;
   height: 100%;
-  /* max-width: 600px; */
   overflow-x: hidden;
-  /* padding-top: 100px; */
 }
 
 .bird-type-container,
@@ -282,5 +280,33 @@
   }
   .form-head {
     font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .bird-sale,
+  .other-sales,
+  .doc-purchase,
+  .mortality,
+  .drug-purchase,
+  .drug-consumed,
+  .feed-purchase,
+  .feed-consumption,
+  .capexs,
+  .expense {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    height: 100%;
+    left: 0;
+  }
+
+  .advert {
+    height: 100%;
   }
 }

@@ -47,7 +47,9 @@ const {
   getDeworm,
   getCoryza,
   getFarmgate,
+  getFarmgateEggs,
   getOperatingExpense,
+  getCashBook,
 } = require("../Controllers/api");
 
 const dbOperation = require("../dbFiles/dbOperation");
@@ -119,6 +121,8 @@ router.get("/all-gumboro", validateToken, getGumboro);
 router.get("/all-deworm", validateToken, getDeworm);
 router.get("/all-coryza", validateToken, getCoryza);
 router.get("/all-farmgate", validateToken, getFarmgate);
+router.get("/all-farmgate-eggs", validateToken, getFarmgateEggs);
 router.get("/all-operating-expense", validateToken, getOperatingExpense);
+router.get("/all-cash-book", validateToken, getCashBook);
 
 module.exports = router;

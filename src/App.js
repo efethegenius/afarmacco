@@ -49,6 +49,9 @@ import { SalesPage } from "./Pages/SalesPage";
 import { FrozenChickenPage } from "./Pages/FrozenChickenPage";
 import { FinancialReport } from "./Pages/FinancialReport";
 import { PricingTemplate } from "./Pages/PricingTemplate";
+import { FarmgateEggs } from "./Pages/FarmgateEggs";
+import { Capital } from "./Pages/Capital";
+import { CashBook } from "./Pages/CashBook";
 function App() {
   const [authState, setAuthState] = useState(false);
   const [activeNav, setActiveNav] = useState(false);
@@ -233,11 +236,20 @@ function App() {
           <Route exact path="/farmgate">
             <Farmgate />
           </Route>
+          <Route exact path="/farmgate-eggs">
+            <FarmgateEggs />
+          </Route>
           <Route exact path="/financial-report">
             <FinancialReport />
           </Route>
           <Route exact path="/pricing-template">
             <PricingTemplate />
+          </Route>
+          <Route exact path="/capital">
+            <Capital />
+          </Route>
+          <Route exact path="/cash-book">
+            <CashBook />
           </Route>
           <Route exact path="/site">
             <SiteApp />

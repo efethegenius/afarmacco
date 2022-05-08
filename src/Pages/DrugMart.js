@@ -56,25 +56,25 @@ export const DrugMart = () => {
             </div>
           </div>
           <div className="trade-container">
-            <Link to="/multivitamins" className="trade-item">
+            <Link to="/multivitamins" className="trade-item drug-item">
               Multivitamins
             </Link>
-            <Link to="/antibiotics" className="trade-item">
+            <Link to="/antibiotics" className="trade-item drug-item">
               Antibiotics
             </Link>
-            <Link to="/anticoccidiosis" className="trade-item">
+            <Link to="/anticoccidiosis" className="trade-item drug-item">
               Anticoccidiosis
             </Link>
-            <Link to="/antiviral" className="trade-item">
+            <Link to="/antiviral" className="trade-item drug-item">
               Antiviral
             </Link>
-            <Link to="/vaccines" className="trade-item">
+            <Link to="/vaccines" className="trade-item drug-item">
               Vaccines
             </Link>
-            <Link to="/deworm" className="trade-item">
+            <Link to="/deworm" className="trade-item drug-item">
               Deworm
             </Link>
-            <Link to="/coryza" className="trade-item">
+            <Link to="/coryza" className="trade-item drug-item">
               Coryza
             </Link>
           </div>

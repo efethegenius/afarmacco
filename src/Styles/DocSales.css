@@ -11,13 +11,19 @@
   overflow: hidden;
   position: absolute;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   top: 0;
   transition: all ease-in-out 0.8s;
 }
-
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
 .show-doc-form {
   padding: 20px;
   height: 100vh;
@@ -35,7 +41,10 @@
 }
 
 .trade-input input,
-#State {
+#State,
+#bfc,
+#blc,
+#nlc {
   border: 1px solid gray;
   height: 30px;
   width: 100% !important;
@@ -53,5 +62,24 @@
 @media screen and (max-width: 600px) {
   .trade-input {
     width: 100%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .doc-form {
+    background-color: white;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    top: 0;
+    transition: all ease-in-out 0.8s;
+  }
+  .show-doc-form {
+    padding: 20px;
+    height: 100vh;
+    overflow-y: scroll;
   }
 }

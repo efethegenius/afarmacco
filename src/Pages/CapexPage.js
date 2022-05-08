@@ -196,26 +196,14 @@ export const CapexPage = () => {
             </div>
             <div
               className="new-btn"
-              onClick={() => setShowOptions(!showOptions)}
+              onClick={() => {
+                setIsCapexForm(!isCapexForm);
+              }}
             >
               <div className="plus-circle">
                 <HiOutlinePlus />
               </div>
               <p>New</p>
-              <div
-                className={`${
-                  showOptions ? "new-options show-new-options" : "new-options"
-                }`}
-              >
-                <button
-                  className={`${isCapexForm && "new-active"}`}
-                  onClick={() => {
-                    setIsCapexForm(!isCapexForm);
-                  }}
-                >
-                  Capex
-                </button>
-              </div>
             </div>
           </div>
           <div className="all-drug">
@@ -257,7 +245,7 @@ export const CapexPage = () => {
                                 <tr>
                                   <th>Purchase Date</th>
                                   <th>Asset Code</th>
-                                  <th>Asset Type</th>
+                                  <th>Asset Class</th>
                                   <th>Cost</th>
                                   <th>Status</th>
                                 </tr>

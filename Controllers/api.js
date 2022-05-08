@@ -181,14 +181,24 @@ const getFarmgate = async (req, res) => {
   const result = await dbOperation.getFarmgate();
   res.json({ name: result.recordset });
 };
+const getFarmgateEggs = async (req, res) => {
+  const result = await dbOperation.getFarmgateEggs();
+  res.json({ name: result.recordset });
+};
 const getOperatingExpense = async (req, res) => {
   const result = await dbOperation.getOperatingExpense();
   res.json({ name: result.recordset });
 };
+const getCashBook = async (req, res) => {
+  const result = await dbOperation.getCashBook();
+  res.json({ name: result.recordset });
+};
 
 module.exports = {
+  getCashBook,
   getOperatingExpense,
   getFarmgate,
+  getFarmgateEggs,
   getDeworm,
   getCoryza,
   getGumboro,

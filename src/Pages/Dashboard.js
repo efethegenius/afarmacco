@@ -708,17 +708,17 @@ export const Dashboard = () => {
       vaccinePurchaseQty;
   }
 
-    let totalDrugSatchetUsed;
-    if (returnedDrugConsumed.name) {
-      totalDrugSatchetUsed =
-        antibioticsUsedQty +
-        anticoccidiosisUsedQty +
-        antiviralUsedQty +
-        coryzaUsedQty +
-        dewormUsedQty +
-        multivitaminUsedQty +
-        vaccineUsedQty;
-    }
+  let totalDrugSatchetUsed;
+  if (returnedDrugConsumed.name) {
+    totalDrugSatchetUsed =
+      antibioticsUsedQty +
+      anticoccidiosisUsedQty +
+      antiviralUsedQty +
+      coryzaUsedQty +
+      dewormUsedQty +
+      multivitaminUsedQty +
+      vaccineUsedQty;
+  }
 
   const allDrugPurchaseQty =
     antibioticsUsedQty +
@@ -1030,9 +1030,9 @@ export const Dashboard = () => {
                           <table id="drugs-inventory">
                             <tr>
                               <th>Drug</th>
-                              <th>Purchased (Kg)</th>
-                              <th>Cosumed (Kg)</th>
-                              <th>Balance (Kg)</th>
+                              <th>Purchased</th>
+                              <th>Cosumed</th>
+                              <th>Balance</th>
                             </tr>
                             <tr>
                               <td>Antibiotics</td>

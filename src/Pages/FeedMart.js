@@ -141,78 +141,81 @@ export const FeedMart = () => {
       {authState ? (
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
-            <h2>Feed Mart</h2>
-            <div className="trade-input">
-              <label htmlFor="lastupdated">Last Updated</label>
-              <input
-                id="lastupdated"
-                type="date"
-                name="LastUpdated"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="brand">Brand</label>
-              <input
-                id="brand"
-                type="text"
-                name="Brand"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="variant">Variant</label>
-              <input
-                id="variant"
-                type="text"
-                name="Variant"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="formulation">Formulation</label>
-              <input
-                id="formulation"
-                type="text"
-                name="Formulation"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="price">Price</label>
-              <input
-                id="price"
-                type="text"
-                name="Price"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="new-order-wrapper">
-              <button
-                onClick={() => {
-                  setIsDocForm(false);
-                  handleReset();
-                }}
-                className="btn-discard"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => {
-                  newFeedMart();
-                  setIsDocForm(false);
-                  setTimeout(() => {
-                    getFeedMart();
-                  }, 1500);
-                  setTimeout(() => {
+            <div className="form-wrapper">
+              <h2>Feed Mart</h2>
+              <div className="trade-input">
+                <label htmlFor="lastupdated">Last Updated</label>
+                <input
+                  id="lastupdated"
+                  type="date"
+                  name="LastUpdated"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="brand">Brand</label>
+                <input
+                  id="brand"
+                  type="text"
+                  name="Brand"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="variant">Variant</label>
+                <input
+                  id="variant"
+                  type="text"
+                  name="Variant"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="formulation">Formulation</label>
+                <input
+                  id="formulation"
+                  type="text"
+                  name="Formulation"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="price">Price</label>
+                <input
+                  id="price"
+                  type="text"
+                  name="Price"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="new-order-wrapper">
+                <button
+                  onClick={() => {
+                    setIsDocForm(false);
                     handleReset();
-                  }, 1000);
-                }}
-                className="btn-order"
-              >
-                Submit
-              </button>
+                  }}
+                  className="btn-discard"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => {
+                    newFeedMart();
+                    setIsDocForm(false);
+                    setTimeout(() => {
+                      getFeedMart();
+                    }, 1500);
+                    setTimeout(() => {
+                      handleReset();
+                    }, 1000);
+                  }}
+                  className="btn-order"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
+            <div className="advert">Place Adverts Here</div>
           </div>
           <div className="expense-head">
             <button className="back-btn" onClick={() => history.goBack()}>

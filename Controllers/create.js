@@ -138,9 +138,19 @@ const createFarmgate = async (req, res) => {
   await dbOperation.createFarmgate(req.body);
   res.json({ code: 1, msg: "success" });
 };
+const createFarmgateEggs = async (req, res) => {
+  await dbOperation.createFarmgateEggs(req.body);
+  res.json({ code: 1, msg: "success" });
+};
+const createCashbook = async (req, res) => {
+  await dbOperation.createCashbook(req.body);
+  res.json({ code: 1, msg: "success" });
+};
 
 module.exports = {
+  createCashbook,
   createFarmgate,
+  createFarmgateEggs,
   createCoryza,
   createGumboro,
   createDeworm,

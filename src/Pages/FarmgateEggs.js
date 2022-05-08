@@ -21,9 +21,9 @@ import { Link } from "react-router-dom";
 import { ExpenseTable } from "../Components/Tables/ExpenseTable";
 import { Loading } from "../Components/Loading";
 
-export const Gumboro = () => {
+export const FarmgateEggs = () => {
   const [returnedExpenses, setReturnedExpenses] = useState([]);
-  const [returnedGumboro, setReturnedGumboro] = useState([]);
+  const [returnedFarmgate, setReturnedFarmgate] = useState([]);
   const [returnedData, setReturnedData] = useState();
   const [returnedDeprDate, setReturnedDeprDate] = useState([]);
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
@@ -38,25 +38,31 @@ export const Gumboro = () => {
   const history = useHistory();
   const [isDeprMsg, setIsDeprMsg] = useState(false);
   const [search, setSearch] = useState("");
-  const [gumboro, setGumboro] = useState({
+  const [farmgate, setFarmgate] = useState({
     LastUpdated: "",
-    Producer: "",
-    Brand: "",
-    Mediums: "",
-    KgPerMl: "",
-    Price: 0,
+    Farm: "",
+    BCrate: 0,
+    NCrate: 0,
+    CCrate: 0,
+    LCrate: 0,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "Price") {
-      setGumboro((prevState) => ({
+    if (
+      name === "Price" ||
+      name === "BCrate" ||
+      name === "NCrate" ||
+      name === "CCrate" ||
+      name === "LCrate"
+    ) {
+      setFarmgate((prevState) => ({
         ...prevState,
         [name]: parseInt(value),
       }));
       return;
     }
-    setGumboro((prevState) => ({
+    setFarmgate((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -70,13 +76,13 @@ export const Gumboro = () => {
       (select) => (select.value = "")
     );
 
-    setGumboro((prevState) => ({
+    setFarmgate((prevState) => ({
       ...prevState,
     }));
   };
 
-  const newGumboro = async () => {
-    const newData = await fetch("/create/gumboro", {
+  const newFarmgate = async () => {
+    const newData = await fetch("/create/farmgate-eggs", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -84,7 +90,7 @@ export const Gumboro = () => {
         accessToken: localStorage.getItem("accessToken"),
       },
       body: JSON.stringify({
-        ...gumboro,
+        ...farmgate,
       }),
     }).then((res) => res.json());
     setReturnedData(newData[0]);
@@ -96,9 +102,9 @@ export const Gumboro = () => {
   });
 
   //getting the data from the database from the db-----------------------------------------
-  const getGumboro = async () => {
+  const getFarmgate = async () => {
     try {
-      const gumboro = await fetch("/api/all-gumboro", {
+      const farmgate = await fetch("/api/all-farmgate-eggs", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -106,25 +112,24 @@ export const Gumboro = () => {
           accessToken: localStorage.getItem("accessToken"),
         },
       }).then((res) => res.json());
-      setReturnedGumboro(gumboro);
+      setReturnedFarmgate(farmgate);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getGumboro();
+    getFarmgate();
   }, []);
-  console.log(returnedGumboro);
   //   getting the data from the database from the db end-----------------------------------------
 
-  let allGumboro = returnedGumboro.name;
+  let allFarmgate = returnedFarmgate.name;
 
-  const sortGumboro =
-    returnedGumboro.name && search
-      ? returnedGumboro.name.filter((sortedGumboro) =>
-          sortedGumboro.Brand.toLowerCase().includes(search.toLowerCase())
+  const sortFarmgate =
+    returnedFarmgate.name && search
+      ? returnedFarmgate.name.filter((sortedFarmgate) =>
+          sortedFarmgate.Farm.toLowerCase().includes(search.toLowerCase())
         )
-      : allGumboro;
+      : allFarmgate;
 
   const formatMoney = (n) => {
     return (Math.round(n * 100) / 100).toLocaleString();
@@ -143,7 +148,7 @@ export const Gumboro = () => {
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
             <div className="form-wrapper">
-              <h2>Gumboro</h2>
+              <h2>Farmgate-Eggs Sale</h2>
               <div className="trade-input">
                 <label htmlFor="lastupdated">Last Updated</label>
                 <input
@@ -154,47 +159,47 @@ export const Gumboro = () => {
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="producer">Producer</label>
+                <label htmlFor="producer">Farm</label>
                 <input
-                  id="producer"
+                  id="farm"
                   type="text"
-                  name="Producer"
+                  name="Farm"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="brand">Brand</label>
+                <label htmlFor="blc">Broiler Price / Crate</label>
                 <input
-                  id="brand"
+                  id="blc"
                   type="text"
-                  name="Brand"
+                  name="BCrate"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="mediums">Medium</label>
+                <label htmlFor="nlc">Noiler Price / Crate</label>
                 <input
-                  id="mediums"
+                  id="nlc"
                   type="text"
-                  name="Mediums"
+                  name="NCrate"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="kgperml">KG/ML</label>
+                <label htmlFor="Clc">Cockerel Price / Crate</label>
                 <input
-                  id="kgperml"
+                  id="clc"
                   type="text"
-                  name="KgPerMl"
+                  name="CCrate"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="price">Price</label>
+                <label htmlFor="Llc">Layer Price / Crate</label>
                 <input
-                  id="price"
-                  type="number"
-                  name="Price"
+                  id="llc"
+                  type="text"
+                  name="LCrate"
                   onChange={handleChange}
                 />
               </div>
@@ -210,10 +215,10 @@ export const Gumboro = () => {
                 </button>
                 <button
                   onClick={() => {
-                    newGumboro();
+                    newFarmgate();
                     setIsDocForm(false);
                     setTimeout(() => {
-                      getGumboro();
+                      getFarmgate();
                     }, 1500);
                     setTimeout(() => {
                       handleReset();
@@ -232,7 +237,7 @@ export const Gumboro = () => {
               <AiOutlineLeft /> Go back
             </button>
             <div className="expense-heading">
-              <h1>Gumboro</h1>
+              <h1>Farmgate:Eggs Sales</h1>
             </div>
             <div className="new-btn" onClick={() => setIsDocForm(!isDocForm)}>
               <div className="plus-circle">
@@ -250,42 +255,56 @@ export const Gumboro = () => {
               placeholder="Search"
               onChange={(e) => setSearch(e.target.value)}
             />
-            {returnedGumboro.name ? (
+            {returnedFarmgate.name ? (
               <div className="all-farm-hands">
                 <table>
                   <tbody>
+                    <th id="total" className="total" colSpan="2"></th>
+                    <th className="total total-head" colSpan="1">
+                      Broiler
+                    </th>
+                    <th className="total total-head" colSpan="1">
+                      Noiler
+                    </th>
+                    <th className="total total-head" colSpan="1">
+                      Cockerel
+                    </th>
+                    <th className="total total-head" colSpan="1">
+                      Layer
+                    </th>
+                    <tr></tr>
                     <tr>
                       <th>Last Updated</th>
-                      <th>Producer</th>
-                      <th>Brand</th>
-                      <th>Medium</th>
-                      <th>KG/ML</th>
-                      <th>Price(₦)</th>
+                      <th>Farm</th>
+                      <th>Price/Crate (₦)</th>
+                      <th>Price/Crate (₦)</th>
+                      <th>Price/Crate (₦)</th>
+                      <th>Price/Crate (₦)</th>
                     </tr>
                   </tbody>
-                  {returnedGumboro.name &&
-                    sortGumboro.map((gumboro) => {
+                  {returnedFarmgate.name &&
+                    sortFarmgate.map((farmgate) => {
                       const {
-                        GumboroId,
+                        FarmgateId,
                         LastUpdated,
-                        Producer,
-                        Brand,
-                        Mediums,
-                        KgPerMl,
-                        Price,
-                      } = gumboro;
+                        Farm,
+                        BCrate,
+                        NCrate,
+                        CCrate,
+                        LCrate,
+                      } = farmgate;
                       const newDate = `${new Date(
                         LastUpdated
                       ).toLocaleDateString()}`;
                       return (
-                        <tbody key={GumboroId}>
+                        <tbody key={FarmgateId}>
                           <tr>
                             <td>{newDate}</td>
-                            <td>{Producer}</td>
-                            <td>{Brand}</td>
-                            <td>{Mediums}</td>
-                            <td>{KgPerMl}</td>
-                            <td>{Price.toFixed(2)}</td>
+                            <td>{Farm}</td>
+                            <td>{BCrate.toFixed(2)}</td>
+                            <td>{NCrate.toFixed(2)}</td>
+                            <td>{CCrate.toFixed(2)}</td>
+                            <td>{LCrate.toFixed(2)}</td>
                           </tr>
                         </tbody>
                       );

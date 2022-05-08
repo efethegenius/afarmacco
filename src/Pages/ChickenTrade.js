@@ -56,19 +56,22 @@ export const ChickenTrade = () => {
             </div>
           </div>
           <div className="trade-container">
-            <Link to="/doc-sales" className="trade-item">
+            <Link to="/doc-sales" className="trade-item baby-opt">
               Day-Old Chicks Sales
             </Link>
-            <Link to="/farmgate" className="trade-item">
-              Farmgate Sales
+            <Link to="/farmgate" className="trade-item doc-opt">
+              Farmgate Sales: Live Chicken
             </Link>
-            <Link to="/supply-pipeline" className="trade-item">
+            <Link to="/farmgate-eggs" className="trade-item egg-opt">
+              Farmgate Sales: Eggs
+            </Link>
+            <Link to="/supply-pipeline" className="trade-item pol-opt">
               Live Chicken Supply Pipeline
             </Link>
-            <Link to="/feed-mart" className="trade-item">
+            <Link to="/feed-mart" className="trade-item feed-opt">
               Feed Mart
             </Link>
-            <Link to="/drug-mart" className="trade-item">
+            <Link to="/drug-mart" className="trade-item drug-opt">
               Drug Mart
             </Link>
           </div>

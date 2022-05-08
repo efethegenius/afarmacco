@@ -21,6 +21,8 @@ export const OtherSales = ({
   const { upd, setUpd, capexTxn, setCapexTxn } = useContext(AuthContext);
   const [fieldErr, setFieldErr] = useState(false);
   const [pmtErr, setPmtErr] = useState(false);
+  const [others, setOthers] = useState("");
+  const [otherItem, setOtherItem] = useState("");
 
   const [sales, setSales] = useState({
     ItemDate: 0,
@@ -203,6 +205,17 @@ export const OtherSales = ({
           </select>
         </div>
 
+        {sales.Item === "Others" && (
+          <div className="input">
+            <label htmlFor="Other">Describe other item</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOtherItem(e.target.value)}
+            />
+          </div>
+        )}
+
         <div className="sale-qty-container">
           <div className="input">
             <label htmlFor="Qty">Quantity</label>
@@ -217,6 +230,15 @@ export const OtherSales = ({
               onChange={handleChange}
             />
           </div>
+        </div>
+        <div className="input">
+          <label htmlFor="Weight">Weight (KG)</label>
+          <input
+            type="number"
+            name="Weight"
+            id="Weight"
+            onChange={handleChange}
+          />
         </div>
         <div className="input">
           <label htmlFor="PmtMethod">Payment Method</label>
@@ -251,6 +273,16 @@ export const OtherSales = ({
             </select>
           </div>
         )}
+        {sales.PmtMethod === "Other" && (
+          <div className="input">
+            <label htmlFor="Other">Specify other method</label>
+            <input
+              name="Other"
+              id="Other"
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
         <div className="input upd-type">
           <label htmlFor="UpdType">Upd Type</label>
           <input
@@ -269,34 +301,35 @@ export const OtherSales = ({
             onChange={handleChange}
           />
         </div>
-      </section>
-      <div className="new-order-wrapper">
-        <button
-          className="btn-order"
-          type="submit"
-          onClick={() => {
-            handleSubmit();
-            setTimeout(() => {
+        <div className="new-order-wrapper">
+          <button
+            className="btn-order"
+            type="submit"
+            onClick={() => {
+              handleSubmit();
+              setTimeout(() => {
+                handleReset();
+              }, 1000);
+            }}
+          >
+            Create
+          </button>
+          <button
+            className="btn-discard"
+            onClick={() => {
+              setIsOtherForm(false);
+              setAnimState(false);
+              setTimeout(() => {
+                setAnimState(true);
+              }, 1000);
               handleReset();
-            }, 1000);
-          }}
-        >
-          Create
-        </button>
-        <button
-          className="btn-discard"
-          onClick={() => {
-            setIsOtherForm(false);
-            setAnimState(false);
-            setTimeout(() => {
-              setAnimState(true);
-            }, 1000);
-            handleReset();
-          }}
-        >
-          Discard
-        </button>
-      </div>
+            }}
+          >
+            Discard
+          </button>
+        </div>
+      </section>
+      <div className="advert">Place Adverts Here</div>
     </div>
   );
 };

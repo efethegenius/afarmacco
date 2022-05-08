@@ -65,18 +65,18 @@ export const FarmHands = () => {
     content: () => componentRef.current,
   });
 
-  const handleReset = () => {
-    Array.from(document.querySelectorAll("input")).forEach(
-      (input) => (input.value = "")
-    );
-    Array.from(document.querySelectorAll("select")).forEach(
-      (select) => (select.value = "")
-    );
+  // const handleReset = () => {
+  //   Array.from(document.querySelectorAll("input")).forEach(
+  //     (input) => (input.value = "")
+  //   );
+  //   Array.from(document.querySelectorAll("select")).forEach(
+  //     (select) => (select.value = "")
+  //   );
 
-    setFarmHand((prevState) => ({
-      ...prevState,
-    }));
-  };
+  //   setFarmHand((prevState) => ({
+  //     ...prevState,
+  //   }));
+  // };
 
   //getting the data from the database from the db-----------------------------------------
   const getFarmHands = async () => {
@@ -100,39 +100,39 @@ export const FarmHands = () => {
   console.log(returnedFarmHands);
   //getting the data from the database from the db end-----------------------------------------
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "UpdType" || name === "RecId") {
-      setFarmHand((prevState) => ({
-        ...prevState,
-        [name]: parseInt(value),
-      }));
-      return;
-    }
-    setFarmHand((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   if (name === "UpdType" || name === "RecId") {
+  //     setFarmHand((prevState) => ({
+  //       ...prevState,
+  //       [name]: parseInt(value),
+  //     }));
+  //     return;
+  //   }
+  //   setFarmHand((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const newFarmHand = async () => {
-    const newData = await fetch("/create/farm-hand", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...farmHand,
-      }),
-    }).then((res) => res.json());
-    setReturnedData(newData[0]);
-  };
+  // const newFarmHand = async () => {
+  //   const newData = await fetch("/create/farm-hand", {
+  //     method: "POST",
+  //     headers: {
+  //       "content-type": "application/json",
+  //       Accept: "application/json",
+  //       accessToken: localStorage.getItem("accessToken"),
+  //     },
+  //     body: JSON.stringify({
+  //       ...farmHand,
+  //     }),
+  //   }).then((res) => res.json());
+  //   setReturnedData(newData[0]);
+  // };
 
-  const handleSubmit = () => {
-    newFarmHand();
-  };
+  // const handleSubmit = () => {
+  //   newFarmHand();
+  // };
 
   useEffect(() => {
     if (upd) {
@@ -156,9 +156,9 @@ export const FarmHands = () => {
         )
       : allFarmHands;
 
-  const formatMoney = (n) => {
-    return (Math.round(n * 100) / 100).toLocaleString();
-  };
+  // const formatMoney = (n) => {
+  //   return (Math.round(n * 100) / 100).toLocaleString();
+  // };
 
   let allStates;
   if (returnedStates.name) {
@@ -178,152 +178,6 @@ export const FarmHands = () => {
 
       {authState ? (
         <div className="expense-container">
-          <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
-            <h2>Farm Hand</h2>
-
-            <h4 className="farm-top">Personal Information</h4>
-            <div className="trade-input">
-              <label htmlFor="FirstNames">First Name</label>
-              <input
-                id="FirstNames"
-                type="text"
-                name="FirstName"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="LastNames">Last Name</label>
-              <input
-                id="LastNames"
-                type="text"
-                name="LastName"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="DOB">Date Of Birth</label>
-              <input id="DOB" type="date" name="DOB" onChange={handleChange} />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="Address">Address</label>
-              <input
-                id="Address"
-                type="text"
-                name="Address"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="State">State</label>
-              <select name="State" id="State" onChange={handleChange}>
-                <option></option>
-                {allStates}
-              </select>
-            </div>
-            <div className="trade-input">
-              <label htmlFor="NOK">Next Of Kin</label>
-              <input id="NOK" type="text" name="NOK" onChange={handleChange} />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="MobilePhone">Mobile Phone</label>
-              <input
-                id="MobilePhone"
-                type="text"
-                name="MobilePhone"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="OfficePhone">Office Phone</label>
-              <input
-                id="OfficePhone"
-                type="text"
-                name="OfficePhone"
-                onChange={handleChange}
-              />
-            </div>
-            <h4 className="farm-top">Guarantor Information</h4>
-            <div className="trade-input">
-              <label htmlFor="Guarantor">Guarantor Name</label>
-              <input
-                id="Guarantor"
-                type="text"
-                name="Guarantor"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="GuarantorMobile">Guarantor Mobile No</label>
-              <input
-                id="GuarantorMobile"
-                type="text"
-                name="GuarantorMobile"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="GuarantorOffice">Guarantor Office No</label>
-              <input
-                id="GuarantorOffice"
-                type="text"
-                name="GuarantorOffice"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input">
-              <label htmlFor="GuarantorAddress">Guarantor Address</label>
-              <input
-                id="GuarantorAddress"
-                type="text"
-                name="GuarantorAddress"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input upd-type">
-              <label htmlFor="UpdType">Upd Type</label>
-              <input
-                type="number"
-                name="UpdType"
-                id="UpdType"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="trade-input rec-id">
-              <label htmlFor="RecId">Rec Id</label>
-              <input
-                type="number"
-                name="RecId"
-                id="RecId"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="new-order-wrapper">
-              <button
-                onClick={() => {
-                  setIsDocForm(false);
-                  handleReset();
-                }}
-                className="btn-discard"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => {
-                  newFarmHand();
-                  setIsDocForm(false);
-                  setTimeout(() => {
-                    getFarmHands();
-                  }, 1500);
-                  setTimeout(() => {
-                    handleReset();
-                  }, 1000);
-                }}
-                className="btn-order"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
           <div className="expense-head">
             <button className="back-btn" onClick={() => history.goBack()}>
               <AiOutlineLeft /> Go back
@@ -331,18 +185,7 @@ export const FarmHands = () => {
             <div className="expense-heading">
               <h1>FARM HANDS</h1>
             </div>
-            <div
-              className="new-btn"
-              onClick={() => setIsExpenseForm(!isExpenseForm)}
-            >
-              <div
-                className="plus-circle"
-                onClick={() => setIsDocForm(!isDocForm)}
-              >
-                <HiOutlinePlus />
-              </div>
-              <p>New</p>
-            </div>
+            <p> </p>
           </div>
           <div className="farm-hands-container">
             <div className="search-container">

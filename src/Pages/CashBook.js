@@ -21,9 +21,9 @@ import { Link } from "react-router-dom";
 import { ExpenseTable } from "../Components/Tables/ExpenseTable";
 import { Loading } from "../Components/Loading";
 
-export const Farmgate = () => {
+export const CashBook = () => {
   const [returnedExpenses, setReturnedExpenses] = useState([]);
-  const [returnedFarmgate, setReturnedFarmgate] = useState([]);
+  const [returnedCashBook, setReturnedCashBook] = useState([]);
   const [returnedData, setReturnedData] = useState();
   const [returnedDeprDate, setReturnedDeprDate] = useState([]);
   const [returnedActiveCreditors, setReturnedActiveCreditors] = useState([]);
@@ -38,39 +38,35 @@ export const Farmgate = () => {
   const history = useHistory();
   const [isDeprMsg, setIsDeprMsg] = useState(false);
   const [search, setSearch] = useState("");
-  const [farmgate, setFarmgate] = useState({
-    LastUpdated: "",
-    Farm: "",
-    Blc: 0,
-    Bfc: 0,
-    Nlc: 0,
-    Nfc: 0,
-    Clc: 0,
-    Cfc: 0,
-    Llc: 0,
-    Lfc: 0,
+  const [cashBook, setCashBook] = useState({
+    TxnDate: "",
+    TxnRef: "",
+    TxnDesc: "",
+    TxnType: "",
+    Cash: 0,
+    Bank1: 0,
+    Bank2: 0,
+    Bank3: 0,
+    Debtor: "",
+    Creditor: "",
+    AccountType: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (
-      name === "Price" ||
-      name === "Blc" ||
-      name === "Bfc" ||
-      name === "Nlc" ||
-      name === "Nfc" ||
-      name === "Clc" ||
-      name === "Cfc" ||
-      name === "Llc" ||
-      name === "Lfc"
+      name === "Cash" ||
+      name === "Bank1" ||
+      name === "Bank2" ||
+      name === "Bank3"
     ) {
-      setFarmgate((prevState) => ({
+      setCashBook((prevState) => ({
         ...prevState,
         [name]: parseInt(value),
       }));
       return;
     }
-    setFarmgate((prevState) => ({
+    setCashBook((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -84,13 +80,13 @@ export const Farmgate = () => {
       (select) => (select.value = "")
     );
 
-    setFarmgate((prevState) => ({
+    setCashBook((prevState) => ({
       ...prevState,
     }));
   };
 
-  const newFarmgate = async () => {
-    const newData = await fetch("/create/farmgate", {
+  const newCashBook = async () => {
+    const newData = await fetch("/create/cash-book", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -98,7 +94,7 @@ export const Farmgate = () => {
         accessToken: localStorage.getItem("accessToken"),
       },
       body: JSON.stringify({
-        ...farmgate,
+        ...cashBook,
       }),
     }).then((res) => res.json());
     setReturnedData(newData[0]);
@@ -110,9 +106,9 @@ export const Farmgate = () => {
   });
 
   //getting the data from the database from the db-----------------------------------------
-  const getFarmgate = async () => {
+  const getCashBook = async () => {
     try {
-      const farmgate = await fetch("/api/all-farmgate", {
+      const cashBook = await fetch("/api/all-cash-book", {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -120,28 +116,26 @@ export const Farmgate = () => {
           accessToken: localStorage.getItem("accessToken"),
         },
       }).then((res) => res.json());
-      setReturnedFarmgate(farmgate);
+      setReturnedCashBook(cashBook);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getFarmgate();
+    getCashBook();
   }, []);
   //   getting the data from the database from the db end-----------------------------------------
 
-  let allFarmgate = returnedFarmgate.name;
+  let allCashBook = returnedCashBook.name;
 
-  const sortFarmgate =
-    returnedFarmgate.name && search
-      ? returnedFarmgate.name.filter((sortedFarmgate) =>
-          sortedFarmgate.Farm.toLowerCase().includes(search.toLowerCase())
+  const sortCashBook =
+    returnedCashBook.name && search
+      ? returnedCashBook.filter((sortedCashBook) =>
+          sortedCashBook.TxnRef.toLowerCase().includes(search.toLowerCase())
         )
-      : allFarmgate;
+      : allCashBook;
 
-  const formatMoney = (n) => {
-    return (Math.round(n * 100) / 100).toLocaleString();
-  };
+  console.log(returnedCashBook);
 
   return (
     <div className="expenses">
@@ -156,53 +150,132 @@ export const Farmgate = () => {
         <div className="expense-container">
           <div className={isDocForm ? "doc-form show-doc-form" : "doc-form"}>
             <div className="form-wrapper">
-              <h2>Farmgate Sale</h2>
+              <h2>Cash Book</h2>
               <div className="trade-input">
-                <label htmlFor="lastupdated">Last Updated</label>
+                <label htmlFor="lastupdated">Date</label>
                 <input
                   id="lastupdated"
                   type="date"
-                  name="LastUpdated"
+                  name="TxnDate"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="producer">Farm</label>
+                <label htmlFor="producer">Ref</label>
                 <input
                   id="farm"
                   type="text"
-                  name="Farm"
+                  name="TxnRef"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="blc">Broiler LC/Kg</label>
-                <input
+                <label htmlFor="blc">Description</label>
+                <select
                   id="blc"
                   type="text"
-                  name="Blc"
+                  name="TxnDesc"
                   onChange={handleChange}
-                />
+                >
+                  <option></option>
+                  <option>Sale</option>
+                  <option>Other Income</option>
+                  <option>Purchase DOC</option>
+                  <option>Purchase Feed</option>
+                  <option>Purchase Drug</option>
+                  <option>Creditor</option>
+                  <option>Debtor</option>
+                </select>
+              </div>
+              {cashBook.TxnDesc === "Debtor" && (
+                <div className="trade-input">
+                  <label htmlFor="blc">Debtor Name</label>
+                  <input
+                    id="blc"
+                    type="text"
+                    name="Debtor"
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+              {cashBook.TxnDesc === "Creditor" && (
+                <div className="trade-input">
+                  <label htmlFor="blc">Creditor Name</label>
+                  <input
+                    id="blc"
+                    type="text"
+                    name="Creditor"
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+              <div className="trade-input">
+                <label htmlFor="bfc">Transaction Type</label>
+                <select
+                  id="bfc"
+                  type="text"
+                  name="TxnType"
+                  onChange={handleChange}
+                >
+                  <option></option>
+                  <option>Debit Balance B/F</option>
+                  <option>Credit Balance B/F</option>
+                  <option>Receipt</option>
+                  <option>Payment</option>
+                </select>
               </div>
               <div className="trade-input">
-                <label htmlFor="bfc">Broiler FC/Kg</label>
+                <label htmlFor="nlc">Account Type</label>
+                <select
+                  id="nlc"
+                  type="text"
+                  name="AccountType"
+                  onChange={handleChange}
+                >
+                  <option></option>
+                  <option>Cash</option>
+                  <option>Bank1</option>
+                  <option>Bank2</option>
+                  <option>Bank3</option>
+                </select>
+              </div>
+              <div className="trade-input">
+                <label htmlFor="bfc">Cash</label>
                 <input
                   id="bfc"
                   type="text"
-                  name="Bfc"
+                  name="Cash"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
-                <label htmlFor="nlc">Noiler LC/Kg</label>
+                <label htmlFor="bfc">Bank 1</label>
                 <input
-                  id="nlc"
+                  id="bfc"
                   type="text"
-                  name="Nlc"
+                  name="Bank1"
                   onChange={handleChange}
                 />
               </div>
               <div className="trade-input">
+                <label htmlFor="bfc">Bank 2</label>
+                <input
+                  id="bfc"
+                  type="text"
+                  name="Bank2"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="trade-input">
+                <label htmlFor="bfc">Bank 3</label>
+                <input
+                  id="bfc"
+                  type="text"
+                  name="Bank3"
+                  onChange={handleChange}
+                />
+              </div>
+              {/* <div className="trade-input">
                 <label htmlFor="nfc">Noiler FC/Kg</label>
                 <input
                   id="nfc"
@@ -246,7 +319,7 @@ export const Farmgate = () => {
                   name="Lfc"
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
               <div className="new-order-wrapper">
                 <button
                   onClick={() => {
@@ -259,10 +332,10 @@ export const Farmgate = () => {
                 </button>
                 <button
                   onClick={() => {
-                    newFarmgate();
+                    newCashBook();
                     setIsDocForm(false);
                     setTimeout(() => {
-                      getFarmgate();
+                      getCashBook();
                     }, 1500);
                     setTimeout(() => {
                       handleReset();
@@ -281,7 +354,7 @@ export const Farmgate = () => {
               <AiOutlineLeft /> Go back
             </button>
             <div className="expense-heading">
-              <h1>Farmgate: Live Chicken Sales</h1>
+              <h1>Cash Book</h1>
             </div>
             <div className="new-btn" onClick={() => setIsDocForm(!isDocForm)}>
               <div className="plus-circle">
@@ -291,19 +364,19 @@ export const Farmgate = () => {
             </div>
           </div>
           <div className="farm-hands-container">
-            <input
+            {/* <input
               name="search"
               id="search"
               className="search"
               value={search}
               placeholder="Search"
               onChange={(e) => setSearch(e.target.value)}
-            />
-            {returnedFarmgate.name ? (
+            /> */}
+            {returnedCashBook.name ? (
               <div className="all-farm-hands">
                 <table>
                   <tbody>
-                    <th id="total" className="total" colSpan="2"></th>
+                    {/* <th id="total" className="total" colSpan="2"></th>
                     <th className="total total-head" colSpan="2">
                       Broiler
                     </th>
@@ -316,51 +389,48 @@ export const Farmgate = () => {
                     <th className="total total-head" colSpan="2">
                       Layer
                     </th>
-                    <tr></tr>
+                    <tr></tr> */}
                     <tr>
-                      <th>Last Updated</th>
-                      <th>Farm</th>
-                      <th>LC/Kg (₦)</th>
-                      <th>FC/Kg (₦)</th>
-                      <th>LC/Kg (₦)</th>
-                      <th>FC/Kg (₦)</th>
-                      <th>LC/Kg (₦)</th>
-                      <th>FC/Kg (₦)</th>
-                      <th>LC/Kg (₦)</th>
-                      <th>FC/Kg (₦)</th>
+                      <th>Date</th>
+                      <th>Ref</th>
+                      <th>Description</th>
+                      <th>TransactionType</th>
+                      <th>Account Type</th>
+                      <th>Cash</th>
+                      <th>Bank 1</th>
+                      <th>Bank 2</th>
+                      <th>Bank 3</th>
                     </tr>
                   </tbody>
-                  {returnedFarmgate.name &&
-                    sortFarmgate.map((farmgate) => {
+                  {returnedCashBook.name &&
+                    sortCashBook.map((cashBook) => {
                       const {
-                        FarmgateId,
-                        LastUpdated,
-                        Farm,
-                        Blc,
-                        Bfc,
-                        Nlc,
-                        Nfc,
-                        Clc,
-                        Cfc,
-                        Llc,
-                        Lfc,
-                      } = farmgate;
+                        CashBookId,
+                        TxnDate,
+                        TxnRef,
+                        TxnDesc,
+                        TxnType,
+                        Cash,
+                        Bank1,
+                        Bank2,
+                        Bank3,
+                        AccountType,
+                      } = cashBook;
                       const newDate = `${new Date(
-                        LastUpdated
+                        TxnDate
                       ).toLocaleDateString()}`;
                       return (
-                        <tbody key={FarmgateId}>
+                        <tbody key={CashBookId}>
                           <tr>
                             <td>{newDate}</td>
-                            <td>{Farm}</td>
-                            <td>{Blc.toFixed(2)}</td>
-                            <td>{Bfc.toFixed(2)}</td>
-                            <td>{Nlc.toFixed(2)}</td>
-                            <td>{Nfc.toFixed(2)}</td>
-                            <td>{Clc.toFixed(2)}</td>
-                            <td>{Cfc.toFixed(2)}</td>
-                            <td>{Llc.toFixed(2)}</td>
-                            <td>{Lfc.toFixed(2)}</td>
+                            <td>{TxnRef}</td>
+                            <td>{TxnDesc}</td>
+                            <td>{TxnType}</td>
+                            <td>{AccountType}</td>
+                            <td>{Cash}</td>
+                            <td>{Bank1}</td>
+                            <td>{Bank2}</td>
+                            <td>{Bank3}</td>
                           </tr>
                         </tbody>
                       );
