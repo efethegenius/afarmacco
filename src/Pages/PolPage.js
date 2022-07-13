@@ -51,14 +51,17 @@ export const PolPage = () => {
   // getting active creditors start-----------------------------------------------------
   const getActiveDebtors = async () => {
     try {
-      const activeDebtors = await fetch("/api/active-debtors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeDebtors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-debtors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveDebtors(activeDebtors);
     } catch (error) {
       console.log(error);
@@ -69,14 +72,17 @@ export const PolPage = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAllPolLayers = async () => {
     try {
-      const allPolLayers = await fetch("/api/all-pol-layers", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allPolLayers = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-pol-layers",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedPolLayers(allPolLayers);
     } catch (error) {
       console.log(error);

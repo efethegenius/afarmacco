@@ -81,17 +81,20 @@ export const DocSales = () => {
   };
 
   const newDocSale = async () => {
-    const newData = await fetch("/create/doc_sales", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...docSale,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/doc_sales",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...docSale,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -103,14 +106,17 @@ export const DocSales = () => {
   //getting the data from the database from the db-----------------------------------------
   const getDocSales = async () => {
     try {
-      const docSales = await fetch("/api/all-doc-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const docSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocSales(docSales);
     } catch (error) {
       console.log(error);

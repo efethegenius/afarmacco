@@ -29,31 +29,37 @@ export const Creditor = () => {
   console.log(b);
 
   const newCreditPay = async () => {
-    const newData = await fetch("/create/creditor-pay", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...creditorId,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/creditor-pay",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...creditorId,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
   // getting active creditors start-----------------------------------------------------
   const getActiveCreditors = async () => {
     try {
-      const activeCreditors = await fetch("/api/active-creditors", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const activeCreditors = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/active-creditors",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedActiveCreditors(activeCreditors);
     } catch (error) {
       console.log(error);
@@ -143,14 +149,14 @@ export const Creditor = () => {
                   <tr>
                     <td>{item}</td>
                     <td>{qty}</td>
-                    <td>{cost.toFixed(2)}</td>
-                    <td>{amount.toFixed(2)}</td>
+                    <td>{cost}</td>
+                    <td>{amount}</td>
                   </tr>
                 </tbody>
               </table>
               <div className="debtor-total">
                 <p>Amount Due</p>
-                <h2>{amount.toFixed(2)}</h2>
+                <h2>{amount}</h2>
               </div>
             </div>
             <button

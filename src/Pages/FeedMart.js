@@ -75,17 +75,20 @@ export const FeedMart = () => {
   };
 
   const newFeedMart = async () => {
-    const newData = await fetch("/create/feed_mart", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...feedMart,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/feed_mart",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...feedMart,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -97,14 +100,17 @@ export const FeedMart = () => {
   //getting the data from the database from the db-----------------------------------------
   const getFeedMart = async () => {
     try {
-      const feedMart = await fetch("/api/all-feed-mart", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const feedMart = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-mart",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedMart(feedMart);
     } catch (error) {
       console.log(error);

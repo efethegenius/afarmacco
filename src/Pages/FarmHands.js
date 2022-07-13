@@ -81,14 +81,17 @@ export const FarmHands = () => {
   //getting the data from the database from the db-----------------------------------------
   const getFarmHands = async () => {
     try {
-      const farmHands = await fetch("/api/all-farm-hands", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const farmHands = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-farm-hands",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFarmHands(farmHands);
     } catch (error) {
       console.log(error);
@@ -116,7 +119,7 @@ export const FarmHands = () => {
   // };
 
   // const newFarmHand = async () => {
-  //   const newData = await fetch("/create/farm-hand", {
+  //   const newData = await fetch("https://afarmacco-api.herokuapp.com/create/farm-hand", {
   //     method: "POST",
   //     headers: {
   //       "content-type": "application/json",

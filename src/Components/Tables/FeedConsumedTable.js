@@ -1,5 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Loading } from "../Loading";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+  useRowSelect,
+} from "react-table";
+import { FEEDCONSUMED } from "../Columns/FeedConsumed";
+import { GlobalFilter } from "../Columns/GlobalFilter";
+import { ColumnFilter } from "../Columns/ColumnFilter";
+import { Checkbox } from "../Columns/Checkbox";
 
 export const FeedConsumedTable = React.forwardRef((props, ref) => {
   const [returnedFeedConsumed, setReturnedFeedConsumed] = useState([]);
@@ -14,14 +25,17 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
   // getting feed consumed start-----------------------------------------------------
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);
@@ -33,218 +47,171 @@ export const FeedConsumedTable = React.forwardRef((props, ref) => {
     getAllFeedConsumed();
   }, []);
 
-  let allFeedConsumed = returnedFeedConsumed.name;
-
-  const sortFeedConsumed =
-    returnedFeedConsumed.name && fromDate && toDate
-      ? returnedFeedConsumed.name.filter(
-          (sortedFeedConsumed) =>
-            sortedFeedConsumed.ConsumptionDate >= fromDate &&
-            sortedFeedConsumed.ConsumptionDate <= toDate
-        )
-      : returnedFeedConsumed.name && birdFilter
-      ? returnedFeedConsumed.name.filter(
-          (sortedFeedConsumed) => sortedFeedConsumed.BirdName === birdFilter
-        )
-      : returnedFeedConsumed.name && feedFilter
-      ? returnedFeedConsumed.name.filter(
-          (sortedFeedConsumed) => sortedFeedConsumed.FeedName === feedFilter
-        )
-      : allFeedConsumed;
-
   // calculating totals-----------------------------------------------------------------
-  let totalAmount;
-  if (returnedFeedConsumed.name) {
-    totalAmount = sortFeedConsumed.reduce((a, v) => (a = a + v.ValueUsed), 0);
-  }
-  let totalBag;
-  if (returnedFeedConsumed.name) {
-    totalBag = sortFeedConsumed.reduce((a, v) => (a = a + v.BagQtyUsed), 0);
-  }
-  let totalSize;
-  if (returnedFeedConsumed.name) {
-    totalSize = sortFeedConsumed.reduce((a, v) => (a = a + v.SizeQtyUsed), 0);
-  }
+  // let totalAmount;
+  // if (returnedFeedConsumed.name) {
+  //   totalAmount = data.reduce((a, v) => (a = a + v.ValueUsed), 0);
+  // }
+  // let totalBag;
+  // if (returnedFeedConsumed.name) {
+  //   totalBag = data.reduce((a, v) => (a = a + v.BagQtyUsed), 0);
+  // }
+  // let totalSize;
+  // if (returnedFeedConsumed.name) {
+  //   totalSize = data.reduce((a, v) => (a = a + v.SizeQtyUsed), 0);
+  // }
   // calculating totals-----------------------------------------------------------------
 
   const formatMoney = (n) => {
     return (Math.round(n * 100) / 100).toLocaleString();
   };
+
+  const columns = useMemo(() => FEEDCONSUMED, []);
+  const data = returnedFeedConsumed.name || [];
+  const defaultColumn = useMemo(() => {
+    return {
+      Filter: ColumnFilter,
+    };
+  });
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    headerGroups,
+    prepareRow,
+    state,
+    setGlobalFilter,
+    gotoPage,
+    pageCount,
+    setPageSize,
+    selectedFlatRows,
+  } = useTable(
+    {
+      columns,
+      data,
+      defaultColumn,
+    },
+    useFilters,
+    useGlobalFilter,
+    usePagination,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => {
+        return [
+          {
+            id: "selection",
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <Checkbox {...getToggleAllRowsSelectedProps()} />
+            ),
+            Cell: ({ row }) => (
+              <Checkbox {...row.getToggleRowSelectedProps()} />
+            ),
+          },
+          ...columns,
+        ];
+      });
+    }
+  );
+  const { globalFilter, pageIndex, pageSize } = state;
   return (
     <>
-      <div className="filter-container">
-        Filter By:
-        <button
-          onClick={() => {
-            setIsDate(!isDate);
-            setIsFeedFilter(false);
-            setIsBirdFilter(false);
-            setToDate("");
-            setFromDate("");
-            setFeedFilter("");
-            setBirdFilter("");
-          }}
-        >
-          Date
-        </button>
-        <button
-          onClick={() => {
-            setIsFeedFilter(!isFeedFilter);
-            setIsDate(false);
-            setIsBirdFilter(false);
-            setToDate("");
-            setFromDate("");
-            setFeedFilter("");
-            setBirdFilter("");
-          }}
-        >
-          Feed Type
-        </button>
-        <button
-          onClick={() => {
-            setIsBirdFilter(!isBirdFilter);
-            setIsDate(false);
-            setIsFeedFilter(false);
-            setToDate("");
-            setFromDate("");
-            setFeedFilter("");
-            setBirdFilter("");
-          }}
-        >
-          Bird Type
-        </button>
-      </div>
-      <div className="sort-report">
-        {isDate && (
-          <div className="sort-date">
-            <label htmlFor="fromDate">From:</label>
-            <input
-              type="date"
-              name="fromDate"
-              id="fromDate"
-              value={fromDate}
-              onChange={(e) => setFromDate(e.target.value)}
-            />
-            <label className="to" htmlFor="toDate">
-              To:
-            </label>
-            <input
-              type="datetime-local"
-              name="toDate"
-              id="toDate"
-              value={toDate}
-              onChange={(e) => setToDate(e.target.value)}
-            />
-          </div>
-        )}
-        {isBirdFilter && (
-          <div className="bird-filter">
-            <label htmlFor="birdfilter">Bird: </label>
-            <select
-              name="birdfilter"
-              id="birdfilter"
-              value={birdFilter}
-              onChange={(e) => setBirdFilter(e.target.value)}
-            >
-              <option></option>
-              <option>Broiler</option>
-              <option>Layer</option>
-              <option>Cockerel</option>
-              <option>Noiler</option>
-              <option>Turkey</option>
-            </select>
-          </div>
-        )}
-        {isFeedFilter && (
-          <div className="feed-filter">
-            <label htmlFor="feedfilter">Feed: </label>
-            <select
-              name="feedfilter"
-              id="feedfilter"
-              value={feedFilter}
-              onChange={(e) => setFeedFilter(e.target.value)}
-            >
-              <option></option>
-              <option>Starter</option>
-              <option>Grower</option>
-              <option>Finisher</option>
-            </select>
-          </div>
-        )}
-      </div>
-      {sortFeedConsumed && sortFeedConsumed.length === 0 ? (
+      {data && data.length === 0 ? (
         <div className="empty-main-report">
           <h1> There are no Feed Consumed report available yet</h1>
           <p>
             Create a new report by tapping the <span>NEW</span> button...
           </p>
         </div>
-      ) : sortFeedConsumed ? (
-        <div className="table-container" ref={ref}>
-          <table id="table-to-xls">
-            <tbody>
-              <tr>
-                <th>Date</th>
-                <th>Lot No</th>
-                <th>Feed</th>
-                <th>Bird Type</th>
-                <th>Batch</th>
-                <th>Bag (Qty Used)</th>
-                <th>Size (Qty Used)</th>
-                <th>Unit Price</th>
-                <th>Amount Used</th>
-              </tr>
-            </tbody>
-            {returnedFeedConsumed.name &&
-              sortFeedConsumed.map((feedConsumed) => {
-                const {
-                  FeedConsumptionId,
-                  ConsumptionDate,
-                  LotNo,
-                  FeedName,
-                  BirdName,
-                  Batch,
-                  BagQtyUsed,
-                  SizeQtyUsed,
-                  UnitPrice,
-                  ValueUsed,
-                } = feedConsumed;
-                const newDate = `${new Date(
-                  ConsumptionDate
-                ).toLocaleDateString()}`;
-                return (
-                  <tbody key={FeedConsumptionId}>
-                    <tr>
-                      <td>{newDate}</td>
-                      <td>{LotNo}</td>
-                      <td>{FeedName}</td>
-                      <td>{BirdName}</td>
-                      <td>{Batch}</td>
-                      <td>{formatMoney(BagQtyUsed)}</td>
-                      <td>{formatMoney(SizeQtyUsed)}</td>
-                      <td>{UnitPrice.toFixed(2)}</td>
-                      <td>{ValueUsed.toFixed(2)}</td>
+      ) : data ? (
+        <>
+          <div className="table-container" ref={ref}>
+            <table {...getTableProps()} id="table-to-xls">
+              <thead>
+                {headerGroups.map((headerGroup) => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <th {...column.getHeaderProps()}>
+                        {column.render("Header")}
+                        <div>
+                          {column.canFilter ? column.render("Filter") : null}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {page.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => {
+                        return (
+                          <td {...cell.getCellProps()}>
+                            {cell.render("Cell")}
+                          </td>
+                        );
+                      })}
                     </tr>
-                  </tbody>
-                );
-              })}
-            <tfoot className="total-container">
-              <tr>
-                <th id="total" className="total" colSpan="1">
-                  Total :
-                </th>
-                <td className="total"></td>
-                <td className="total"></td>
-                <td className="total"></td>
-                <td className="total"></td>
-                <td className="total">{formatMoney(totalBag)}</td>
-                <td className="total">{formatMoney(totalSize)}</td>
-                <td className="total"></td>
-                <td className="total">{totalAmount.toFixed(2)}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="table-nav">
+            <span>
+              Page{" "}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{" "}
+            </span>
+            <span>
+              | Go to page:{" "}
+              <input
+                type="number"
+                defaultValue={pageIndex + 1}
+                onChange={(e) => {
+                  const pageNumber = e.target.value
+                    ? Number(e.target.value) - 1
+                    : 0;
+                  gotoPage(pageNumber);
+                }}
+                style={{ width: "50px" }}
+              />
+            </span>
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+            >
+              {[10, 25, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {"<<"}
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              Previous
+            </button>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              Next
+            </button>
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+            >
+              {">>"}
+            </button>
+          </div>
+        </>
       ) : (
         <Loading />
       )}

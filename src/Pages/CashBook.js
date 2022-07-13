@@ -86,17 +86,20 @@ export const CashBook = () => {
   };
 
   const newCashBook = async () => {
-    const newData = await fetch("/create/cash-book", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...cashBook,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/cash-book",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...cashBook,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -108,14 +111,17 @@ export const CashBook = () => {
   //getting the data from the database from the db-----------------------------------------
   const getCashBook = async () => {
     try {
-      const cashBook = await fetch("/api/all-cash-book", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const cashBook = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-cash-book",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCashBook(cashBook);
     } catch (error) {
       console.log(error);

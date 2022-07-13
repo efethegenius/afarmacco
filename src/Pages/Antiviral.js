@@ -76,17 +76,20 @@ export const Antiviral = () => {
   };
 
   const newAntiviral = async () => {
-    const newData = await fetch("/create/antiviral", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...antiviral,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/antiviral",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...antiviral,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Antiviral = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAntiviral = async () => {
     try {
-      const antiviral = await fetch("/api/all-antiviral", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const antiviral = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-antiviral",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedAntiviral(antiviral);
     } catch (error) {
       console.log(error);

@@ -76,17 +76,20 @@ export const Coryza = () => {
   };
 
   const newCoryza = async () => {
-    const newData = await fetch("/create/coryza", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...coryza,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/coryza",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...coryza,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Coryza = () => {
   //getting the data from the database from the db-----------------------------------------
   const getCoryza = async () => {
     try {
-      const coryza = await fetch("/api/all-coryza", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const coryza = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-coryza",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCoryza(coryza);
     } catch (error) {
       console.log(error);

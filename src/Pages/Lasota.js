@@ -76,17 +76,20 @@ export const Lasota = () => {
   };
 
   const newLasota = async () => {
-    const newData = await fetch("/create/lasota", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...lasota,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/lasota",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...lasota,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Lasota = () => {
   //getting the data from the database from the db-----------------------------------------
   const getLasota = async () => {
     try {
-      const lasota = await fetch("/api/all-lasota", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const lasota = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-lasota",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedLasota(lasota);
     } catch (error) {
       console.log(error);

@@ -76,17 +76,20 @@ export const Antibiotics = () => {
   };
 
   const newAntibiotics = async () => {
-    const newData = await fetch("/create/antibiotics", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...antibiotics,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/antibiotics",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...antibiotics,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Antibiotics = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAntibiotics = async () => {
     try {
-      const antibiotics = await fetch("/api/all-antibiotics", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const antibiotics = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-antibiotics",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedAntibiotics(antibiotics);
     } catch (error) {
       console.log(error);

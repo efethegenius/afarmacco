@@ -101,17 +101,20 @@ export const SupplyPipeline = () => {
   };
 
   const newDocSale = async () => {
-    const newData = await fetch("/create/supply_pipeline", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...supplyPipeline,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/supply_pipeline",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...supplyPipeline,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -123,14 +126,17 @@ export const SupplyPipeline = () => {
   //getting the data from the database from the db-----------------------------------------
   const getSupplyPipeline = async () => {
     try {
-      const supplyPipeline = await fetch("/api/all-supply-pipeline", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const supplyPipeline = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-supply-pipeline",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedSupplyPipeline(supplyPipeline);
     } catch (error) {
       console.log(error);

@@ -11,14 +11,17 @@ export const CapexDisposalTable = React.forwardRef((props, ref) => {
   // getting capex start-----------------------------------------------------
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const capexs = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/capexs",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCapexDisposal(capexs);
     } catch (error) {
       console.log(error);

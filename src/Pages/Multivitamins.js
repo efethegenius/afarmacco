@@ -76,17 +76,20 @@ export const Multivitamins = () => {
   };
 
   const newMultivitamin = async () => {
-    const newData = await fetch("/create/multivitamin", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...multivitamin,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/multivitamin",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...multivitamin,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Multivitamins = () => {
   //getting the data from the database from the db-----------------------------------------
   const getMultivitamins = async () => {
     try {
-      const multivitamin = await fetch("/api/all-multivitamin", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const multivitamin = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-multivitamin",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedMultivitamin(multivitamin);
     } catch (error) {
       console.log(error);

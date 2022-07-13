@@ -64,17 +64,20 @@ export const OtherSales = ({
       }, 4000);
       return;
     }
-    const newData = await fetch("/create/other_sales", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...sales,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/other_sales",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...sales,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
     setIsOtherForm(false);
     setAnimState(false);

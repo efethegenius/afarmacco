@@ -14,14 +14,17 @@ export const ReportsTable = React.forwardRef((props, ref) => {
 
   const getReports = async () => {
     try {
-      const reports = await fetch("/api/reports", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const reports = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/reports",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedReports(reports);
     } catch (error) {
       console.log(error);

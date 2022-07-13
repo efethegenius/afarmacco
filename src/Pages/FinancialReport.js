@@ -53,14 +53,17 @@ export const FinancialReport = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allBirdSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -88,14 +91,17 @@ export const FinancialReport = () => {
 
   const getAllPolEggs = async () => {
     try {
-      const allPolEggs = await fetch("/api/all-pol-eggs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allPolEggs = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-pol-eggs",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedPolEggs(allPolEggs);
     } catch (error) {
       console.log(error);
@@ -104,14 +110,17 @@ export const FinancialReport = () => {
 
   const getAllOtherSales = async () => {
     try {
-      const allOtherSales = await fetch("/api/all-other-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allOtherSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-other-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedOtherSales(allOtherSales);
     } catch (error) {
       console.log(error);
@@ -119,14 +128,17 @@ export const FinancialReport = () => {
   };
   const getOperatingExpense = async () => {
     try {
-      const allOperatingExpense = await fetch("/api/all-operating-expense", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allOperatingExpense = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-operating-expense",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedOperatingExpense(allOperatingExpense);
     } catch (error) {
       console.log(error);
@@ -135,14 +147,17 @@ export const FinancialReport = () => {
 
   const getCapexs = async () => {
     try {
-      const capexs = await fetch("/api/capexs", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const capexs = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/capexs",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedCapexs(capexs);
     } catch (error) {
       console.log(error);

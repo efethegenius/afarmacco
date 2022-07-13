@@ -76,17 +76,20 @@ export const Anticoccidiosis = () => {
   };
 
   const newAnticoccidiosis = async () => {
-    const newData = await fetch("/create/anticoccidiosis", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...anticoccidiosis,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/anticoccidiosis",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...anticoccidiosis,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Anticoccidiosis = () => {
   //getting the data from the database from the db-----------------------------------------
   const getAnticoccidiosis = async () => {
     try {
-      const anticoccidiosis = await fetch("/api/all-anticoccidiosis", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const anticoccidiosis = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-anticoccidiosis",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedAnticoccidiosis(anticoccidiosis);
     } catch (error) {
       console.log(error);

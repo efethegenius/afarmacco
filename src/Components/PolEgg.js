@@ -59,17 +59,20 @@ export const PolEgg = ({
       return;
     }
 
-    const newData = await fetch("/create/pol_egg", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...sales,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/pol_egg",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...sales,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
     setIsPolEggForm(false);
     setAnimState(false);
@@ -167,6 +170,7 @@ export const PolEgg = ({
           <label htmlFor="TxnDate"> Date</label>
           <input
             type="date"
+            defaultValue="2017-05-24"
             name="TxnDate"
             id="TxnDate"
             onChange={handleChange}

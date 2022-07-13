@@ -113,17 +113,20 @@ export const DrugPurchase = ({
       }, 4000);
       return;
     }
-    const newData = await fetch("/create/drug_purchase", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...purchase,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/drug_purchase",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...purchase,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
     setIsDrugPurchaseForm(false);
     setAnimState(false);

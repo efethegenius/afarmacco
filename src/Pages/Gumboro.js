@@ -76,17 +76,20 @@ export const Gumboro = () => {
   };
 
   const newGumboro = async () => {
-    const newData = await fetch("/create/gumboro", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...gumboro,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/gumboro",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...gumboro,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -98,14 +101,17 @@ export const Gumboro = () => {
   //getting the data from the database from the db-----------------------------------------
   const getGumboro = async () => {
     try {
-      const gumboro = await fetch("/api/all-gumboro", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const gumboro = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-gumboro",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedGumboro(gumboro);
     } catch (error) {
       console.log(error);

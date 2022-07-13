@@ -104,17 +104,20 @@ export const PolLayer = ({
     //   return;
     // }
 
-    const newData = await fetch("/create/pol_layer", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...convert,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/pol_layer",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...convert,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
     setIsPolLayerForm(false);
     setAnimState(false);
@@ -155,17 +158,20 @@ export const PolLayer = ({
     //   return;
     // }
 
-    const newData = await fetch("/create/bird_sales", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...sales,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/bird_sales",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...sales,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedSalesData(newData[0]);
     setIsPolLayerForm(false);
     setAnimState(false);
@@ -205,17 +211,20 @@ export const PolLayer = ({
     //   return;
     // }
 
-    const newData = await fetch("/create/pol_sales", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...polSales,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/pol_sales",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...polSales,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedPolSales(newData[0]);
     setIsPolLayerForm(false);
     setAnimState(false);
@@ -256,17 +265,20 @@ export const PolLayer = ({
     //   return;
     // }
 
-    const newData = await fetch("/create/pol_mortality", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...polMortality,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/pol_mortality",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...polMortality,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedPolMortality(newData[0]);
     setIsPolLayerForm(false);
     setAnimState(false);

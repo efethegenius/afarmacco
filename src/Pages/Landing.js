@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { AuthContext } from "../helpers/AuthContext";
 import "../Styles/Landing.css";
+import banner from "../Website/banner.png";
+import Logo from "../Photos/Logo-bg.png";
 
 export const Landing = () => {
   const [isConfirm, setIsConfirm] = useState(false);
@@ -34,6 +36,7 @@ export const Landing = () => {
       </div>
       <div className="landing-wrapper">
         <div className="header">
+          <img src={Logo} alt="banner" className="bg-logo" />
           <h2>
             <span className="land-logo">
               afarmacco<span>&#174;</span>
@@ -46,7 +49,8 @@ export const Landing = () => {
               setIsConfirm(true);
             }}
           >
-            <BiLogOut className="logout-icon" /> Log out
+            <BiLogOut className="logout-icon" />
+            <p>Log out</p>
           </button>
         </div>
         <div className="modules-container">
@@ -153,6 +157,7 @@ export const Landing = () => {
               <Link to="/farm-hands">Farm Hands: Sourcing & Placements</Link>
             </div>
           </div>
+          <img src={banner} alt="banner" className="banner landing-banner" />
         </div>
       </div>
     </div>

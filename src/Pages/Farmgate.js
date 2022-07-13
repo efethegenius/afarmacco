@@ -90,17 +90,20 @@ export const Farmgate = () => {
   };
 
   const newFarmgate = async () => {
-    const newData = await fetch("/create/farmgate", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        ...farmgate,
-      }),
-    }).then((res) => res.json());
+    const newData = await fetch(
+      "https://afarmacco-api.herokuapp.com/create/farmgate",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          ...farmgate,
+        }),
+      }
+    ).then((res) => res.json());
     setReturnedData(newData[0]);
   };
 
@@ -112,14 +115,17 @@ export const Farmgate = () => {
   //getting the data from the database from the db-----------------------------------------
   const getFarmgate = async () => {
     try {
-      const farmgate = await fetch("/api/all-farmgate", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const farmgate = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-farmgate",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFarmgate(farmgate);
     } catch (error) {
       console.log(error);

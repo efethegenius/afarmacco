@@ -34,14 +34,17 @@ export const Dashboard = () => {
 
   const getCurrentUser = async () => {
     try {
-      const currentUser = await fetch("/api/user", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const currentUser = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/user",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedUser(currentUser);
     } catch (error) {
       console.log(error);
@@ -67,14 +70,17 @@ export const Dashboard = () => {
   // getting Infos start-----------------------------------------------------
   const getAllPolLayers = async () => {
     try {
-      const allPolLayers = await fetch("/api/all-pol-layers", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allPolLayers = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-pol-layers",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedPolLayers(allPolLayers);
     } catch (error) {
       console.log(error);
@@ -82,14 +88,17 @@ export const Dashboard = () => {
   };
   const getAllPolSales = async () => {
     try {
-      const allPolSales = await fetch("/api/all-pol-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allPolSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-pol-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedPolSales(allPolSales);
     } catch (error) {
       console.log(error);
@@ -97,14 +106,17 @@ export const Dashboard = () => {
   };
   const getAllPolMortality = async () => {
     try {
-      const allPolMortality = await fetch("/api/all-pol-mortality", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allPolMortality = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-pol-mortality",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedPolMortality(allPolMortality);
     } catch (error) {
       console.log(error);
@@ -112,14 +124,17 @@ export const Dashboard = () => {
   };
   const getAllDocPurchase = async () => {
     try {
-      const allDocPurchase = await fetch("/api/all-doc-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocPurchase(allDocPurchase);
     } catch (error) {
       console.log(error);
@@ -128,14 +143,17 @@ export const Dashboard = () => {
 
   const getAllBirdSales = async () => {
     try {
-      const allBirdSales = await fetch("/api/all-bird-sales", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allBirdSales = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-bird-sales",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedBirdSales(allBirdSales);
     } catch (error) {
       console.log(error);
@@ -144,14 +162,17 @@ export const Dashboard = () => {
 
   const getAllDocMortality = async () => {
     try {
-      const allDocMortality = await fetch("/api/all-doc-mortality", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDocMortality = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-doc-mortality",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDocMortality(allDocMortality);
     } catch (error) {
       console.log(error);
@@ -160,14 +181,17 @@ export const Dashboard = () => {
 
   const getAllDrugPurchase = async () => {
     try {
-      const allDrugPurchase = await fetch("/api/all-drug-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDrugPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-drug-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDrugPurchase(allDrugPurchase);
     } catch (error) {
       console.log(error);
@@ -175,14 +199,17 @@ export const Dashboard = () => {
   };
   const getAllDrugConsumed = async () => {
     try {
-      const allDrugConsumed = await fetch("/api/all-drug-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allDrugConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-drug-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedDrugConsumed(allDrugConsumed);
     } catch (error) {
       console.log(error);
@@ -190,14 +217,17 @@ export const Dashboard = () => {
   };
   const getAllFeedPurchase = async () => {
     try {
-      const allFeedPurchase = await fetch("/api/all-feed-purchase", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedPurchase = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-purchase",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedPurchase(allFeedPurchase);
     } catch (error) {
       console.log(error);
@@ -205,14 +235,17 @@ export const Dashboard = () => {
   };
   const getAllFeedConsumed = async () => {
     try {
-      const allFeedConsumed = await fetch("/api/all-feed-consumed", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const allFeedConsumed = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-feed-consumed",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFeedConsumed(allFeedConsumed);
     } catch (error) {
       console.log(error);

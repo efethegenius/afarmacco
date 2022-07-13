@@ -28,14 +28,17 @@ export const FarmHand = () => {
   //getting the data from the database from the db-----------------------------------------
   const getFarmHands = async () => {
     try {
-      const farmHands = await fetch("/api/all-farm-hands", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      }).then((res) => res.json());
+      const farmHands = await fetch(
+        "https://afarmacco-api.herokuapp.com/api/all-farm-hands",
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Accept: "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((res) => res.json());
       setReturnedFarmHands(farmHands);
     } catch (error) {
       console.log(error);

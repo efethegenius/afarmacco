@@ -14,6 +14,23 @@
   align-items: center;
 }
 
+.med-date {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.med-date input {
+  margin-bottom: 10px;
+  border: 0.5px solid black;
+  border-radius: 5px;
+  padding: 5px 12px;
+}
+
+.med-date p {
+  font-size: 1rem !important;
+}
+
 .med-close {
   align-self: flex-end;
   font-size: 1rem !important;
