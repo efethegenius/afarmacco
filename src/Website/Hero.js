@@ -161,12 +161,12 @@ export const Hero = () => {
           </Links>
         </div> */}
       </Fade>
-      <Fade bottom delay={2000}>
+      {/* <Fade bottom delay={2000}>
         <div className="mouse-container">
           <p>Scroll Down</p>
           <BsMouse />
         </div>
-      </Fade>
+      </Fade> */}
     </div>
   );
 };

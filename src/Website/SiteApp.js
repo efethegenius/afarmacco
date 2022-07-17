@@ -9,7 +9,7 @@ export const SiteApp = () => {
   return (
     <div className="site-app">
       <Hero />
-      <SiteBody />
+      {/* <SiteBody /> */}
       {/* <Footer /> */}
     </div>
   );
